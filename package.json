@@ -5,13 +5,12 @@
   "main": "src/index.ts",
   "scripts": {
     "start": "node -r ts-node/register dist/index.js",
-    "test": "",
-
+    "type-check": "tsc --noEmit",
+    
     "dev": "tsc-watch --onSuccess \"node -r ts-node/register dist/index.js --inspect\" ",
     "exec": "node -r ts-node/register src/index.ts",
     "lint": "eslint --ext .js,.ts src",
-    "test:mocha": "TEST=OK mocha --no-config -r ts-node/register --colors --delay src/index.ts --exit",
-    "type-check": "tsc --noEmit"
+    "test": "mocha --no-config -r ts-node/register --colors --delay src/index.ts --exit"
   },
   "repository": {
     "type": "git",

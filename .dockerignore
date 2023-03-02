@@ -1,0 +1,20 @@
+# Docker ignore
+
+## paths
+
+.git/
+.github/
+dist/
+node_modules/
+
+## files
+
+.env
+.eslintignore
+.eslintrc.js
+.gitignore
+.prettierrc.json
+docker-compose.sample.yml
+Dockerfile
+LICENSE.md
+README.md

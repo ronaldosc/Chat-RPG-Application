@@ -1,0 +1,31 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:15-alpine
+    volumes:
+      - ./db/dumps:/app-db-dumps
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: test
+  web:
+    build:
+      context: .
+      args:
+        NODE_VERSION: ${NODE_VERSION}
+    restart: always
+    depends_on:
+      - db
+    ports:
+      - 5000:5000
+    environment:
+      NODE_ENV: production
+      PORT: 5000
+      NPM_CONFIG_PRODUCTION: true
+      LOGGER_LEVEL: debug
+      CRYPTO_SALT: salt
+      CRYPTO_DEFAULT_PASS_LENGTH: 10
+      DATABASE_URI: "postgres://user:pass@host/test"
+      GRAPHQL_SCHEMA_VISIBLE: true
+      JWT_SECRET: secret
+      JWT_EXPIRATION_TIME: 1h

@@ -1,8 +1,8 @@
-# BACKEND do Desafio Ciclo 2 - (Alpha EdTech/ turma Turing)
+# BACKEND do Desafio Ciclo 2 - Alpha EdTech / turma Turing)
 
 ## Objetivo
 
-**Neste projeto, você será desafiado a desenvolver uma Rede Social de Nicho.**
+**Desenvolver a aplicação <u>Chat RPG</u>: Rede social para jogadores de RPG de mesa**
 
 _Exemplos_:
 

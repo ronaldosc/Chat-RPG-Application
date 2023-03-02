@@ -9,9 +9,9 @@
 
     "dev": "tsc-watch --onSuccess \"node -r ts-node/register dist/index.js --inspect\" ",
     "exec": "node -r ts-node/register src/index.ts",
-    "lint": "eslint --ext .js,.ts,.graphql src",
+    "lint": "eslint --ext .js,.ts src",
     "test:mocha": "TEST=OK mocha --no-config -r ts-node/register --colors --delay src/index.ts --exit",
-    "typecheck": "tsc --noEmit"
+    "type-check": "tsc --noEmit"
   },
   "repository": {
     "type": "git",

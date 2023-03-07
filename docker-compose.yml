@@ -1,0 +1,43 @@
+version: '3.8'
+services:
+  redis:
+    container_name: redis-rpg
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    restart: always
+    volumes:
+      - redis-data:/data
+    networks:
+      - rpg-network
+  mongodb:
+    container_name: mongo-rpg
+    image: mongo:latest
+    ports:
+      - "8080:8080"
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - rpg-network
+    env_file:
+      - .env
+  api:
+    container_name: api-rpg
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    depends_on:
+      - redis
+      - mongodb
+    ports:
+      - "5000:5000"
+volumes:
+  mongo-data:
+    external: false
+  redis-data:
+    external: false
+networks:
+  rpg-network:
+    driver: bridge
+    external: false

@@ -9,7 +9,8 @@
     // "moduleResolution": "node",
     "baseUrl": "src",
     "paths": {
-      "": [""]
+      "@entity": ["data/db/entity"],
+      "@model": ["domain/model"]
     },
     // "resolveJsonModule": true,
     "outDir": "dist",
@@ -19,7 +20,7 @@
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "noImplicitAny": true,
-    "strictNullChecks": false,
+    // "strictNullChecks": false,
     "skipLibCheck": true
   },
   "exclude": ["node_modules", "dist", "*.test.ts"],

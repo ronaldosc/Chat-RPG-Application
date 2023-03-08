@@ -5,15 +5,11 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "module": "CommonJS",
-    // "rootDir": "./",
-    // "moduleResolution": "node",
-    "baseUrl": "src",
-    "paths": {
-      "": [""]
-    },
-    // "resolveJsonModule": true,
-    "outDir": "dist",
-    // "removeComments": true,
+    "rootDir": "./src",
+    "moduleResolution": "node",
+    "allowJs": true,
+    "outDir": "./dist",
+    "removeComments": true,
     "allowSyntheticDefaultImports": true /* Allow 'import x from y' when a module doesn't have a default export. */,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
@@ -22,7 +18,11 @@
     "strictNullChecks": false,
     "skipLibCheck": true
   },
-  "exclude": ["node_modules", "dist", "*.test.ts"],
-  "include": ["src/**/*"],
-  "ts-node": { "require": ["tsconfig-paths/register"] }
+  "include": [
+    "src"
+  ],
+  "ts-node": {
+    "transpileOnly" : true,
+    "files" : true,
+   }
 }

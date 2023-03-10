@@ -1,8 +1,8 @@
 import mongoose, { Schema, SchemaTypeOptions, now } from 'mongoose';
-import { FeedMessageLikesModel } from '../interface';
+import { FeedMessagesModel } from './interface';
 require('dotenv').config();
 
-const FeedMessageLikesSchema = new mongoose.Schema<SchemaTypeOptions<FeedMessageLikesModel>>({
+const FeedMessagesSchema = new mongoose.Schema<SchemaTypeOptions<FeedMessagesModel>>({
   feedRoom: { type: Schema.Types.ObjectId, required: true },
   owner: { type: Schema.Types.ObjectId, required: true },
   title: { type: String },
@@ -23,4 +23,4 @@ const FeedMessageLikesSchema = new mongoose.Schema<SchemaTypeOptions<FeedMessage
   deletedAt: { type: Date },
 });
 
-export const FeedMessageLikes = mongoose.model('FeedMessageLikes', FeedMessageLikesSchema);
+export const FeedMessages = mongoose.model('FeedMessages', FeedMessagesSchema);

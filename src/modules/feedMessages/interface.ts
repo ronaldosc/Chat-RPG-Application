@@ -1,7 +1,7 @@
 import { IUser, PlayerCharacters } from '../users/interface';
 
-export interface FeedMessageLikesModel {
-  feedRoom: FeedRoomsModel;
+export interface FeedMessagesModel {
+  feedRoom: any /* FeedRoomsModel */;
   owner: IUser;
   title: string;
   content: string;

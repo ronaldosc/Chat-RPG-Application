@@ -6,7 +6,7 @@ import { IUser } from './interface';
 
 const UserSchema = new mongoose.Schema<IUser>({
   email: { type: String, required: true },
-  password: { type: String, required: true },
+  password: { type: String, required: true, select: false },
   contact: {
     userName: { type: String, required: true },
     firstName: { type: String },

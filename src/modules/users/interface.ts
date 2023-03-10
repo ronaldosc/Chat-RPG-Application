@@ -16,3 +16,10 @@ export interface ILoginUser {
   email: string;
   password: string;
 }
+
+export interface PlayerCharacters {
+  characterId: number;
+  characterName: string;
+  player: IUser | undefined;
+  deletedAt?: Date | undefined;
+}

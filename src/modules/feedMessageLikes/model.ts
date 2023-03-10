@@ -1,5 +1,5 @@
 import mongoose, { Schema, SchemaTypeOptions, now } from 'mongoose';
-import { FeedMessageLikesModel } from './interface';
+import { FeedMessageLikesModel } from '../interface';
 require('dotenv').config();
 
 const FeedMessageLikesSchema = new mongoose.Schema<SchemaTypeOptions<FeedMessageLikesModel>>({

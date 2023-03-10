@@ -1,4 +1,4 @@
-import { IUser, PlayerCharacters } from '../../users/interface';
+import { IUser, PlayerCharacters } from '../users/interface';
 
 export interface FeedMessageLikesModel {
   feedRoom: FeedRoomsModel;

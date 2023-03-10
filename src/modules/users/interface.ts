@@ -11,3 +11,8 @@ export interface IUser {
   updatedAt?: Date;
   deletedAt?: Date;
 }
+
+export interface ILoginUser {
+  email: string;
+  password: string;
+}

@@ -10,7 +10,7 @@
     "allowJs": true,
     "outDir": "./dist",
     "removeComments": true,
-    "allowSyntheticDefaultImports": true /* Allow 'import x from y' when a module doesn't have a default export. */,
+    "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,

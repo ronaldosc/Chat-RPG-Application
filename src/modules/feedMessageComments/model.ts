@@ -1,14 +1,13 @@
-import mongoose, { Schema, SchemaTypeOptions, now } from 'mongoose';
+import { Schema, SchemaTypeOptions, model, now } from 'mongoose';
 import { FeedMessageCommentsModel } from './interface';
-require('dotenv').config();
 
-const FeedMessageCommentsSchema = new mongoose.Schema<SchemaTypeOptions<FeedMessageCommentsModel>>({
-  feedMessage: { type: Schema.Types.ObjectId, required: true },
-  author: { type: Schema.Types.ObjectId, required: true },
+const FeedMessageCommentsSchema = new Schema<SchemaTypeOptions<FeedMessageCommentsModel>>({
+  feedMessage: { type: Schema.Types.ObjectId, required: true, ref: 'FeedMessage' },
+  author: { type: Schema.Types.ObjectId, required: true, ref: 'Author' },
   content: { type: String },
-  createdAt: { type: Date, default: now },
+  createdAt: { type: Date, default: now, immutable: true },
   updatedAt: { type: Date, default: null },
   deletedAt: { type: Date, default: null },
 });
 
-export const FeedMessagesComments = mongoose.model('FeedMessageComments', FeedMessageCommentsSchema);
+export const FeedMessagesComments = model('FeedMessageComments', FeedMessageCommentsSchema);

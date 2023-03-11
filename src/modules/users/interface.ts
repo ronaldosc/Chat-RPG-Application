@@ -1,3 +1,5 @@
+import { Types } from 'mongoose';
+
 export interface IUser {
   email: string;
   password: string;
@@ -20,6 +22,6 @@ export interface ILoginUser {
 export interface PlayerCharacters {
   characterId: number;
   characterName: string;
-  player: IUser | undefined;
+  player: Types.ObjectId | undefined;
   deletedAt?: Date | undefined;
 }

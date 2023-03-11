@@ -1,9 +1,8 @@
-import { FeedMessagesModel } from '../feedMessages/interface';
-import { IUser } from '../users/interface';
+import { Types } from 'mongoose';
 
 export interface FeedMessageCommentsModel {
-  feedMessage: FeedMessagesModel;
-  author: IUser;
+  feedMessage: Types.ObjectId;
+  author: Types.ObjectId;
   content: string;
   createdAt: Date;
   updatedAt: Date | undefined;

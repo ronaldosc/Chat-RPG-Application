@@ -25,13 +25,20 @@ Uma rede social com uma funcionalidade única, como realidade aumentada, ou uma 
 
 As aplicações criadas podem ser feitas com qualquer tecnologia de seu interesse (Javascript, React, Typescript, Flutter, Node.js, Python, Rust, etc.)
 
-### Como subir a aplicação
+## Como subir a aplicação
 
 1º PASSO
+
+```
 $ cp .env.example .env
+```
 
 2º PASSO
+
 Defina o database e o usuário/senha para acessar o mongoDB no script init-mongo.js e no .env criado, além de informar as outras variáveis de ambiente no .env antes de fazer o próximo passo.
 
 3º PASSO
+
+```
 $ docker compose up -d
+```

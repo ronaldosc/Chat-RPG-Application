@@ -2,7 +2,7 @@ import express from 'express';
 import { env } from 'node:process';
 require('dotenv').config();
 
-const port: number = +env.PORT;
+const port: number = +env.PORT ?? 5000;
 export function App(): void {
   const app: express.Application = express();
 

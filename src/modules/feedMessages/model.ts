@@ -1,26 +1,25 @@
-import mongoose, { Schema, SchemaTypeOptions, now } from 'mongoose';
+import { Schema, SchemaTypeOptions, model, now } from 'mongoose';
 import { FeedMessagesModel } from './interface';
-require('dotenv').config();
 
-const FeedMessagesSchema = new mongoose.Schema<SchemaTypeOptions<FeedMessagesModel>>({
-  feedRoom: { type: Schema.Types.ObjectId, required: true },
-  owner: { type: Schema.Types.ObjectId, required: true },
+const FeedMessagesSchema = new Schema<SchemaTypeOptions<FeedMessagesModel>>({
+  feedRoom: { type: Schema.Types.ObjectId, required: true, ref: 'FeedRoom' },
+  owner: { type: Schema.Types.ObjectId, required: true, ref: 'Owner' },
   title: { type: String },
   content: { type: String },
   image: { type: String },
   numberOfPlayers: { type: Number },
   playerCharacters: [
     {
-      characterId: { type: Number },
+      characterId: { type: [Number], index: { sparse: true } },
       characterName: { type: String },
-      player: { type: Schema.Types.ObjectId },
+      player: { type: Schema.Types.ObjectId, ref: 'Player' },
     },
   ],
   numberOfComments: { type: Number },
   numberOfLikes: { type: Number },
-  createdAt: { type: Date, default: now },
-  updatedAt: { type: Date },
-  deletedAt: { type: Date },
+  createdAt: { type: Date, default: now, immutable: true },
+  updatedAt: { type: Date, default: null },
+  deletedAt: { type: Date, default: null },
 });
 
-export const FeedMessages = mongoose.model('FeedMessages', FeedMessagesSchema);
+export const FeedMessages = model('FeedMessages', FeedMessagesSchema);

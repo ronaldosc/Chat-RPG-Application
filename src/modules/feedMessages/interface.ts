@@ -1,8 +1,9 @@
-import { IUser, PlayerCharacters } from '../users/interface';
+import { Types } from 'mongoose';
+import { PlayerCharacters } from '../users/interface';
 
 export interface FeedMessagesModel {
   feedRoom: any /* FeedRoomsModel */;
-  owner: IUser;
+  owner: Types.ObjectId;
   title: string;
   content: string;
   image: string;

@@ -11,7 +11,12 @@ export async function connectToMongoDB(): Promise<void> {
   set('strictQuery', false);
 
   await db
-    .connect(`mongodb://${mongoUser}:${mongoPassword}@mongo-rpg:${mongoPort}`)
+    .connect(`mongodb://${mongoUser}:${mongoPassword}@mongo-rpg:${mongoPort}`, {
+      // authSource: 'admin',
+      // directConnection: true,
+      // retryWrites: true,
+      // writeConcern: 'majority' as WriteConcern,
+    })
     .then(() => console.log('\x1b[33;1m', '-----> Conectado ao MongoDB <-----', '\x1b[0m\n'))
     .catch((err: MongooseError) => console.log(err));
 }

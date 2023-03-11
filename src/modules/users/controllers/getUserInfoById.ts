@@ -1,5 +1,5 @@
-import { Request, Response } from 'express';
+// import { Request, Response } from 'express';
 
-export async function getUserInfoById(req: Request, res: Response): void {
+// export async function getUserInfoById(req: Request, res: Response): Promise<void> {
 
-}
+// }

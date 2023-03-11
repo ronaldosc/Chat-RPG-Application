@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { User } from '../model';
 import { connectToMongoDB } from '../../../config/mongodb';
 import { IUser } from '../interface';
@@ -7,7 +8,11 @@ export async function create(param: IUser) {
   try {
     await connectToMongoDB();
 
-    const newUser = new User(param);
+    const newUser = new User();
+
+    newUser.email = param.email;
+    newUser.contact = param.contact;
+    newUser.setPassword(param.password);
 
     await newUser.save();
 

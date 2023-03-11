@@ -1,16 +1,17 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import { Router } from 'express';
-import authenticate from '../../middlewares/authenticate';
-import { createUser, login } from './controllers';
+// import authenticate from '../../middlewares/authenticate';
+import * as userControllers from './controllers';
 // import upload from '../../config/multerProfile';
 
 const router = Router();
 
-router.post('/login', login);
-router.post('/signup', createUser);
+// router.post('/login', userControllers.login);
+router.post('/signup', userControllers.createUser);
 
-router.get('/:userId', authenticate, getUserInfoById);
+// router.get('/:userId', authenticate, getUserInfoById);
 
-router.patch('/', authenticate, updateMyUser);
+// router.patch('/', authenticate, updateMyUser);
 // router.patch('/photo', authenticate, upload.single('profilePhoto'), updateMyPhoto);
 
 export default router;

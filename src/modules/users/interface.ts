@@ -12,6 +12,8 @@ export interface IUser {
   createdAt: Date;
   updatedAt?: Date;
   deletedAt?: Date;
+  setPassword?: (password: string) => void;
+  validPassword?: (password: string) => void;
 }
 
 export interface ILoginUser {

@@ -1,17 +1,20 @@
-# Docker ignore
-
-## paths
-
+# Versioning and metadata
 .git/
 .github/
+.gitignore
+.dockerignore
+
+# Build dependencies
 dist/
 node_modules/
 
-## files
+# Environment (contains sensitive data)
+.env
+.env.example
 
-.eslintignore
-.eslintrc.js
-.gitignore
+# Files not required for production
+.editorconfig
+.eslintrc.json
 .prettierrc.json
 docker-compose.yml
 Dockerfile

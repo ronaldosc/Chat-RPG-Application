@@ -24,7 +24,7 @@ UserSchema.methods.setPassword = function (password: string): void {
   const keyLength = parseInt(process.env.CRYPTO_KEY_LENGTH);
   const digest = process.env.CRYPTO_DIGEST;
 
-  this.password = crypto.pbkdf2Sync(password, salt, iterations, keyLength, digest);
+  this.password = crypto.pbkdf2Sync(password, salt, iterations, keyLength, digest).toString('hex');
 };
 
 UserSchema.methods.validPassword = function (password: string): boolean {
@@ -33,7 +33,7 @@ UserSchema.methods.validPassword = function (password: string): boolean {
   const keyLength = parseInt(process.env.CRYPTO_KEY_LENGTH);
   const digest = process.env.CRYPTO_DIGEST;
 
-  const hash = crypto.pbkdf2Sync(password, salt, iterations, keyLength, digest);
+  const hash = crypto.pbkdf2Sync(password, salt, iterations, keyLength, digest).toString('hex');
 
   return this.password === hash;
 };

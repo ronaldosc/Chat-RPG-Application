@@ -1,4 +1,3 @@
-import { createUser } from './createUser';
-import { login } from './login';
-
-export { createUser, login };
+export { createUser } from './createUser';
+export { login } from './login';
+export { logout } from './logout';

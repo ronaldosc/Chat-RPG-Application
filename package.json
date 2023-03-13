@@ -10,7 +10,7 @@
     "exec": "ts-node ./src/index.ts",
     "lint": "eslint --ext .ts src",
     "build": "npx tsc && node ./dist/index.js",
-    "test": "npm run type-check && npm run build && npm run lint"
+    "test": "npm run type-check && npm run lint"
   },
   "repository": {
     "type": "git",

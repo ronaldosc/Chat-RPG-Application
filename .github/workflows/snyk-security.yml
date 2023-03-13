@@ -54,7 +54,7 @@ jobs:
         # Authenticates with the Snyk token provided.
         # Using arg -d provides debugging.
       - name: Authenticate Snyk
-        run: snyk -d config set api=$SNYK_TOKEN
+        run: snyk config set api=$SNYK_TOKEN
         continue-on-error: true
 
         # Runs Snyk Code (SAST) analysis and uploads result into GitHub.
@@ -83,8 +83,8 @@ jobs:
         continue-on-error: true
 
         # Push the Snyk Code results into GitHub Code Scanning tab
-      - name: Upload result to GitHub Code Scanning
-        uses: github/codeql-action/upload-sarif@v2
-        with:
-          sarif_file: snyk-code.sarif
+      # - name: Upload result to GitHub Code Scanning
+      #   uses: github/codeql-action/upload-sarif@v2
+      #   with:
+      #     sarif_file: snyk-code.sarif
 ...

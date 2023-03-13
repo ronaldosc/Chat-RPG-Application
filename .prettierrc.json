@@ -1,6 +1,29 @@
 {
-  "bracketSpacing": true,
-  "printWidth": 120,
-  "singleQuote": true,
-  "trailingComma": "all"
+	"bracketSpacing": true,
+	"printWidth": 120,
+	"singleQuote": true,
+	"trailingComma": "all",
+	"endOfLine": "lf",
+	"overrides": [
+		{
+			"files": ["*.md"],
+			"options": {
+				"parser": "markdown"
+			}
+		},
+		{
+			"files": ["*.json"],
+			"options": {
+				"parser": "json",
+				"useTabs": true
+			}
+		},
+		{
+			"files": ["*.y*ml"],
+			"options": {
+				"parser": "yaml",
+				"useTabs": false
+			}
+		}
+	]
 }

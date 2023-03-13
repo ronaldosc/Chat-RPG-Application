@@ -1,6 +1,6 @@
 ---
 version: '3.8'
-name: Chat RPG
+name: chat_rpg
 
 services:
   redis:

@@ -8,7 +8,7 @@
     "type-check": "tsc --noEmit",
     "dev": "tsc-watch --onSuccess \"node ./dist/index.js \" ",
     "exec": "ts-node ./src/index.ts",
-    "lint": "eslint --ext .js,.ts src",
+    "lint": "eslint --ext .ts src",
     "build": "npx tsc && node ./dist/index.js",
     "test": "npm run type-check && npm run build && npm run lint"
   },

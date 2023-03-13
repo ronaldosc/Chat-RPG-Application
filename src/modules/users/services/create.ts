@@ -8,6 +8,12 @@ export async function create(param: IUser) {
   try {
     await connectToMongoDB();
 
+    const userAlreadyExists = await User.findOne({ email: param.email }).exec();
+
+    if (userAlreadyExists) {
+      throw new ErrorWithStatus('Usuário com esse email já existe', 522);
+    }
+
     const newUser = new User();
 
     newUser.email = param.email;
@@ -18,9 +24,7 @@ export async function create(param: IUser) {
 
     return {
       message: 'Usuário adicionado com sucesso!',
-      data: {
-        newUser,
-      },
+      data: {},
     };
   } catch (error) {
     let errorStatus: number | null;

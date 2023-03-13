@@ -13,7 +13,7 @@ export interface IUser {
   updatedAt?: Date;
   deletedAt?: Date;
   setPassword?: (password: string) => void;
-  validPassword?: (password: string) => void;
+  validPassword?: (password: string) => boolean;
 }
 
 export interface ILoginUser {

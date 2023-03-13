@@ -1,3 +1,4 @@
+import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 dotenv.config();
 import express from 'express';
@@ -6,6 +7,7 @@ import userRoutes from './modules/users/routes';
 const app: express.Application = express();
 
 // app.use('/', express.static('./public'));
+app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use('/user', userRoutes);

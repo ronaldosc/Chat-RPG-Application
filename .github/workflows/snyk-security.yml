@@ -54,7 +54,7 @@ jobs:
         # Authenticates with the Snyk token provided.
         # Using arg -d provides debugging.
       - name: Authenticate Snyk
-        run: snyk -d auth $SNYK_TOKEN
+        run: snyk -d config set api=$SNYK_TOKEN
         continue-on-error: true
 
         # Runs Snyk Code (SAST) analysis and uploads result into GitHub.

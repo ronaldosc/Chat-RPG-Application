@@ -32,7 +32,7 @@ services:
       - redis
       - mongodb
     ports:
-      - "5000:5000"
+      - "5000:5001"
     networks:
       - rpg-network
 volumes:

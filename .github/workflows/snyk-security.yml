@@ -53,7 +53,7 @@ jobs:
 
         # Authenticates with the Snyk token provided.
       - name: Authenticate Snyk
-        run: snyk auth $SNYK_TOKEN
+        run: snyk -d auth $SNYK_TOKEN
 
         # Runs Snyk Code (SAST) analysis and uploads result into GitHub.
         # Use || true to not fail the pipeline

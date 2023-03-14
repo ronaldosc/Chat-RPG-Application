@@ -6,31 +6,35 @@ import { Container } from '../../components/Container';
 import { FeedStyle } from '../Feed/style';
 import { BodyText, H2 } from '../../components/common/typography';
 import { useEffect, useState } from 'react';
-import { apiJSON } from '../../libs/api';
+import { api, apiJSON } from '../../libs/api';
 import { useNavigate } from 'react-router';
 import { encodeURL } from '../../helpers/URLNavigationReplace';
 
+interface characterProps {
+  characterId: number;
+  characterName: string;
+  player: string | null;
+}
+
 interface CreateGameProps {
   title: string;
-  playersLimit: number;
-  playersAmount: number;
-  characters: string[];
-  description: string;
+  numberOfPlayers: number;
+  playerCharacters: characterProps[];
+  content: string;
 }
 
 export const CreateGame = () => {
   const navigate = useNavigate();
   const [gameProperties, setGameProperties] = useState<CreateGameProps>({
     title: '',
-    playersLimit: 0,
-    playersAmount: 0,
-    characters: [],
-    description: '',
+    numberOfPlayers: 0,
+    playerCharacters: [],
+    content: '',
   });
 
   async function createGame() {
     try {
-        const { data } = await apiJSON.post('/publications', gameProperties);
+        const { data } = await api.post('/feed-room/new-feed', gameProperties);
         navigate(encodeURL(['feed']));
     } catch (error) {
         
@@ -40,7 +44,7 @@ export const CreateGame = () => {
 
   function handlePlayersAmount() {
     let inputs: JSX.Element[] = [];
-    for (let i = 0; i < gameProperties.playersLimit; i++) {
+    for (let i = 0; i < gameProperties.numberOfPlayers; i++) {
       inputs.push(
         <>
           <Container
@@ -120,11 +124,11 @@ export const CreateGame = () => {
               <select
                 name=""
                 id=""
-                value={gameProperties.playersLimit}
+                value={gameProperties.numberOfPlayers}
                 onChange={(e) => {
                   setGameProperties({
                     ...gameProperties,
-                    playersLimit: Number(e.target.value),
+                    numberOfPlayers: Number(e.target.value),
                   });
                   handlePlayersAmount();
                 }}
@@ -166,7 +170,7 @@ export const CreateGame = () => {
                 onChange={(e) =>
                   setGameProperties({
                     ...gameProperties,
-                    description: e.target.value,
+                    content: e.target.value,
                   })
                 }
               />

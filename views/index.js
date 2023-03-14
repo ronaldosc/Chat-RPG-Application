@@ -4,10 +4,11 @@
 
 const btn = document.querySelector('#btnEnvia');
 const txt_mensagem = document.querySelector('#texto_mensagem');
-const txt_area  = document.querySelector('#historico_mensagens');
+const txt_area = document.querySelector('#historico_mensagens');
 
 // Create a WebSocket connection
-const wsocket = new WebSocket('ws://192.168.15.25:8001');
+const host = window.location.hostname;
+const wsocket = new WebSocket(`ws://${host}:5001`);
 
 // Handle WebSocket events
 wsocket.addEventListener('open', (event) => {
@@ -24,7 +25,7 @@ wsocket.addEventListener('close', (event) => {
 });
 
 btn.addEventListener('click', () => {
-    wsocket.send(txt_mensagem.value);
+  wsocket.send(txt_mensagem.value);
 });
 
 // socket.on('msg', (msg) => {

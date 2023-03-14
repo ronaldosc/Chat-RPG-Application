@@ -2,7 +2,8 @@ import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 dotenv.config();
 import express from 'express';
-import redis from 'ioredis';
+import Redis from 'ioredis';
+import { redisConfig } from './config/redisdb';
 
 import { WebSocketInitializer } from './websocket';
 
@@ -10,7 +11,7 @@ import userRoutes from './modules/users/routes';
 import feedRoutes from './modules/feedMessages/routes';
 
 const PORT = parseInt(process.env.PORT) || 5000;
-const redisSub = redis.createClient();
+const redisSub = new Redis(redisConfig.socket);
 
 const app: express.Application = express();
 const webSocketInitializer = new WebSocketInitializer();

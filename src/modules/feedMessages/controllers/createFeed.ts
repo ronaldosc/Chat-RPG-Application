@@ -22,7 +22,7 @@ export async function createFeed(req: Request, res: Response): Promise<void> {
       numberOfLikes: result.data.newFeed.numberOfLikes,
     };
 
-    const userId: String = result.data.newFeed.owner;
+    const userId: string = result.data.newFeed.owner;
 
     webSocketInitializer.redisPub.publish('feedRoom', JSON.stringify(newPost));
 

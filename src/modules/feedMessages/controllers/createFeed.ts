@@ -2,9 +2,11 @@ import { Request, Response } from 'express';
 import { FeedMessagesModel } from '../interface';
 import * as feedRoomServices from '../services';
 import { webSocketInitializer } from '../../../index';
+import { AuthenticatedUserDataRequest } from '../../../interfaces';
 
 export async function createFeed(req: Request, res: Response): Promise<void> {
   const feedData: FeedMessagesModel = req.body;
+  feedData['owner'] = (req as AuthenticatedUserDataRequest).userId;
 
   const result = await feedRoomServices.create(feedData);
 
@@ -22,9 +24,9 @@ export async function createFeed(req: Request, res: Response): Promise<void> {
       numberOfLikes: result.data.newFeed.numberOfLikes,
     };
 
-    const userId: string = result.data.newFeed.owner;
+    // const userId = result.data.newFeed.owner;
 
-    webSocketInitializer.redisPub.publish('feedRoom', JSON.stringify(newPost));
+    await webSocketInitializer.redisPub.publish('feedRoom', JSON.stringify(newPost));
 
     res.status(200).json(result);
     return;

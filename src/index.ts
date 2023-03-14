@@ -27,12 +27,20 @@ app.use('/user', userRoutes);
 app.use('/feed-room', feedRoutes);
 
 // Listen for messages on the Redis channel
-redisSub.subscribe('feedRoom');
+redisSub
+  .subscribe('feedRoom')
+  .then(() => {
+    console.log('Subscribed to feedRoom channel');
+  })
+  .catch((error) => {
+    console.error('Failed to subscribe to feedRoom channel:', error);
+  });
 
 redisSub.on('message', (channel, message) => {
   // Send the message to all connected clients
   webSocketInitializer.websocketClients.forEach((ws, userId) => {
-    ws.send(JSON.stringify(message));
+    console.log(userId);
+    ws.send(message);
   });
 });
 

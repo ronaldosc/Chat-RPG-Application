@@ -1,16 +1,15 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-import FeedRoomPost from '../model';
+import { FeedMessages } from '../model';
 import { connectToMongoDB } from '../../../config/mongodb';
-import { IFeedRoom } from '../interface';
+import { FeedMessagesModel } from '../interface';
 import { ErrorWithStatus } from '../../../utils/errorWithStatus';
 
-export async function create(param: IFeedRoom) {
+export async function create(param: FeedMessagesModel) {
   try {
     await connectToMongoDB();
 
-    const newFeed = new FeedRoomPost();
+    const newFeed = new FeedMessages();
 
-    newFeed.feedRoom = param.feedRoom;
     newFeed.owner = param.owner;
     newFeed.title = param.title;
     newFeed.content = param.content;

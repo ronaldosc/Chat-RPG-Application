@@ -81,4 +81,3 @@ networks:
   rpg-network:
     driver: bridge
     external: false
-...

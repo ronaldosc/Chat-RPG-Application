@@ -2,7 +2,8 @@ import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 dotenv.config();
 import express from 'express';
-import redis from 'ioredis';
+import Redis from 'ioredis';
+import { redisConfig } from './config/redisdb';
 
 import { WebSocketInitializer } from './websocket';
 
@@ -10,7 +11,7 @@ import userRoutes from './modules/users/routes';
 import feedRoutes from './modules/feedMessages/routes';
 
 const PORT = parseInt(process.env.PORT) || 5000;
-const redisSub = redis.createClient();
+const redisSub = new Redis(redisConfig.socket);
 
 const app: express.Application = express();
 const webSocketInitializer = new WebSocketInitializer();
@@ -26,12 +27,20 @@ app.use('/user', userRoutes);
 app.use('/feed-room', feedRoutes);
 
 // Listen for messages on the Redis channel
-redisSub.subscribe('feedRoom');
+redisSub
+  .subscribe('feedRoom')
+  .then(() => {
+    console.log('Subscribed to feedRoom channel');
+  })
+  .catch((error) => {
+    console.error('Failed to subscribe to feedRoom channel:', error);
+  });
 
 redisSub.on('message', (channel, message) => {
   // Send the message to all connected clients
   webSocketInitializer.websocketClients.forEach((ws, userId) => {
-    ws.send(JSON.stringify(message));
+    console.log(userId);
+    ws.send(message);
   });
 });
 

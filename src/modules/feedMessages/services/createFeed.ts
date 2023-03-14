@@ -14,10 +14,10 @@ export async function create(param: FeedMessagesModel) {
     newFeed.title = param.title;
     newFeed.content = param.content;
     newFeed.image = param.image;
-    newFeed.numberOfPlayers = 0;
+    newFeed.numberOfPlayers = param.numberOfPlayers;
     newFeed.playerCharacters = param.playerCharacters;
-    newFeed.numberOfComments = 0;
-    newFeed.numberOfLikes = 0;
+    newFeed.numberOfComments = param.numberOfComments;
+    newFeed.numberOfLikes = param.numberOfLikes;
 
     await newFeed.save();
 

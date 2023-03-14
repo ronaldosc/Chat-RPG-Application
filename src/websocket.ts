@@ -1,10 +1,13 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import websocket from 'ws';
 import crypto from 'crypto';
-import redis from 'ioredis';
+import Redis from 'ioredis';
 import * as dotenv from 'dotenv';
-import feedRoomPost from './modules/feedRooms/model';
+import { FeedMessages } from './modules/feedMessages/model';
 import { connectToMongoDB } from './config/mongodb';
 import { ErrorWithStatus } from './utils/errorWithStatus';
+import { redisConfig } from './config/redisdb';
 
 dotenv.config();
 
@@ -13,12 +16,11 @@ class WebSocketInitializer {
 
   public websocketClients = new Map();
 
-  public redisPub =  redis.createClient();
+  public redisPub = new Redis(redisConfig.socket);
 
   constructor() {
     this.wss = new websocket.Server({
-      port: Number(process.env.PORT)+1 || 8001,
-      host: process.env.HOST
+      port: 5001,
     });
   }
 
@@ -30,11 +32,9 @@ class WebSocketInitializer {
 
       try {
         await connectToMongoDB();
-        const documents = await feedRoomPost.find()
-        .sort({ _id: -1 })
-        .limit(10);
+        const documents = await FeedMessages.find().sort({ _id: -1 }).limit(10);
         ws.send(JSON.stringify(documents));
-      } catch(error) {
+      } catch (error) {
         let errorStatus: number | null;
         let errorMessage: string | null;
         if (error instanceof ErrorWithStatus) {
@@ -48,13 +48,13 @@ class WebSocketInitializer {
       }
 
       ws.on('message', async (message: string) => {
-          console.log('message ', message);
-          // this.wss.clients.forEach((client) => {
-          //   client.send(JSON.stringify(message));
-          // });
+        console.log('message ', message);
+        // this.wss.clients.forEach((client) => {
+        //   client.send(JSON.stringify(message));
+        // });
       });
 
-      ws.on('close', async (ws) => {
+      ws.on('close', async () => {
         this.websocketClients.delete(userID);
         console.log(`Client closed ${userID}`);
       });
@@ -70,7 +70,6 @@ class WebSocketInitializer {
       });
     });
   }
-
 }
 
 export { WebSocketInitializer };

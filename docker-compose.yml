@@ -45,6 +45,9 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: 123
       MONGO_PORT: 27017
+      MONGO_HOST: mongo-rpg
+      REDIS_HOST: redis-rpg
+      REDIS_PORT: 6379
     depends_on:
       - redis
       - mongodb
@@ -63,4 +66,3 @@ networks:
   rpg-network:
     driver: bridge
     external: false
-...

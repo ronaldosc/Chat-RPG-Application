@@ -1,7 +1,7 @@
-import { Schema, SchemaTypeOptions, model, now } from 'mongoose';
+import { Schema, model, now } from 'mongoose';
 import { FeedMessagesModel } from './interface';
 
-const FeedMessagesSchema = new Schema<SchemaTypeOptions<FeedMessagesModel>>({
+const FeedMessagesSchema = new Schema<FeedMessagesModel>({
   owner: { type: Schema.Types.ObjectId, required: true, ref: 'User' },
   title: { type: String, required: true },
   content: { type: String, required: true },

@@ -7,10 +7,10 @@ import redis from 'ioredis';
 import { WebSocketInitializer } from './websocket';
 
 import userRoutes from './modules/users/routes';
-import feedRoutes from './modules/feedRooms/routes';
+import feedRoutes from './modules/feedMessages/routes';
 
 const PORT = parseInt(process.env.PORT) || 5000;
-const redisSub =  redis.createClient();
+const redisSub = redis.createClient();
 
 const app: express.Application = express();
 const webSocketInitializer = new WebSocketInitializer();

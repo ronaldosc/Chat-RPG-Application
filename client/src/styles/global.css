@@ -1,0 +1,64 @@
+* {
+  font-family: 'Roboto mono', monospace;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  color: black;
+}
+
+#root {
+  width: 100vw;
+  max-width: 99vw;
+  height: 100vh;
+  overflow: auto;
+  display: flex;
+  top: 0;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background: 'transparent';
+  background-size: cover;
+  background-position: center center;
+  gap: 1rem;
+  background-color: 'transparent';
+  background-repeat: no-repeat;
+}
+
+html,
+body {
+  display: flex;
+  position: relative;
+  background-image: url('../assets/images/background.png');
+  background-size: cover;
+  
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+span {
+  text-align: center;
+}
+
+
+::-webkit-scrollbar {
+  width: 5px;
+  background-color: transparent;
+  padding-top: 10px;
+}
+
+/* Cor do fundo da barra de rolagem */
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+/* Cor do preenchimento da barra de rolagem */
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  width: 5px;
+  background-color: #aaa;
+}
+
+/* Cor do preenchimento da barra de rolagem quando estiver passando o mouse */
+::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}

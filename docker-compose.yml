@@ -19,16 +19,16 @@ services:
     ports:
       - 27017:27017
     volumes:
-      - ./src/config/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+      - ./server/src/config/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
       - mongo-data:/data/db
     networks:
       - rpg-network
     env_file:
-      - .env
+      - ./server/.env
   api:
     container_name: api-rpg
     build:
-      context: .
+      context: ./server
       dockerfile: Dockerfile
     restart: always
     # exemplo de envinronment
@@ -45,12 +45,30 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: 123
       MONGO_PORT: 27017
+      MONGO_HOST: mongo-rpg
+      REDIS_HOST: redis-rpg
+      REDIS_PORT: 6379
     depends_on:
       - redis
       - mongodb
     ports:
       - 5000:5000
       - 5001:5001
+    networks:
+      - rpg-network
+  react:
+    container_name: react-rpg
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      VITE_REACT_APP_API_URL: api-rpg
+      VITE_PROJECT_NAME: Chat RPG
+    ports:
+      - 8080:80
+    depends_on:
+      - api
     networks:
       - rpg-network
 

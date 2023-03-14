@@ -1,0 +1,1 @@
+export { createFeed } from './createFeed';

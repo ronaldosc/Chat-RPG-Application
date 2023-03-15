@@ -31,15 +31,33 @@ As aplicações criadas podem ser feitas com qualquer tecnologia de seu interess
 
 1º PASSO
 
+Na pasta client
+
 ```bash
-cp .env.example .env
+yarn
+yarn build
 ```
 
 2º PASSO
 
-Defina o database e o usuário/senha para acessar o mongoDB no script `init-mongo.js` e no `.env` criado, além de informar outras variáveis de ambiente antes de fazer o próximo passo.
+Defina o endereço da API corretamente no arquivo src/libs/api.ts na baseURL da const api.
 
 3º PASSO
+
+Na pasta server
+
+```bash
+npm install
+cp .env.example .env
+```
+
+4º PASSO
+
+Defina o database e o usuário/senha para acessar o mongoDB no script `src/config/init-mongo.js` e no `.env` criado, além de informar outras variáveis de ambiente corretamente no .env antes de fazer o próximo passo.
+
+5º PASSO
+
+Na pasta inicial do repositório
 
 ```bash
 docker compose up -d

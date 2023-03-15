@@ -34,12 +34,17 @@ export const CreateGame = () => {
 
   async function createGame() {
     try {
-        const { data } = await api.post('/feed-room/new-feed', gameProperties);
-        navigate(encodeURL(['feed']));
+      const { data } = await api.post('/feed-room/new-feed', {
+        title: '',
+        numberOfPlayers: 0,
+        playerCharacters: [{ characterId: 0, characterName: '', player: ''}],
+        content: '',
+      });
+      navigate(encodeURL(['feed']));
     } catch (error) {
-        
+      console.log(error);
+      
     }
-    
   }
 
   function handlePlayersAmount() {
@@ -90,7 +95,12 @@ export const CreateGame = () => {
             overflow="hidden"
           >
             <H2>Criar jogo</H2>
-            <X size={22} color={Color.Black.base} onClick={() => navigate(-1)} onMouseEnter={(e) => e.currentTarget.style.cursor = 'pointer'}/>
+            <X
+              size={22}
+              color={Color.Black.base}
+              onClick={() => navigate(-1)}
+              onMouseEnter={(e) => (e.currentTarget.style.cursor = 'pointer')}
+            />
           </Container>
           <Container
             justify="start"

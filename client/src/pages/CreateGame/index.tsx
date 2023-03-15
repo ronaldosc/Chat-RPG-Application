@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
 import { Button } from '../../components/Button';
 import { Color } from '../..//components/common/constants';
 import { Header } from '../../components/Header';
@@ -5,10 +7,13 @@ import { House, X } from '@phosphor-icons/react';
 import { Container } from '../../components/Container';
 import { FeedStyle } from '../Feed/style';
 import { BodyText, H2 } from '../../components/common/typography';
-import { useEffect, useState } from 'react';
+
 import { api, apiJSON } from '../../libs/api';
-import { useNavigate } from 'react-router';
+
 import { encodeURL } from '../../helpers/URLNavigationReplace';
+import { SelectInput, TextInput } from '../../components/common/inputs';
+import { TextArea } from '../../components/common/inputs/inputs-components.styled';
+import { CreateGameStyle } from './style';
 
 interface characterProps {
   characterId: number;
@@ -58,10 +63,9 @@ export const CreateGame = () => {
             align="start"
             width="200px"
             height="50px"
-            overflow="none"
           >
             <BodyText>Jogador {i + 1}</BodyText>
-            <input type="text" name="" id="" />
+            <TextInput />
           </Container>
         </>,
       );
@@ -77,106 +81,87 @@ export const CreateGame = () => {
         <Button
           color={Color.Gold}
           icon={<House size={22} color={Color.White.base} />}
+          onClick={() => navigate(encodeURL(['feed']))}
         />
       </Header>
-      <FeedStyle>
+      <CreateGameStyle>
+      <Container
+        backgroundColor={Color.Background.base}
+        justify="start"
+        padding="10px 16px"
+      >
         <Container
-          backgroundColor={Color.Background.base}
-          justify="start"
-          padding="10px 16px"
-          height="90%"
+          backgroundColor="transparent"
+          justify="space-between"
+          align="center"
+          direction="row"
+          height="50px"
         >
-          <Container
-            backgroundColor="transparent"
-            justify="space-between"
-            align="center"
-            direction="row"
-            height="50px"
-            overflow="hidden"
-          >
-            <H2>Criar jogo</H2>
-            <X
-              size={22}
-              color={Color.Black.base}
-              onClick={() => navigate(-1)}
-              onMouseEnter={(e) => (e.currentTarget.style.cursor = 'pointer')}
+          <H2>Criar jogo</H2>
+          <X
+            size={22}
+            color={Color.Black.base}
+            onClick={() => navigate(-1)}
+            onMouseEnter={(e) => (e.currentTarget.style.cursor = 'pointer')}
+          />
+        </Container>
+        <Container
+          justify="start"
+          align="start"
+          padding="12px"
+          gap="12px"
+          overflow="auto"
+        >
+          <Container justify="center" align="start">
+            <BodyText>Título</BodyText>
+            <TextInput
+              type="text"
+              onChange={(e) =>
+                setGameProperties({
+                  ...gameProperties,
+                  title: e.target.value,
+                })
+              }
             />
           </Container>
+
           <Container
+            direction="row"
             justify="start"
-            align="start"
-            padding="12px"
-            gap="12px"
-            overflow="auto"
+            align="center"
+            gap="8px"
+            height="200px"
           >
-            <Container justify="center" align="start" overflow="none">
-              <BodyText>Título</BodyText>
-              <input
-                type="text"
-                name="title"
-                onChange={(e) =>
-                  setGameProperties({
-                    ...gameProperties,
-                    title: e.target.value,
-                  })
-                }
-              />
-            </Container>
+            <BodyText>Número de jogadores</BodyText>
+            <SelectInput
+              options={['-', '1', '2', '3', '4', '5', '6', '7', '8']}
+              onChange={(e) => {
+                setGameProperties({
+                  ...gameProperties,
+                  numberOfPlayers: Number(e.target.value),
+                });
+                handlePlayersAmount();
+              }}
+            />
+          </Container>
 
-            <Container
-              direction="row"
-              justify="start"
-              align="center"
-              gap="8px"
-              overflow="none"
-            >
-              <BodyText>Número de jogadores</BodyText>
-              <select
-                name=""
-                id=""
-                value={gameProperties.numberOfPlayers}
-                onChange={(e) => {
-                  setGameProperties({
-                    ...gameProperties,
-                    numberOfPlayers: Number(e.target.value),
-                  });
-                  handlePlayersAmount();
-                }}
-                color={Color.Black.base}
-              >
-                <option value="0">-</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-              </select>
-            </Container>
+          <Container
+            flexWrap="wrap"
+            direction="row"
+            justify="start"
+            align="center"
+          >
+            <>{handlePlayersAmount()}</>
 
-            <Container
-              flexWrap="wrap"
-              direction="row"
-              justify="start"
-              align="center"
-              overflow="none"
-            >
-              {handlePlayersAmount()}
-            </Container>
             <Container
               direction="column"
               justify="center"
               align="start"
               backgroundColor="transparent"
-              overflow="none"
             >
               <BodyText>História</BodyText>
-              <input
-                type="text"
-                name=""
-                id=""
+              <TextArea
+              
                 onChange={(e) =>
                   setGameProperties({
                     ...gameProperties,
@@ -186,20 +171,21 @@ export const CreateGame = () => {
               />
             </Container>
           </Container>
-          <Container height="40px" direction="row" gap="16px">
-            <Button
-              label="Cancelar"
-              color={Color.Red}
-              onClick={() => navigate(-1)}
-            />
-            <Button
-              label="Criar"
-              color={Color.Green}
-              onClick={() => createGame()}
-            />
-          </Container>
         </Container>
-      </FeedStyle>
+        <Container height="40px" direction="row" gap="16px">
+          <Button
+            label="Cancelar"
+            color={Color.Red}
+            onClick={() => navigate(-1)}
+          />
+          <Button
+            label="Criar"
+            color={Color.Green}
+            onClick={() => createGame()}
+          />
+        </Container>
+      </Container>
+      </CreateGameStyle>
     </>
   );
 };

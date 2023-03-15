@@ -7,18 +7,18 @@ import {
   BodyText,
   H1,
 } from '../../components/common/typography/typography-components.component';
-import { Header } from '../../components/Header';
 import { Container } from '../../components/Container';
 import { Logo } from '../../assets/icons/logo';
 import { encodeURL } from '../../helpers/URLNavigationReplace';
-import { useEffect, useState } from 'react';
 import { TextInput } from '../../components/common/inputs';
+import { api } from '../../libs/api';
+import { useState } from 'react';
 
 interface UserTypes {
   email: string;
   password: string;
   contact: {
-    userName: string;
+    userName?: string;
     firstName?: string;
     lastName?: string;
     profilePhoto?: string;
@@ -31,17 +31,59 @@ interface PropTypes {
 
 export const Register = () => {
   const navigate = useNavigate();
+  const [userProperties, setUserProperties] = useState<UserTypes>({
+    email: '',
+    password: '',
+    contact: {
+      userName: '',
+    },
+  });
+
+  async function createUser() {
+    try {
+        await api.post('/user/signup', userProperties);
+        
+        await api.post('/user/login', {
+          email: userProperties.email,
+          password: userProperties.password,
+        })
+        navigate(encodeURL(['feed']));
+    } catch (error) {
+        console.log(error);
+    }
+    
+  }
 
   return (
     <>
       <Container width="90vw" height="90vh" gap="12px" backgroundColor='rgba(31, 25, 35, 0.5)' padding='20px' justify='start'>
         <Logo width="95px" height="108px" />
         <H1 light>Chat RPG</H1>
-        <TextInput label="Nome" lightLabel />
-        <TextInput label="Sobrenome" lightLabel />
-        <TextInput label="Username" lightLabel />
-        <TextInput label="Email" type="email" lightLabel />
-        <TextInput label="Senha" type="password" lightLabel />
+        <TextInput label="Nome" lightLabel onChange={(e) => {
+                  setUserProperties({
+                    ...userProperties,
+                    contact: { firstName: e.target.value },
+                  })}} />
+        <TextInput label="Sobrenome" lightLabel onChange={(e) => {
+                  setUserProperties({
+                    ...userProperties,
+                    contact: { lastName: e.target.value },
+                  })}} />
+        <TextInput label="Username" lightLabel onChange={(e) => {
+                  setUserProperties({
+                    ...userProperties,
+                    contact: { userName: e.target.value },
+                  })}}/>
+        <TextInput label="Email" type="email" lightLabel onChange={(e) => {
+                  setUserProperties({
+                    ...userProperties,
+                    email: e.target.value,
+                  })}} />
+        <TextInput label="Senha" type="password" lightLabel onChange={(e) => {
+                  setUserProperties({
+                    ...userProperties,
+                    password: e.target.value,
+                  })}}/>
         <TextInput label="Confirmar senha" type="password" lightLabel />
         <Container
           width="80%"
@@ -52,11 +94,15 @@ export const Register = () => {
           overflow='none'
         >
           <Button
-            label="Fazer Login"
-            color={Color.Green}
+            label="Cancelar"
+            color={Color.Red}
             onClick={() => navigate(encodeURL(['home']))}
           />
-          <Button label="Cadastrar-se" color={Color.Gold} />
+          <Button
+            label="Finalizar"
+            color={Color.Green}
+            onClick={() => createUser()} 
+          />
         </Container>
       </Container>
     </>

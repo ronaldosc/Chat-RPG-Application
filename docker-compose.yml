@@ -31,24 +31,8 @@ services:
       context: ./server
       dockerfile: Dockerfile
     restart: always
-    # exemplo de envinronment
-    environment:
-      PORT: 5000
-      HOST: localhost
-      JWT_SECRET: secret
-      JWT_EXPIRATION_TIME: 12h
-      CRYPTO_SALT: salt
-      CRYPTO_ITERATIONS: 10
-      CRYPTO_KEY_LENGTH: 64
-      CRYPTO_DIGEST: sha512
-      MONGO_INITDB_DATABASE: chatrpg
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: 123
-      MONGO_PORT: 27017
-      MONGO_HOST: mongo-rpg
-      REDIS_HOST: redis-rpg
-      REDIS_PORT: 6379
-      CORS_ORIGIN: http://localhost:8080
+    env_file:
+      - ./server/.env
     depends_on:
       - redis
       - mongodb

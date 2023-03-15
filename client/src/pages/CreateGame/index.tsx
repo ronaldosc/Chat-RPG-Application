@@ -73,6 +73,7 @@ export const CreateGame = () => {
         <Button
           color={Color.Gold}
           icon={<House size={22} color={Color.White.base} />}
+          onClick={() => navigate(encodeURL(['feed']))}
         />
       </Header>
       <CreateGameStyle>
@@ -152,6 +153,7 @@ export const CreateGame = () => {
             >
               <BodyText>História</BodyText>
               <TextArea
+              
                 onChange={(e) =>
                   setGameProperties({
                     ...gameProperties,

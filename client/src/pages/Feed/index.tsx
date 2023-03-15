@@ -45,7 +45,7 @@ export const Feed = () => {
       <Header>
         <Button
           color={Color.Gold}
-          icon={<House size={22} color={Color.White.base} />}
+          icon={<House size={22} color={Color.White.base} onClick={() => navigate(encodeURL(["feed"]))} />}
         />
       </Header>
       <FeedStyle>

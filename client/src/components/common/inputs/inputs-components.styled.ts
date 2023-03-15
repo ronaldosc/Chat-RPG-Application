@@ -14,6 +14,7 @@ interface TextFieldProps {
 
 export interface TextAreaProps extends TextFieldProps {
   height?: number;
+  width?: string;
 }
 
 export const TextField = styled.input<TextFieldProps>`
@@ -34,8 +35,9 @@ export const TextArea = styled.textarea<TextAreaProps>`
   border: 1px solid ${Color.Black.base};
   border-radius: ${BorderRadius.Medium};
   background: ${Color.White.base};
-  width: ${({ width }) => width ?? 240}px;
+  width: ${({ width }) => width ?? "100%"};
   height: ${({ height }) => height ?? 90}px;
+  padding: 5px;
   resize: none;
   outline: none;
 `;

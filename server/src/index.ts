@@ -4,6 +4,7 @@ dotenv.config();
 import express from 'express';
 import Redis from 'ioredis';
 import { redisConfig } from './config/redisdb';
+import cors from 'cors';
 
 import { WebSocketInitializer } from './websocket';
 
@@ -18,7 +19,13 @@ const webSocketInitializer = new WebSocketInitializer();
 
 webSocketInitializer.initialize();
 
+const corsOptions = {
+  origin: process.env.CORS_ORIGIN,
+  credentials: true,
+};
+
 app.use('/', express.static('./views'));
+app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());

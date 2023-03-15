@@ -5,8 +5,8 @@ export const apiJSON = axios.create({
 });
 
 export const api = axios.create({
-  baseURL: "http://api-rpg:5000",
-  withCredentials: false,
+  baseURL: "http://localhost:5000",
+  withCredentials: true,
   headers: { 'Access-Control-Allow-Origin': '*' },
 });
 

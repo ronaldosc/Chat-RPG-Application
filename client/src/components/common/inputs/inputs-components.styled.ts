@@ -9,7 +9,7 @@ import {
 import SelectArrowDown from '../../../assets/icons/select-arrow-down';
 
 interface TextFieldProps {
-  width?: number;
+  width?: string;
 }
 
 export interface TextAreaProps extends TextFieldProps {
@@ -24,7 +24,7 @@ export const TextField = styled.input<TextFieldProps>`
   background: ${Color.White.base};
   height: 30px;
   padding: 0 5px;
-  width: ${({ width }) => width ?? 240}px;
+  width: ${({ width }) => width ?? "100%"};
   outline: none;
 `;
 

@@ -27,7 +27,7 @@ export const ContainerStyle = styled.div<ContainerProps>`
     border-radius: 8px;
     gap: ${(props: ContainerProps) => props.gap || "0"};
     border: ${(props: ContainerProps) => props.border || "none"};
-    overflow: ${(props: ContainerProps) => props.overflow || "auto"};
+    overflow: ${(props: ContainerProps) => props.overflow || "none"};
     max-width: 500px;
     flex-wrap: ${(props: ContainerProps) => props.direction === "row" ? "wrap" : "nowrap"};
 `

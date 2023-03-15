@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 
-export const FeedStyle = styled.div`
+export const CreateGameStyle = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: start;
   align-items: center;
-  width: 100%;
+  width: 90%;
   height: 100%;
 
   padding: 20px 0 0 0;

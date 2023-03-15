@@ -28,7 +28,7 @@ export const Home = () => {
 
   async function handleLogin() {
     try {
-      await api.post('/user/login', login);
+      const { data } = await api.post('/user/login', login);
       enqueueSnackbar('Login realizado com sucesso!', {
         variant: 'success',
         anchorOrigin: {
@@ -36,6 +36,7 @@ export const Home = () => {
           horizontal: 'center',
         },
       });
+      localStorage.setItem('token', data)
       navigate(encodeURL(['feed']));
     } catch (error) {
       enqueueSnackbar('Erro ao realizar login!', {

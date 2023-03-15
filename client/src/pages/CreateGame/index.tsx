@@ -48,6 +48,7 @@ export const CreateGame = () => {
         playerCharacters: [{ characterId: 0, characterName: '', player: '' }],
         content: '',
       });
+      
       enqueueSnackbar('Jogo criado com sucesso!', {
         variant: 'success',
         anchorOrigin: {

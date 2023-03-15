@@ -7,7 +7,8 @@ import { ErrorWithStatus } from '../../../utils/errorWithStatus';
 export async function create(param: FeedMessagesModel) {
   try {
     await connectToMongoDB();
-
+    console.log(param);
+    
     const newFeed = new FeedMessages();
 
     newFeed.owner = param.owner;

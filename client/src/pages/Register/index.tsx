@@ -53,12 +53,12 @@ export const Register = () => {
         },
       });
 
-      await api.post('/user/login', {
+      const { data } = await api.post('/user/login', {
         email: userProperties.email,
         password: userProperties.password,
       });
+      localStorage.setItem('token', data);
       navigate(encodeURL(['feed']));
-      
     } catch (error) {
       enqueueSnackbar('Erro ao realizar login!', {
         variant: 'error',

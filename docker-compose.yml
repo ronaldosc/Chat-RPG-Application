@@ -48,6 +48,7 @@ services:
       MONGO_HOST: mongo-rpg
       REDIS_HOST: redis-rpg
       REDIS_PORT: 6379
+      CORS_ORIGIN: http://localhost:8080
     depends_on:
       - redis
       - mongodb

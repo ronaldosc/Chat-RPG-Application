@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 
 import { Color } from '../../components/common/constants';
-import { House } from '@phosphor-icons/react';
+import { useSnackbar } from 'notistack';
 import { Button } from '../../components/Button/index';
 import {
   BodyText,
@@ -31,6 +31,9 @@ interface PropTypes {
 
 export const Register = () => {
   const navigate = useNavigate();
+
+  const { enqueueSnackbar } = useSnackbar();
+
   const [userProperties, setUserProperties] = useState<UserTypes>({
     email: '',
     password: '',
@@ -41,49 +44,97 @@ export const Register = () => {
 
   async function createUser() {
     try {
-        await api.post('/user/signup', userProperties);
-        
-        await api.post('/user/login', {
-          email: userProperties.email,
-          password: userProperties.password,
-        })
-        navigate(encodeURL(['feed']));
+      await api.post('/user/signup', userProperties);
+      enqueueSnackbar('Usuário criado com sucesso!', {
+        variant: 'success',
+        anchorOrigin: {
+          vertical: 'top',
+          horizontal: 'center',
+        },
+      });
+
+      await api.post('/user/login', {
+        email: userProperties.email,
+        password: userProperties.password,
+      });
+      navigate(encodeURL(['feed']));
+      
     } catch (error) {
-        console.log(error);
+      enqueueSnackbar('Erro ao realizar login!', {
+        variant: 'error',
+        anchorOrigin: {
+          vertical: 'top',
+          horizontal: 'center',
+        },
+      });
+      await console.log(error);
     }
-    
   }
 
   return (
     <>
-      <Container width="90vw" height="90vh" gap="12px" backgroundColor='rgba(31, 25, 35, 0.5)' padding='20px' justify='start'>
+      <Container
+        width="90vw"
+        height="90vh"
+        gap="12px"
+        backgroundColor="rgba(31, 25, 35, 0.5)"
+        padding="20px"
+        justify="start"
+      >
         <Logo width="95px" height="108px" />
         <H1 light>Chat RPG</H1>
-        <TextInput label="Nome" lightLabel onChange={(e) => {
-                  setUserProperties({
-                    ...userProperties,
-                    contact: { firstName: e.target.value },
-                  })}} />
-        <TextInput label="Sobrenome" lightLabel onChange={(e) => {
-                  setUserProperties({
-                    ...userProperties,
-                    contact: { lastName: e.target.value },
-                  })}} />
-        <TextInput label="Username" lightLabel onChange={(e) => {
-                  setUserProperties({
-                    ...userProperties,
-                    contact: { userName: e.target.value },
-                  })}}/>
-        <TextInput label="Email" type="email" lightLabel onChange={(e) => {
-                  setUserProperties({
-                    ...userProperties,
-                    email: e.target.value,
-                  })}} />
-        <TextInput label="Senha" type="password" lightLabel onChange={(e) => {
-                  setUserProperties({
-                    ...userProperties,
-                    password: e.target.value,
-                  })}}/>
+        <TextInput
+          label="Nome"
+          lightLabel
+          onChange={(e) => {
+            setUserProperties({
+              ...userProperties,
+              contact: { firstName: e.target.value },
+            });
+          }}
+        />
+        <TextInput
+          label="Sobrenome"
+          lightLabel
+          onChange={(e) => {
+            setUserProperties({
+              ...userProperties,
+              contact: { lastName: e.target.value },
+            });
+          }}
+        />
+        <TextInput
+          label="Username"
+          lightLabel
+          onChange={(e) => {
+            setUserProperties({
+              ...userProperties,
+              contact: { userName: e.target.value },
+            });
+          }}
+        />
+        <TextInput
+          label="Email"
+          type="email"
+          lightLabel
+          onChange={(e) => {
+            setUserProperties({
+              ...userProperties,
+              email: e.target.value,
+            });
+          }}
+        />
+        <TextInput
+          label="Senha"
+          type="password"
+          lightLabel
+          onChange={(e) => {
+            setUserProperties({
+              ...userProperties,
+              password: e.target.value,
+            });
+          }}
+        />
         <TextInput label="Confirmar senha" type="password" lightLabel />
         <Container
           width="80%"
@@ -91,7 +142,7 @@ export const Register = () => {
           direction="row"
           gap="12px"
           backgroundColor="transparent"
-          overflow='none'
+          overflow="none"
         >
           <Button
             label="Cancelar"
@@ -101,7 +152,7 @@ export const Register = () => {
           <Button
             label="Finalizar"
             color={Color.Green}
-            onClick={() => createUser()} 
+            onClick={() => createUser()}
           />
         </Container>
       </Container>

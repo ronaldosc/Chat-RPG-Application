@@ -1,3 +1,4 @@
+import { useSnackbar } from 'notistack';
 import { Color } from '../../components/common/constants';
 import { House } from '@phosphor-icons/react';
 import { Button } from '../../components/Button/index';
@@ -18,6 +19,7 @@ interface LoginTypes {
 
 export const Home = () => {
   const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
 
   const [login, setLogin] = useState<LoginTypes>({
     email: '',
@@ -27,8 +29,23 @@ export const Home = () => {
   async function handleLogin() {
     try {
       await api.post('/user/login', login);
+      enqueueSnackbar('Login realizado com sucesso!', {
+        variant: 'success',
+        anchorOrigin: {
+          vertical: 'top',
+          horizontal: 'center',
+        },
+      });
       navigate(encodeURL(['feed']));
     } catch (error) {
+      enqueueSnackbar('Erro ao realizar login!', {
+        variant: 'error',
+        anchorOrigin: {
+          vertical: 'top',
+          horizontal: 'center',
+        },
+      });
+
       await console.log(error);
     }
   }
@@ -67,7 +84,11 @@ export const Home = () => {
         gap="12px"
         backgroundColor="transparent"
       >
-        <Button label="Entrar" color={Color.Green} onClick={() => handleLogin()} />
+        <Button
+          label="Entrar"
+          color={Color.Green}
+          onClick={() => handleLogin()}
+        />
         <Button
           label="Cadastre-se"
           color={Color.Gold}

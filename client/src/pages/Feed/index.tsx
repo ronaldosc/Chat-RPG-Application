@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 
 import { Container } from '../../components/Container';
-import { House, Plus } from '@phosphor-icons/react';
+import { House, Plus, SignOut } from '@phosphor-icons/react';
 import { Button } from '../../components/Button';
 import { Color } from '../../components/common/constants';
 import { Header } from '../../components/Header';
@@ -43,10 +43,7 @@ export const Feed = () => {
   return (
     <>
       <Header>
-        <Button
-          color={Color.Gold}
-          icon={<House size={22} color={Color.White.base} onClick={() => navigate(encodeURL(["feed"]))} />}
-        />
+        
       </Header>
       <FeedStyle>
         <Container height="50px">

@@ -13,6 +13,7 @@ import { encodeURL } from '../../helpers/URLNavigationReplace';
 import { TextInput } from '../../components/common/inputs';
 import { api } from '../../libs/api';
 import { useState } from 'react';
+import { useUser } from '../../providers/UserProvider';
 
 interface UserTypes {
   email: string;
@@ -34,6 +35,8 @@ export const Register = () => {
 
   const { enqueueSnackbar } = useSnackbar();
 
+  const { signIn } = useUser();
+
   const [userProperties, setUserProperties] = useState<UserTypes>({
     email: '',
     password: '',
@@ -52,12 +55,12 @@ export const Register = () => {
           horizontal: 'center',
         },
       });
-
-      const { data } = await api.post('/user/login', {
-        email: userProperties.email,
-        password: userProperties.password,
-      });
-      localStorage.setItem('token', data);
+      if (signIn) {
+        signIn({
+          email: userProperties.email,
+          password: userProperties.password,
+        });
+      }
       navigate(encodeURL(['feed']));
     } catch (error) {
       enqueueSnackbar('Erro ao realizar login!', {

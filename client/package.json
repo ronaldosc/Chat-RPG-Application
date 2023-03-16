@@ -24,7 +24,7 @@
     "@cypress/browserify-preprocessor": "1.1.2",
     "@headlessui/react": "1.6.0",
     "@material-ui/core": "4.12.3",
-    "phosphor-react": "^2.0.4",
+    "phosphor-react": "^1.4.1",
     "@stitches/react": "1.2.8",
     "axios": "^1.3.4",
     "dotenv": "10.0.0",

@@ -1009,11 +1009,6 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@phosphor-icons/react@^2.0.4":
-  version "2.0.5"
-  resolved "https://registry.npmjs.org/@phosphor-icons/react/-/react-2.0.5.tgz"
-  integrity sha512-Ghohi+Dk+Y0RoI1vra3jH2QC3sO6C16a/Km0gfy05ONIsC62Vwn1SK2Qaim77VPyn1FS7qjMxocdi9kx6btvXg==
-
 "@rollup/pluginutils@^4.1.1":
   version "4.2.1"
   resolved "https://registry.npmjs.org/@rollup/pluginutils/-/pluginutils-4.2.1.tgz"
@@ -5315,9 +5310,9 @@ pdfjs-dist@2.16.105, pdfjs-dist@^2.16.105:
     dommatrix "^1.0.3"
     web-streams-polyfill "^3.2.1"
 
-phosphor-react@1.4.1:
+phosphor-react@^2.0.4:
   version "1.4.1"
-  resolved "https://registry.npmjs.org/phosphor-react/-/phosphor-react-1.4.1.tgz"
+  resolved "https://registry.yarnpkg.com/phosphor-react/-/phosphor-react-1.4.1.tgz#97b0e034d9937db9b97fe53b186e9646464fd4e7"
   integrity sha512-gO5j7U0xZrdglTAYDYPACU4xDOFBTJmptrrB/GeR+tHhCZF3nUMyGmV/0hnloKjuTrOmpSFlbfOY78H39rgjUQ==
 
 picocolors@^1.0.0:

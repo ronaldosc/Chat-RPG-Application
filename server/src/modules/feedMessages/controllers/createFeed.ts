@@ -27,7 +27,7 @@ export async function createFeed(req: Request, res: Response): Promise<void> {
     const message = {
       action: 'message',
       data: {
-        chatroom: 'feedRoom',
+        chatRoom: 'feedRoom',
         message: newPost,
       }
     }

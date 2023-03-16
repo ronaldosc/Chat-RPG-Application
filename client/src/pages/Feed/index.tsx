@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 
 import { Container } from '../../components/Container';
-import { House, Plus, SignOut } from '@phosphor-icons/react';
+import { House, Plus, SignOut } from 'phosphor-react';
 import { Button } from '../../components/Button';
 import { Color } from '../../components/common/constants';
 import { Header } from '../../components/Header';

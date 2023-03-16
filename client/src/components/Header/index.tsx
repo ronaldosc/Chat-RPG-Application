@@ -2,7 +2,7 @@ import { BodyText, H1 } from '../common/typography';
 import { HeaderLogo, HeaderStyle } from './style';
 import { Logo } from '../../assets/icons/logo';
 import { Button } from '../Button';
-import { House, SignOut } from '@phosphor-icons/react';
+import { House, SignOut } from 'phosphor-react';
 import { Color } from '../common/constants';
 import { useNavigate } from 'react-router-dom';
 import { encodeURL } from '../../helpers/URLNavigationReplace';

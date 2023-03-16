@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router';
 import { Button } from '../../components/Button';
 import { Color } from '../..//components/common/constants';
 import { Header } from '../../components/Header';
-import { House, X } from '@phosphor-icons/react';
+import { House, X } from 'phosphor-react';
 import { Container } from '../../components/Container';
 import { FeedStyle } from '../Feed/style';
 import { BodyText, H2 } from '../../components/common/typography';

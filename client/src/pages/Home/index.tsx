@@ -1,6 +1,6 @@
 import { useSnackbar } from 'notistack';
 import { Color } from '../../components/common/constants';
-import { House } from '@phosphor-icons/react';
+import { House } from 'phosphor-react';
 import { Button } from '../../components/Button/index';
 import { BodyText, H1 } from '../../components/common/typography';
 import { Header } from '../../components/Header';
@@ -26,8 +26,6 @@ export const Home = () => {
     email: '',
     password: '',
   });
-
- 
 
   return (
     <Container
@@ -66,7 +64,9 @@ export const Home = () => {
         <Button
           label="Entrar"
           color={Color.Green}
-          onClick={() => {signIn && signIn(login)}}
+          onClick={() => {
+            signIn && signIn(login);
+          }}
         />
         <Button
           label="Cadastre-se"

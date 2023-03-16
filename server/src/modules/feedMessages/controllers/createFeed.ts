@@ -24,9 +24,15 @@ export async function createFeed(req: Request, res: Response): Promise<void> {
       numberOfLikes: result.data.newFeed.numberOfLikes,
     };
 
-    // const userId = result.data.newFeed.owner;
+    const message = {
+      action: 'message',
+      data: {
+        chatroom: 'feedRoom',
+        message: newPost,
+      }
+    }
 
-    await webSocketInitializer.redisPub.publish('feedRoom', JSON.stringify(newPost));
+    await webSocketInitializer.redisPub.publish('feedRoom', JSON.stringify(message));
 
     res.status(200).json(result);
     return;

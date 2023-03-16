@@ -3,6 +3,7 @@
 //const socket = io.connect('/');
 
 const btn = document.querySelector('#btnEnvia');
+const btnGet = document.querySelector('#btnGetFeeds');
 const txt_mensagem = document.querySelector('#texto_mensagem');
 const txt_area = document.querySelector('#historico_mensagens');
 
@@ -24,8 +25,28 @@ wsocket.addEventListener('close', (event) => {
   console.log('WebSocket connection closed');
 });
 
+btnGet.addEventListener('click', () => {
+  const message = {
+    action: 'join-feedRoom',
+    data: {
+      chatRoom: 'feedRoom',
+      user: '64120d640113e0d532a55451',
+      message: txt_mensagem.value
+    }
+  }
+  wsocket.send(JSON.stringify(message));
+});
+
 btn.addEventListener('click', () => {
-  wsocket.send(txt_mensagem.value);
+  const message = {
+    action: 'join-feedRoom',
+    data: {
+      chatRoom: 'feedRoom',
+      user: '64139190ce15404b81b3ca2d',
+      message: txt_mensagem.value
+    }
+  }
+  wsocket.send(JSON.stringify(message));
 });
 
 // socket.on('msg', (msg) => {

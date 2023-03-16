@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router';
 import { Button } from '../../components/Button';
 import { Color } from '../..//components/common/constants';
 import { Header } from '../../components/Header';
-import { House, X } from '@phosphor-icons/react';
+import { House, X } from 'phosphor-react';
 import { Container } from '../../components/Container';
 import { FeedStyle } from '../Feed/style';
 import { BodyText, H2 } from '../../components/common/typography';
@@ -41,13 +41,15 @@ export const CreateGame = () => {
   });
 
   async function createGame() {
+    navigate(encodeURL(['feed']));
+    gameProperties.playerCharacters = gameProperties.playerCharacters.filter(
+      (character) => character.characterId <= gameProperties.numberOfPlayers,
+    );
     try {
       const { data } = await api.post('/feed-room/new-feed', {
-        title: '',
-        numberOfPlayers: 0,
-        playerCharacters: [{ characterId: 0, characterName: '', player: '' }],
-        content: '',
+        gameProperties,
       });
+
       enqueueSnackbar('Jogo criado com sucesso!', {
         variant: 'success',
         anchorOrigin: {
@@ -81,7 +83,26 @@ export const CreateGame = () => {
             height="50px"
           >
             <BodyText>Jogador {i + 1}</BodyText>
-            <TextInput />
+            <TextInput
+              onBlur={(e) => {
+                if (gameProperties.playerCharacters[i]) {
+                  gameProperties.playerCharacters[i].characterName =
+                    e.target.value;
+                } else {
+                  setGameProperties({
+                    ...gameProperties,
+                    playerCharacters: [
+                      ...gameProperties.playerCharacters,
+                      {
+                        characterId: i + 1,
+                        characterName: e.target.value,
+                        player: null,
+                      },
+                    ],
+                  });
+                }
+              }}
+            />
           </Container>
         </>,
       );
@@ -93,9 +114,7 @@ export const CreateGame = () => {
 
   return (
     <>
-      <Header>
-        
-      </Header>
+      <Header></Header>
       <CreateGameStyle>
         <Container
           backgroundColor={Color.Background.base}

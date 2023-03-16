@@ -17,7 +17,7 @@ export async function createFeed(req: Request, res: Response): Promise<void> {
       createdAt: result.data.newFeed.createdAt,
       owner: result.data.newFeed.owner,
       title: result.data.newFeed.title,
-      content: result.data.newFeed.title,
+      content: result.data.newFeed.content,
       image: result.data.newFeed.image,
       numberOfPlayers: result.data.newFeed.numberOfPlayers,
       numberOfComments: result.data.newFeed.numberOfComments,

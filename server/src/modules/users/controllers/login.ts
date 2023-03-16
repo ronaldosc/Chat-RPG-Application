@@ -25,7 +25,8 @@ export async function login(req: Request, res: Response): Promise<void> {
       });
 
       res.cookie('token', token, { httpOnly: true });
-      res.status(200).json(result);
+      
+      res.status(200).json(token);
       return;
     }
   }

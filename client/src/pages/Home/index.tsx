@@ -1,6 +1,6 @@
 import { useSnackbar } from 'notistack';
 import { Color } from '../../components/common/constants';
-import { House } from '@phosphor-icons/react';
+import { House } from 'phosphor-react';
 import { Button } from '../../components/Button/index';
 import { BodyText, H1 } from '../../components/common/typography';
 import { Header } from '../../components/Header';
@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import { encodeURL } from '../../helpers/URLNavigationReplace';
 import { TextInput } from '../../components/common/inputs';
 import { useState } from 'react';
-import { api } from '../../libs/api';
+import { useUser } from '../../providers/UserProvider';
 
 interface LoginTypes {
   email: string;
@@ -19,36 +19,13 @@ interface LoginTypes {
 
 export const Home = () => {
   const navigate = useNavigate();
-  const { enqueueSnackbar } = useSnackbar();
+
+  const { signIn } = useUser();
 
   const [login, setLogin] = useState<LoginTypes>({
     email: '',
     password: '',
   });
-
-  async function handleLogin() {
-    try {
-      await api.post('/user/login', login);
-      enqueueSnackbar('Login realizado com sucesso!', {
-        variant: 'success',
-        anchorOrigin: {
-          vertical: 'top',
-          horizontal: 'center',
-        },
-      });
-      navigate(encodeURL(['feed']));
-    } catch (error) {
-      enqueueSnackbar('Erro ao realizar login!', {
-        variant: 'error',
-        anchorOrigin: {
-          vertical: 'top',
-          horizontal: 'center',
-        },
-      });
-
-      await console.log(error);
-    }
-  }
 
   return (
     <Container
@@ -87,7 +64,9 @@ export const Home = () => {
         <Button
           label="Entrar"
           color={Color.Green}
-          onClick={() => handleLogin()}
+          onClick={() => {
+            signIn && signIn(login);
+          }}
         />
         <Button
           label="Cadastre-se"

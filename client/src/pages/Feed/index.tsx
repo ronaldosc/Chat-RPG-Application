@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 
 import { Container } from '../../components/Container';
-import { House, Plus, SignOut } from '@phosphor-icons/react';
+import { House, Plus, SignOut } from 'phosphor-react';
 import { Button } from '../../components/Button';
 import { Color } from '../../components/common/constants';
 import { Header } from '../../components/Header';
@@ -31,6 +31,11 @@ export const Feed = () => {
   const navigate = useNavigate();
   const [publications, setPublications] = useState<PublicationTypes[]>([]);
 
+  const tokenCookie = document.cookie
+    .split('; ')
+    .find((row) => row.startsWith('nome_do_cookie='));
+  const token = tokenCookie ? tokenCookie.split('=')[1] : null;
+
   async function getPublications() {
     const { data } = await apiJSON.get<PublicationTypes[]>('/publications');
     setPublications(data);
@@ -38,13 +43,12 @@ export const Feed = () => {
 
   useEffect(() => {
     getPublications();
+    console.log(document.cookie);
   }, []);
 
   return (
     <>
-      <Header>
-        
-      </Header>
+      <Header></Header>
       <FeedStyle>
         <Container height="50px">
           <Button

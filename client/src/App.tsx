@@ -1,4 +1,5 @@
 import { SnackbarProvider } from 'notistack';
+import { AppProvider } from './providers';
 import { Router } from './routes/routes';
 import './styles/global.css';
 
@@ -8,7 +9,9 @@ export const App = () => {
       maxSnack={3}
       anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
     >
-      <Router />
+      <AppProvider>
+        <Router />
+      </AppProvider>
     </SnackbarProvider>
   );
 };

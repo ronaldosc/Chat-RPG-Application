@@ -15,6 +15,7 @@ interface TextInputProps{
   label?: string;
   lightLabel?: boolean;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
 }
 
 interface TextAreaInputProps extends TextAreaProps {
@@ -27,11 +28,11 @@ interface SelectInputProps {
   onChange?: (event: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
-export const TextInput = ({ type, label, placeholder, lightLabel, onChange }: TextInputProps) => {
+export const TextInput = ({ type, label, placeholder, lightLabel, onChange, onBlur }: TextInputProps) => {
   return (
     <TextInputWrapper>
       <Label light={lightLabel}>{label}</Label>
-      <TextField type={type} placeholder={placeholder} onChange={onChange}/>
+      <TextField type={type} placeholder={placeholder} onChange={onChange} onBlur={onBlur}/>
     </TextInputWrapper>
   );
 };

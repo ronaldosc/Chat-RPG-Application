@@ -9,7 +9,7 @@
 #root {
   width: 100vw;
   max-width: 99vw;
-  height: 100vh;
+  min-height: 100vh;
   overflow: auto;
   display: flex;
   top: 0;
@@ -30,6 +30,7 @@ body {
   position: relative;
   background-image: url('../assets/images/background.png');
   background-size: cover;
+  overflow-x: hidden;
   
   background-position: center center;
   background-repeat: no-repeat;

@@ -7,6 +7,7 @@ import { CreateGame } from '../pages/CreateGame';
 import { ReactElement } from 'react';
 import { useUser } from '../providers/UserProvider';
 import { Error404 } from '../pages/Error404';
+import { ChatRoom } from '../pages/ChatRoom';
 
 interface ChildrenTypes {
   children: ReactElement;
@@ -29,7 +30,6 @@ const Public = ({ children }: ChildrenTypes) => {
 };
 
 export const Router = () => {
-
   return (
     <Routes>
       <Route path="*" element={<Error404 />} />
@@ -67,6 +67,14 @@ export const Router = () => {
         element={
           <Private>
             <CreateGame />
+          </Private>
+        }
+      />
+      <Route
+        path="/chat-room/:id"
+        element={
+          <Private>
+            <ChatRoom />
           </Private>
         }
       />

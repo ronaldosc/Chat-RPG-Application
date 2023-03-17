@@ -11,16 +11,7 @@ export async function createChatFeed(req: Request, res: Response): Promise<void>
   const result = await chatFeedRoomServices.create(feedData);
 
   if (!result.error) {
-    const newPost = {
-      _id: result.data.newFeed._id,
-      chatRoomId: result.data.newFeed.chatRoomId,
-      choices: result.data.newFeed.choices,
-      createdAt: result.data.newFeed.createdAt,
-      author: result.data.newFeed.author,
-      content: result.data.newFeed.content,
-      image: result.data.newFeed.image,
-      diectedTo: result.data.newFeed.directedTo,
-    };
+    const newPost = { ...result.data.newFeed } ;
 
     const message = {
       action: 'message',

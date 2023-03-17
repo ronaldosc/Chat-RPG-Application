@@ -6,8 +6,6 @@ import {
   FontSizeDesktop,
 } from '../constants';
 
-import SelectArrowDown from '../../../assets/icons/select-arrow-down';
-
 interface TextFieldProps {
   width?: string;
 }
@@ -47,22 +45,15 @@ export const TextInputWrapper = styled.div`
   flex-direction: column;
 `;
 
-export const SelectWrapper = styled.div`
+export const SelectStyled = styled.select`
+  border: none;
+  outline: none;
   position: relative;
   padding: 4px;
   border: 1px solid ${Color.Black.base};
   border-radius: ${BorderRadius.Medium};
+  height: 30px;
   width: fit-content;
   background: ${Color.White.base};
 `;
 
-export const SelectStyled = styled.select`
-  background: none;
-  border: none;
-  appearance: none;
-  outline: none;
-`;
-
-export const SelectIconStyled = styled(SelectArrowDown)`
-  position: absolute;
-`;

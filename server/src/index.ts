@@ -57,13 +57,13 @@ redisSub.on('message', (channel, message) => {
   if (data.chatRoom==='feedRoom'){
     webSocketInitializer.websocketClients.forEach((ws, userId) => {
     console.log(userId);
-    ws.send(JSON.stringify(data.message));
+    ws.send(message);
     });
   } else {
     const room = webSocketInitializer.roomClients.get(data.chatRoom) || [];
     console.log(room);
     room.forEach((id) => {
-      webSocketInitializer.websocketClients.get(id)?.send(JSON.stringify(data.message));
+      webSocketInitializer.websocketClients.get(id)?.send(message);
     });
   }
 });

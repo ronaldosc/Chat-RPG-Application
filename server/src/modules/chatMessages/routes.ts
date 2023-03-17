@@ -6,5 +6,6 @@ import * as ChatFeedControllers from './controllers';
 const router = Router();
 
 router.post('/new-chatfeed', authenticate, ChatFeedControllers.createChatFeed);
+router.get('/chatfeeds/:chatRoomId', authenticate, ChatFeedControllers.getChatFeedMessagesByChat);
 
 export default router;

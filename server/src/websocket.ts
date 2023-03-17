@@ -64,7 +64,16 @@ class WebSocketInitializer {
             try {
               await connectToMongoDB();
               const documents = await FeedMessages.find().sort({ _id: -1 }).limit(10);
-              ws.send(JSON.stringify(documents));
+
+              const message = {
+                action: 'message',
+                data: {
+                  chatRoom: 'feedRoom',
+                  message: documents,
+                }
+              }
+
+              ws.send(JSON.stringify(message));
 
             } catch (error) {
               let errorStatus: number | null;

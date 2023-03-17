@@ -25,11 +25,19 @@ interface likeTypes {
   author: string;
 }
 
+interface characterProps {
+  characterId: number;
+  characterName: string;
+  player: string | null;
+}
+
 interface PublicationTypes {
+  _id: string;
   title: string;
-  description: string;
-  playersAmount: number;
-  playersLimit: number;
+  content: string;
+  image: string | null;
+  numberOfPlayers: number;
+  playerCharacters: characterProps[];
   likes: likeTypes[];
   comments: commentTypes[];
 }
@@ -40,11 +48,16 @@ interface ResponseTypes {
   };
 }
 
-interface WSResponseTypes {
+interface LikeTypes {
+  feedMessage: string;
+  author: string;
+}
+
+interface WSResponseTypes<T> {
   action: string;
   data: {
     chatRoom: string;
-    message: PublicationTypes;
+    message: T;
   };
 }
 
@@ -66,11 +79,11 @@ export const Feed = () => {
     getPublications();
 
     ws.onmessage = (event) => {
-      const data = JSON.parse(event.data.toString()) as WSResponseTypes;
+      const data = JSON.parse(event.data.toString());
       
       switch (data.action) {
         case 'message':
-          if (data.data.chatRoom == 'feedRoom') {
+          if ((data as WSResponseTypes<PublicationTypes>).data.chatRoom == 'feedRoom') {
             setPublications((oldPublications) => [
               data.data.message,
               ...oldPublications,
@@ -130,7 +143,9 @@ export const Feed = () => {
                 >
                   <H2>{publication.title}</H2>
                   <H2>
-                    {publication.playersAmount}/{publication.playersLimit}
+                    {publication.playerCharacters.filter((element) => {
+                      element.player != null
+                    }).length}/{publication.numberOfPlayers}
                   </H2>
                 </Container>
                 <Container
@@ -142,7 +157,7 @@ export const Feed = () => {
                   padding="8px"
                   overflow="auto"
                 >
-                  <BodyText>{publication.description}</BodyText>
+                  <BodyText>{publication.content}</BodyText>
                 </Container>
                 <Container
                   direction="row"

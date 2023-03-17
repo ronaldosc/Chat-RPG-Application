@@ -10,6 +10,8 @@ import { WebSocketInitializer } from './websocket';
 
 import userRoutes from './modules/users/routes';
 import feedRoutes from './modules/feedMessages/routes';
+import chatRoomRoutes from './modules/chatRooms/routes';
+import chatFeedRoutes from './modules/chatMessages/routes';
 
 const PORT = parseInt(process.env.PORT) || 5000;
 const redisSub = new Redis(redisConfig.socket);
@@ -32,6 +34,8 @@ app.use(express.json());
 
 app.use('/user', userRoutes);
 app.use('/feed-room', feedRoutes);
+app.use('/chat-room', chatRoomRoutes);
+app.use('/feed-chat', chatFeedRoutes);
 
 // Listen for messages on the Redis channel
 redisSub
@@ -45,10 +49,23 @@ redisSub
 
 redisSub.on('message', (channel, message) => {
   // Send the message to all connected clients
-  webSocketInitializer.websocketClients.forEach((ws, userId) => {
+  const{ action, data } = JSON.parse(message);
+  console.log('action ', action);
+  console.log('chatroom ', data.chatRoom);
+  console.log('message ', data.message);
+
+  if (data.chatRoom==='feedRoom'){
+    webSocketInitializer.websocketClients.forEach((ws, userId) => {
     console.log(userId);
-    ws.send(message);
-  });
+    ws.send(JSON.stringify(data.message));
+    });
+  } else {
+    const room = webSocketInitializer.roomClients.get(data.chatRoom) || [];
+    console.log(room);
+    room.forEach((id) => {
+      webSocketInitializer.websocketClients.get(id)?.send(JSON.stringify(data.message));
+    });
+  }
 });
 
 app.listen(PORT, () => {

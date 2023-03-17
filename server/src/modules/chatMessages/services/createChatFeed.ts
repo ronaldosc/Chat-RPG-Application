@@ -1,28 +1,28 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-import { FeedMessages } from '../model';
+import { ChatFeedMessages } from '../model';
 import { connectToMongoDB } from '../../../config/mongodb';
-import { FeedMessagesModel } from '../interface';
+import { ChatFeedMessagesModel } from '../interface';
 import { ErrorWithStatus } from '../../../utils/errorWithStatus';
 
-export async function create(param: FeedMessagesModel) {
+export async function create(param: ChatFeedMessagesModel) {
   try {
     await connectToMongoDB();
 
-    const newFeed = new FeedMessages();
+    const newFeed = new ChatFeedMessages();
 
-    newFeed.owner = param.owner;
-    newFeed.title = param.title;
+    newFeed.chatRoomId = param.chatRoomId;
+    newFeed.author = param.author;
     newFeed.content = param.content;
     newFeed.image = param.image;
-    newFeed.numberOfPlayers = param.numberOfPlayers;
-    newFeed.playerCharacters = param.playerCharacters;
+    newFeed.directedTo = param.directedTo;
+    newFeed.choices = param.choices;
     newFeed.numberOfComments = param.numberOfComments ?? 0;
     newFeed.numberOfLikes = param.numberOfLikes ?? 0;
 
     await newFeed.save();
 
     return {
-      message: 'Feed adicionado com sucesso!',
+      message: 'Chat Feed adicionado com sucesso!',
       data: {
         newFeed,
       },
@@ -36,7 +36,7 @@ export async function create(param: FeedMessagesModel) {
     }
     return {
       error: errorStatus ?? 500,
-      message: errorMessage ?? 'Erro ao adicionar feed',
+      message: errorMessage ?? 'Erro ao adicionar chat feed',
     };
   }
 }

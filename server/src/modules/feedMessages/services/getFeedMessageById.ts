@@ -3,7 +3,7 @@ import { connectToMongoDB } from '../../../config/mongodb';
 import { ErrorWithStatus } from '../../../utils/errorWithStatus';
 import { FeedMessages } from '../model';
 
-export async function getFeedMessage(param: String) {
+export async function getFeedMessage(param: string) {
   try {
     await connectToMongoDB();
 

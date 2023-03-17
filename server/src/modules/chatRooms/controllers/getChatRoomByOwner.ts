@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { getChatRoom, getChatRoomByOwnerId } from '../services';
+import { getChatRoomByOwnerId } from '../services';
 
 export async function getChatRoomByOwner(req: Request, res: Response): Promise<void> {
   const ownerId = req.params.ownerId;
@@ -7,7 +7,6 @@ export async function getChatRoomByOwner(req: Request, res: Response): Promise<v
   const chatRooms = await getChatRoomByOwnerId(ownerId);
 
   if (!chatRooms.error) {
-
     res.status(200).json(chatRooms);
     return;
   }

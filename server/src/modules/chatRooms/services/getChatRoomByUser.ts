@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-import { ObjectId, Types } from 'mongoose';
+import { Types } from 'mongoose';
 import { connectToMongoDB } from '../../../config/mongodb';
 import { ErrorWithStatus } from '../../../utils/errorWithStatus';
 import { ChatRooms } from '../model';
@@ -8,7 +8,9 @@ export async function getChatRoomByUserId(param: Types.ObjectId) {
   try {
     await connectToMongoDB();
 
-    const chatRooms = await ChatRooms.find({ $or: [ { owner: param }, { playerCharacters: { $elemMatch : { player : param } } } ] });
+    const chatRooms = await ChatRooms.find({
+      $or: [{ owner: param }, { playerCharacters: { $elemMatch: { player: param } } }],
+    });
 
     return {
       message: 'chatRoom(s) selecionado(s) com sucesso!',

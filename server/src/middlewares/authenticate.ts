@@ -2,10 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import * as dotenv from 'dotenv';
 dotenv.config();
 import jwt from 'jsonwebtoken';
-
-interface decodeData {
-  userId: string;
-}
+import { decodeData } from '../interfaces';
 
 function authenticate(req: Request, res: Response, next: NextFunction): any {
   const token = req.cookies.token;

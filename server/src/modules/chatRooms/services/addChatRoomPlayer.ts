@@ -2,14 +2,16 @@
 import { connectToMongoDB } from '../../../config/mongodb';
 import { ErrorWithStatus } from '../../../utils/errorWithStatus';
 import { ChatRooms } from '../model';
-import { ICharater } from '../interface';
+import { ICharacter } from '../interface';
 
-export async function addChatRoomPlayerId(param: ICharater) {
+export async function addChatRoomPlayerId(param: ICharacter) {
   try {
-
     await connectToMongoDB();
 
-    const result = await ChatRooms.updateOne({ _id: param.chatRoomId, 'playerCharacters.characterId': param.playerCharacterId}, {$set: {"playerCharacters.$.player": param.playerId }});
+    const result = await ChatRooms.updateOne(
+      { _id: param.chatRoomId, 'playerCharacters.characterId': param.playerCharacterId },
+      { $set: { 'playerCharacters.$.player': param.playerId } },
+    );
     const success = result.modifiedCount;
 
     if (success === 1) {

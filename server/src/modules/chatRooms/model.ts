@@ -1,7 +1,7 @@
-import { Schema, model, now } from 'mongoose';
+import mongoose, { Schema, now } from 'mongoose';
 import { ChatRoomsModel } from './interface';
 
-const ChatRoomsSchema = new Schema<ChatRoomsModel>({
+const ChatRoomsSchema = new mongoose.Schema<ChatRoomsModel>({
   feedMessageOrigin: { type: Schema.Types.ObjectId, required: true, ref: 'FeedMessages' },
   owner: { type: Schema.Types.ObjectId, required: true, ref: 'User' },
   title: { type: String, required: true },
@@ -20,4 +20,4 @@ const ChatRoomsSchema = new Schema<ChatRoomsModel>({
   deletedAt: { type: Date },
 });
 
-export const ChatRooms = model('ChatRooms', ChatRoomsSchema);
+export const ChatRooms = mongoose.model('ChatRooms', ChatRoomsSchema);

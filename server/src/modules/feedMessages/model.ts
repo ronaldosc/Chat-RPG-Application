@@ -1,7 +1,7 @@
-import { Schema, model, now } from 'mongoose';
+import mongoose, { Schema, now } from 'mongoose';
 import { FeedMessagesModel } from './interface';
 
-const FeedMessagesSchema = new Schema<FeedMessagesModel>({
+const FeedMessagesSchema = new mongoose.Schema<FeedMessagesModel>({
   owner: { type: Schema.Types.ObjectId, required: true, ref: 'User' },
   title: { type: String, required: true },
   content: { type: String, required: true },
@@ -21,4 +21,4 @@ const FeedMessagesSchema = new Schema<FeedMessagesModel>({
   deletedAt: { type: Date },
 });
 
-export const FeedMessages = model('FeedMessages', FeedMessagesSchema);
+export const FeedMessages = mongoose.model('FeedMessages', FeedMessagesSchema);

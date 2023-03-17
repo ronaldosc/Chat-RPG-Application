@@ -49,15 +49,15 @@ redisSub
 
 redisSub.on('message', (channel, message) => {
   // Send the message to all connected clients
-  const{ action, data } = JSON.parse(message);
+  const { action, data } = JSON.parse(message);
   console.log('action ', action);
   console.log('chatroom ', data.chatRoom);
   console.log('message ', data.message);
 
-  if (data.chatRoom==='feedRoom'){
+  if (data.chatRoom === 'feedRoom') {
     webSocketInitializer.websocketClients.forEach((ws, userId) => {
-    console.log(userId);
-    ws.send(message);
+      console.log(userId);
+      ws.send(message);
     });
   } else {
     const room = webSocketInitializer.roomClients.get(data.chatRoom) || [];

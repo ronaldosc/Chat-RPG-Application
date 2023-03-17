@@ -27,8 +27,8 @@ export async function createChatFeed(req: Request, res: Response): Promise<void>
       data: {
         chatRoom: result.data.newFeed.chatRoomId,
         message: newPost,
-      }
-    }
+      },
+    };
 
     await webSocketInitializer.redisPub.publish('feedRoom', JSON.stringify(message));
 

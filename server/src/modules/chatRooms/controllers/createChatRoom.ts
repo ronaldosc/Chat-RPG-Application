@@ -9,12 +9,12 @@ export async function createChatRoom(req: Request, res: Response): Promise<void>
 
   const feedOrigin = await getFeedMessage(messageId);
 
-  const owner = (req as AuthenticatedUserDataRequest).userId
+  const owner = (req as AuthenticatedUserDataRequest).userId;
 
   if (feedOrigin.data.feedMessage[0].owner != owner) {
     res.status(500).json({ message: 'usuário não é dono do feed de origem' });
     return;
-  };
+  }
 
   const newChatRoom = {
     feedMessageOrigin: feedOrigin.data.feedMessage[0]._id,
@@ -26,22 +26,23 @@ export async function createChatRoom(req: Request, res: Response): Promise<void>
     numberOfPlayers: feedOrigin.data.feedMessage[0].numberOfPlayers,
     waitingForResponse: false,
     createdAt: feedOrigin.data.feedMessage[0].createdAt,
-  }
+  };
 
   const result = await ChatRoomServices.create(newChatRoom);
 
   if (!result.error) {
-
-  // join-chatroom
+    // join-chatroom
     const user = result.data.newChatRoom.owner.toString();
     const roomId = result.data.newChatRoom._id.toString();
     const clients = webSocketInitializer.roomClients.get(roomId) || [];
     const clientws = webSocketInitializer.userClients.get(user);
     clients.push(clientws);
 
-    for ( let i=1; i<result.data.newChatRoom.playerCharacters.length; i++ ){
-      if (result.data.newChatRoom.playerCharacters[i].player){
-        const clientws = webSocketInitializer.userClients.get(result.data.newChatRoom.playerCharacters[i].player.toString());
+    for (let i = 1; i < result.data.newChatRoom.playerCharacters.length; i++) {
+      if (result.data.newChatRoom.playerCharacters[i].player) {
+        const clientws = webSocketInitializer.userClients.get(
+          result.data.newChatRoom.playerCharacters[i].player.toString(),
+        );
         clients.push(clientws);
       }
     }

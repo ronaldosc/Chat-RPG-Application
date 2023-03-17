@@ -3,7 +3,7 @@ import { connectToMongoDB } from '../../../config/mongodb';
 import { ErrorWithStatus } from '../../../utils/errorWithStatus';
 import { ChatFeedMessages } from '../model';
 
-export async function getChatFeedMessage(param: String) {
+export async function getChatFeedMessage(param: string) {
   try {
     await connectToMongoDB();
 

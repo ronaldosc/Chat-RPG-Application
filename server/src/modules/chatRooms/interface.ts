@@ -15,8 +15,8 @@ export interface ChatRoomsModel {
   deletedAt?: Date;
 }
 
-export interface ICharater {
+export interface ICharacter {
   chatRoomId: Types.ObjectId;
-  playerCharacterId: Number;
+  playerCharacterId: number;
   playerId: Types.ObjectId;
 }

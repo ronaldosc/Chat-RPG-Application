@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
 dotenv.config();
-import mongoose from 'mongoose';
+import mongoose, { now } from 'mongoose';
 import crypto from 'crypto';
 import { IUser } from './interface';
 
@@ -13,7 +13,7 @@ const UserSchema = new mongoose.Schema<IUser>({
     lastName: { type: String },
     profilePhoto: { type: String },
   },
-  createdAt: { type: Date, default: Date.now },
+  createdAt: { type: Date, default: now },
   updatedAt: { type: Date },
   deletedAt: { type: Date },
 });

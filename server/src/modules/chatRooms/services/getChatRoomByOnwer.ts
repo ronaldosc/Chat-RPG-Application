@@ -3,7 +3,7 @@ import { connectToMongoDB } from '../../../config/mongodb';
 import { ErrorWithStatus } from '../../../utils/errorWithStatus';
 import { ChatRooms } from '../model';
 
-export async function getChatRoomByOwnerId(param: String) {
+export async function getChatRoomByOwnerId(param: string) {
   try {
     await connectToMongoDB();
 

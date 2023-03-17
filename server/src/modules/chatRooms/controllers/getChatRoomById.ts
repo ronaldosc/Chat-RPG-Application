@@ -8,16 +8,16 @@ export async function getChatRoomById(req: Request, res: Response): Promise<void
 
   if (!chatRoom.error) {
     let result = {};
-    if ( chatRoom.data.chatRoom.length === 1 ){
+    if (chatRoom.data.chatRoom.length === 1) {
       result = {
         message: 'chatRoom selecionado com sucesso!',
-        data: { ... chatRoom.data.chatRoom[0] },
+        data: { ...chatRoom.data.chatRoom[0] },
       };
     } else {
       result = {
         message: 'chatRoom selecionado com sucesso!',
         data: {},
-      }
+      };
     }
 
     res.status(200).json(result);

@@ -5,6 +5,7 @@ import * as feedControllers from './controllers';
 
 const router = Router();
 
+router.get('/', authenticate, feedControllers.getFeeds);
 router.post('/new-feed', authenticate, feedControllers.createFeed);
 
 export default router;

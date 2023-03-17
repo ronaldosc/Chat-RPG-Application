@@ -30,7 +30,7 @@ btnGet.addEventListener('click', () => {
     action: 'join-feedRoom',
     data: {
       chatRoom: 'feedRoom',
-      user: '64120d640113e0d532a55451',
+      token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDE0YzhiMTQ2NjdhMTQ0OGFkNjZkZGUiLCJpYXQiOjE2NzkwODM3MTMsImV4cCI6MTY3OTEyNjkxM30.vpL0ROzI_xeRw74wtiJFM7m_GRguykqKmXFlhtrA3Qk',
       message: txt_mensagem.value
     }
   }
@@ -42,7 +42,7 @@ btn.addEventListener('click', () => {
     action: 'join-feedRoom',
     data: {
       chatRoom: 'feedRoom',
-      user: '64139190ce15404b81b3ca2d',
+      token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDE0YzhiMTQ2NjdhMTQ0OGFkNjZkZGUiLCJpYXQiOjE2NzkwODM3MTMsImV4cCI6MTY3OTEyNjkxM30.vpL0ROzI_xeRw74wtiJFM7m_GRguykqKmXFlhtrA3Qk',
       message: txt_mensagem.value
     }
   }

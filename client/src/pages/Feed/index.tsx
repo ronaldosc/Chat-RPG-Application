@@ -43,6 +43,7 @@ interface ResponseTypes {
 interface WSResponseTypes {
   action: string;
   data: {
+    chatRoom: string;
     message: PublicationTypes;
   };
 }
@@ -66,11 +67,22 @@ export const Feed = () => {
 
     ws.onmessage = (event) => {
       const data = JSON.parse(event.data.toString()) as WSResponseTypes;
-      setPublications((oldPublications) => [
-        data.data.message,
-        ...oldPublications,
-      ]);
-      console.log(data);
+      
+      switch (data.action) {
+        case 'message':
+          if (data.data.chatRoom == 'feedRoom') {
+            setPublications((oldPublications) => [
+              data.data.message,
+              ...oldPublications,
+            ]);
+            console.log(data);
+          }
+          break;
+        case 'like-feed':
+          break;
+        case 'dislike-feed':
+          break;
+      }
     };
 
     return () => {

@@ -1,5 +1,6 @@
+import { BodyText, Label } from '../../common/typography';
 import { MessageComponentWrapper } from './message-component.styled';
-import { BodyText, Label } from '../../common';
+
 
 interface MessageComponentProps {
   body: string;

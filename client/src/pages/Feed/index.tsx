@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
-
 import { Container } from '../../components/Container';
-import { House, Plus, SignOut } from 'phosphor-react';
+import { Plus } from 'phosphor-react';
 import { Button } from '../../components/Button';
 import { Color } from '../../components/common/constants';
 import { Header } from '../../components/Header';
@@ -18,32 +17,65 @@ import { api, apiJSON } from '../../libs/api';
 
 import { encodeURL } from '../../helpers/URLNavigationReplace';
 
+interface commentTypes {
+  author: string;
+  comment: string;
+}
+interface likeTypes {
+  author: string;
+}
+
 interface PublicationTypes {
   title: string;
   description: string;
   playersAmount: number;
   playersLimit: number;
-  likes: number;
-  comments: number;
+  likes: likeTypes[];
+  comments: commentTypes[];
+}
+interface ResponseTypes {
+  message: string;
+  data: {
+    feeds: PublicationTypes[];
+  };
+}
+
+interface WSResponseTypes {
+  action: string;
+  data: {
+    message: PublicationTypes;
+  };
 }
 
 export const Feed = () => {
   const navigate = useNavigate();
   const [publications, setPublications] = useState<PublicationTypes[]>([]);
 
-  const tokenCookie = document.cookie
-    .split('; ')
-    .find((row) => row.startsWith('nome_do_cookie='));
-  const token = tokenCookie ? tokenCookie.split('=')[1] : null;
-
   async function getPublications() {
-    const { data } = await apiJSON.get<PublicationTypes[]>('/publications');
-    setPublications(data);
+    const { data } = await api.get<ResponseTypes>('/feed-room');
+    console.log(data);
+
+    setPublications(data.data.feeds);
   }
 
   useEffect(() => {
+    const host = window.location.hostname;
+    const ws = new WebSocket(`ws://${host}:5001`);
+
     getPublications();
-    console.log(document.cookie);
+
+    ws.onmessage = (event) => {
+      const data = JSON.parse(event.data.toString()) as WSResponseTypes;
+      setPublications((oldPublications) => [
+        data.data.message,
+        ...oldPublications,
+      ]);
+      console.log(data);
+    };
+
+    return () => {
+      ws.close();
+    };
   }, []);
 
   return (
@@ -62,7 +94,7 @@ export const Feed = () => {
 
         <Container
           height=""
-          justify="start"
+          justify="end"
           padding="0 30px 30px 30px"
           gap="12px"
         >
@@ -74,6 +106,7 @@ export const Feed = () => {
                 justify={'center'}
                 padding={'10px 16px'}
                 gap={'12px'}
+                onClick={() => navigate(encodeURL(['publication']))}
               >
                 <Container
                   backgroundColor="transparent"

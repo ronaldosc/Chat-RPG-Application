@@ -18,7 +18,9 @@ export const BodyText = styled.p<TypographyProps>`
   font-family: ${FontFamily.Primary};
   font-weight: ${({medium}) => medium ? FontWeight.Medium : FontWeight.Regular};
   font-size: ${FontSizeMobile.Medium};
-
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  width: 100%;
   @media all and (min-width: ${Breakpoints.Mobile}) {
     font-size: ${FontSizeDesktop.Medium};
   }

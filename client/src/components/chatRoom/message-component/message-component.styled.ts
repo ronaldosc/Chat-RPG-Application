@@ -1,5 +1,5 @@
-import { Color, BorderRadius } from '../../common';
 import styled from 'styled-components';
+import { BorderRadius, Color } from '../../common/constants';
 
 export const MessageComponentWrapper = styled.div`
   display: flex;

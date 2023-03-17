@@ -26,6 +26,7 @@ interface CreateGameProps {
   title: string;
   numberOfPlayers: number;
   playerCharacters: characterProps[];
+  image: string | null;
   content: string;
 }
 
@@ -37,6 +38,7 @@ export const CreateGame = () => {
     title: '',
     numberOfPlayers: 0,
     playerCharacters: [],
+    image: null,
     content: '',
   });
 
@@ -46,9 +48,7 @@ export const CreateGame = () => {
       (character) => character.characterId <= gameProperties.numberOfPlayers,
     );
     try {
-      const { data } = await api.post('/feed-room/new-feed', {
-        gameProperties,
-      });
+      const { data } = await api.post('/feed-room/new-feed', gameProperties);
 
       enqueueSnackbar('Jogo criado com sucesso!', {
         variant: 'success',

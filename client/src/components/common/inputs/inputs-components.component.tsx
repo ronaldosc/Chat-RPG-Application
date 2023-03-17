@@ -5,11 +5,9 @@ import {
   TextArea,
   TextAreaProps,
   SelectStyled,
-  SelectIconStyled,
-  SelectWrapper,
 } from './inputs-components.styled';
 
-interface TextInputProps{
+interface TextInputProps {
   type?: 'text' | 'password' | 'email';
   placeholder?: string;
   label?: string;
@@ -28,16 +26,33 @@ interface SelectInputProps {
   onChange?: (event: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
-export const TextInput = ({ type, label, placeholder, lightLabel, onChange, onBlur }: TextInputProps) => {
+export const TextInput = ({
+  type,
+  label,
+  placeholder,
+  lightLabel,
+  onChange,
+  onBlur,
+}: TextInputProps) => {
   return (
     <TextInputWrapper>
       <Label light={lightLabel}>{label}</Label>
-      <TextField type={type} placeholder={placeholder} onChange={onChange} onBlur={onBlur}/>
+      <TextField
+        type={type}
+        placeholder={placeholder}
+        onChange={onChange}
+        onBlur={onBlur}
+      />
     </TextInputWrapper>
   );
 };
 
-export const TextAreaInput = ({ label, height, width, lightLabel }: TextAreaInputProps) => {
+export const TextAreaInput = ({
+  label,
+  height,
+  width,
+  lightLabel,
+}: TextAreaInputProps) => {
   return (
     <TextInputWrapper>
       <Label light={lightLabel}>{label}</Label>
@@ -47,19 +62,18 @@ export const TextAreaInput = ({ label, height, width, lightLabel }: TextAreaInpu
 };
 
 export const SelectInput = ({ options, onChange }: SelectInputProps) => {
-
   return (
-    <SelectWrapper>
-      <SelectStyled onChange={onChange}>
-        {options.map((element, index) => {
-          return (
-            <option key={index} value={element}>
-              {element}
-            </option>
-          );
-        })}
-      </SelectStyled>
-      <SelectIconStyled />
-    </SelectWrapper>
+    <SelectStyled onChange={onChange}>
+      <option disabled selected value={'null'}>
+        Selecionar
+      </option>
+      {options.map((element, index) => {
+        return (
+          <option key={index} value={element}>
+            {element}
+          </option>
+        );
+      })}
+    </SelectStyled>
   );
 };

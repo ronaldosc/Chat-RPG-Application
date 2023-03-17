@@ -8,7 +8,7 @@ import { Container } from '../../components/Container';
 import { Logo } from '../../assets/icons/logo';
 import { useNavigate } from 'react-router-dom';
 import { encodeURL } from '../../helpers/URLNavigationReplace';
-import { TextInput } from '../../components/common/inputs';
+import { TextInput, SelectInput } from '../../components/common/inputs';
 import { useState } from 'react';
 import { useUser } from '../../providers/UserProvider';
 

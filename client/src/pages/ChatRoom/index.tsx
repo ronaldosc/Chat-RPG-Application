@@ -1,4 +1,3 @@
-import { H1, Color } from '../../components/common';
 import React from 'react';
 import { Container } from '../../components/Container';
 import {
@@ -8,6 +7,8 @@ import {
 } from '../../components/chatRoom';
 import { Button } from '../../components/Button';
 import { Header } from '../../components/Header';
+import { Color } from '../../components/common/constants';
+import { H1 } from '../../components/common/typography';
 
 interface Message {
   author: string;
@@ -33,7 +34,7 @@ export const ChatRoom = () => {
 
   return (
     <>
-    <Header />
+      <Header />
       <Container backgroundColor={Color.Background.base}>
         <H1>{FAKE_DATA.roomTitle}</H1>
         <ChatLounge>

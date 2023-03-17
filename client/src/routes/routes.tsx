@@ -8,6 +8,7 @@ import { ReactElement } from 'react';
 import { useUser } from '../providers/UserProvider';
 import { Error404 } from '../pages/Error404';
 import { ChatRoom } from '../pages/ChatRoom';
+import { Publication } from '../pages/Publication';
 
 interface ChildrenTypes {
   children: ReactElement;
@@ -75,6 +76,14 @@ export const Router = () => {
         element={
           <Private>
             <ChatRoom />
+          </Private>
+        }
+      />
+      <Route
+        path="/publication"
+        element={
+          <Private>
+            <Publication />
           </Private>
         }
       />

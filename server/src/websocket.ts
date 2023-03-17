@@ -17,7 +17,6 @@ class WebSocketInitializer {
   public userClients = new Map<string, string>(); // relaciona userId com clientId(ws)
   public roomClients = new Map<string, string[]>(); // relaciona roomId com clientId(ws)
   public redisPub = new Redis(redisConfig.socket);
-  public redisClient = new Redis();
 
   constructor() {
     this.wss = new websocket.Server({

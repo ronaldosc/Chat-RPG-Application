@@ -1,17 +1,24 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-import { FeedMessages } from '../model';
+import { FeedMessageLikes } from '../model';
 import { connectToMongoDB } from '../../../config/mongodb';
+import { FeedMessageLikesModel } from '../interface';
 import { ErrorWithStatus } from '../../../utils/errorWithStatus';
 
-export async function getFeeds() {
+export async function like(param: FeedMessageLikesModel) {
   try {
     await connectToMongoDB();
-    const documents = await FeedMessages.find().sort({ _id: -1 });
+
+    const newLike = new FeedMessageLikes();
+
+    newLike.feedMessage = param.feedMessage;
+    newLike.author = param.author;
+
+    await newLike.save();
 
     return {
-      message: 'Sucesso! Retornado todos os feeds ordenados cronologicamente',
+      message: 'Like realizado com sucesso!',
       data: {
-        feeds: documents,
+        newLike,
       },
     };
   } catch (error) {

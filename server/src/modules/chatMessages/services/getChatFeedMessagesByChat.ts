@@ -3,14 +3,14 @@ import { connectToMongoDB } from '../../../config/mongodb';
 import { ErrorWithStatus } from '../../../utils/errorWithStatus';
 import { ChatFeedMessages } from '../model';
 
-export async function getChatFeedMessage(param: String) {
+export async function getChatFeedMessagesByChatId(param: String) {
   try {
     await connectToMongoDB();
 
-    const chatMessage = await ChatFeedMessages.find({ _id: param });
+    const chatMessage = await ChatFeedMessages.find({ chatRoomId: param });
 
     return {
-      message: 'Chat Feed selecionado com sucesso!',
+      message: 'Chat Feed(s) selecionado(s) com sucesso!',
       data: {
         chatMessage,
       },
@@ -24,7 +24,7 @@ export async function getChatFeedMessage(param: String) {
     }
     return {
       error: errorStatus ?? 500,
-      message: errorMessage ?? 'Erro ao selecionar Chat Feed Message',
+      message: errorMessage ?? 'Erro ao selecionar Chat Feed Messages',
     };
   }
 }

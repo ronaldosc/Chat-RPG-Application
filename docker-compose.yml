@@ -51,7 +51,7 @@ services:
       VITE_REACT_APP_API_URL: api-rpg
       VITE_PROJECT_NAME: Chat RPG
     ports:
-      - 8080:80
+      - 80:80
     depends_on:
       - api
     networks:
@@ -66,3 +66,4 @@ networks:
   rpg-network:
     driver: bridge
     external: false
+...

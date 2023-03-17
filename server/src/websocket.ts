@@ -35,7 +35,7 @@ class WebSocketInitializer {
         const { action, data } = JSON.parse(message);
         console.log('action ', action);
         console.log('chatroom ', data.chatRoom);
-        console.log('user', data.user);
+        console.log('token', data.token);
         console.log('message ', data.message);
 
         switch (action) {

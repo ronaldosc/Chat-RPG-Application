@@ -7,7 +7,21 @@ orbs:
   # The Node.js orb contains a set of prepackaged CircleCI configuration you can utilize
   # Orbs reduce the amount of configuration required for common tasks.
   # See the orb documentation here: https://circleci.com/developer/orbs/orb/circleci/node
-  node: circleci/node@4.7
+  node: ircleci/node@5.1.0
+
+workflows:
+  simple-tests:
+    jobs:
+      - frontend-tests:
+          filters:
+            branches:
+              only: main
+          when: << pipeline.parameters.trigger_client_tests == 'true' >>
+      - backend-tests:
+          filters:
+            branches:
+              only: main
+          when: << pipeline.parameters.trigger_server_tests == 'true' >>
 
 jobs:
   frontend-tests:
@@ -33,17 +47,3 @@ jobs:
           working_directory: server
           name: Run tests on backend
           command: npm test
-workflows:
-  sample:
-    jobs:
-      - frontend-tests:
-          filters:
-            branches:
-              only:
-                - client/*
-      - backend-tests:
-          filters:
-            branches:
-              only:
-                - server/*
-...

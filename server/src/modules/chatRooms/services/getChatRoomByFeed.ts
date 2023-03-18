@@ -1,17 +1,18 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-import { FeedMessages } from '../model';
 import { connectToMongoDB } from '../../../config/mongodb';
 import { ErrorWithStatus } from '../../../utils/errorWithStatus';
+import { ChatRooms } from '../model';
 
-export async function getFeeds() {
+export async function getChatRoomByFeedId(param: string) {
   try {
     await connectToMongoDB();
-    const documents = await FeedMessages.find().sort({ _id: -1 });
+
+    const chatRoom = await ChatRooms.findOne({ feedMessageOrigin: param }).exec();
 
     return {
-      message: 'Sucesso! Retornado todos os feeds ordenados cronologicamente',
+      message: 'chatRoom selecionado com sucesso!',
       data: {
-        feeds: documents,
+        chatRoom,
       },
     };
   } catch (error) {
@@ -23,7 +24,7 @@ export async function getFeeds() {
     }
     return {
       error: errorStatus ?? 500,
-      message: errorMessage ?? 'Erro ao adicionar feed',
+      message: errorMessage ?? 'Erro ao selecionar chatRoom',
     };
   }
 }

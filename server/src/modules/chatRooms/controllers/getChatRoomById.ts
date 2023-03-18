@@ -11,7 +11,7 @@ export async function getChatRoomById(req: Request, res: Response): Promise<void
     if (chatRoom.data.chatRoom.length === 1) {
       result = {
         message: 'chatRoom selecionado com sucesso!',
-        data: { ...chatRoom.data.chatRoom[0] },
+        data: { chatRoom: chatRoom.data.chatRoom[0] },
       };
     } else {
       result = {

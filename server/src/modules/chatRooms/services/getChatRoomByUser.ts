@@ -13,7 +13,7 @@ export async function getChatRoomByUserId(param: Types.ObjectId) {
     });
 
     return {
-      message: 'chatRoom(s) selecionado(s) com sucesso!',
+      message: 'Sala(s) de chat selecionada(s) com sucesso!',
       data: {
         chatRooms,
       },
@@ -27,7 +27,7 @@ export async function getChatRoomByUserId(param: Types.ObjectId) {
     }
     return {
       error: errorStatus ?? 500,
-      message: errorMessage ?? 'Erro ao selecionar chatRoom(s)',
+      message: errorMessage ?? 'Erro ao selecionar salas(s) de chat',
     };
   }
 }

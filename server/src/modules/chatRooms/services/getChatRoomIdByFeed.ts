@@ -3,16 +3,17 @@ import { connectToMongoDB } from '../../../config/mongodb';
 import { ErrorWithStatus } from '../../../utils/errorWithStatus';
 import { ChatRooms } from '../model';
 
-export async function getChatRoom(param: string) {
+export async function getChatRoomIdByFeedId(param: string) {
   try {
     await connectToMongoDB();
 
-    const chatRoom = await ChatRooms.find({ _id: param });
+    const chat = await ChatRooms.find({ feedMessageOrigin: param },
+                                      { _id: 1, title: 1, owner: 1 });
 
     return {
-      message: 'Sala do chat selecionada com sucesso!',
+      message: 'Sala do chat selecionado com sucesso!',
       data: {
-        chatRoom,
+        chat,
       },
     };
   } catch (error) {

@@ -10,7 +10,7 @@ export async function getChatRoomByFeedId(param: string) {
     const chatRoom = await ChatRooms.findOne({ feedMessageOrigin: param }).exec();
 
     return {
-      message: 'chatRoom selecionado com sucesso!',
+      message: 'Sala do chat selecionada com sucesso!',
       data: {
         chatRoom,
       },
@@ -24,7 +24,7 @@ export async function getChatRoomByFeedId(param: string) {
     }
     return {
       error: errorStatus ?? 500,
-      message: errorMessage ?? 'Erro ao selecionar chatRoom',
+      message: errorMessage ?? 'Erro ao selecionar sala do chat',
     };
   }
 }

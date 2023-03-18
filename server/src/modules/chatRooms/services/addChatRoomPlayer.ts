@@ -18,7 +18,7 @@ export async function addChatRoomPlayerId(param: ICharacter) {
       const chatRoom = await ChatRooms.find({ _id: param.chatRoomId });
 
       return {
-        message: 'player alterado com sucesso!',
+        message: 'Jogador alterado com sucesso!',
         data: {
           chatRoom,
         },
@@ -26,7 +26,7 @@ export async function addChatRoomPlayerId(param: ICharacter) {
     } else {
       return {
         error: 500,
-        message: 'player NÃO foi alterado!',
+        message: 'Jogador NÃO foi alterado!',
         data: {},
       };
     }
@@ -39,7 +39,7 @@ export async function addChatRoomPlayerId(param: ICharacter) {
     }
     return {
       error: errorStatus ?? 500,
-      message: errorMessage ?? 'Erro ao alterar player',
+      message: errorMessage ?? 'Erro ao alterar jogador',
     };
   }
 }

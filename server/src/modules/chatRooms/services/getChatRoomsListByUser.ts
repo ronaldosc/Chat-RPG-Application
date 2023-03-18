@@ -13,7 +13,7 @@ export async function getChatRoomsListByUserId(param: string) {
     );
 
     return {
-      message: 'Lista de chatRooms selecionada com sucesso!',
+      message: 'Lista de Salas de Chat selecionada com sucesso!',
       data: {
         chatRooms,
       },
@@ -27,7 +27,7 @@ export async function getChatRoomsListByUserId(param: string) {
     }
     return {
       error: errorStatus ?? 500,
-      message: errorMessage ?? 'Erro ao selecionar Lista de chatRoom(s)',
+      message: errorMessage ?? 'Erro ao selecionar Lista de Salas de Chat(s)',
     };
   }
 }

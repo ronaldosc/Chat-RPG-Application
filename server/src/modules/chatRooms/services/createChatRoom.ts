@@ -21,7 +21,7 @@ export async function create(param: ChatRoomsModel) {
     await newChatRoom.save();
 
     return {
-      message: 'Chat Room adicionado com sucesso!',
+      message: 'Sala de Chat adicionada com sucesso!',
       data: {
         newChatRoom,
       },
@@ -35,7 +35,7 @@ export async function create(param: ChatRoomsModel) {
     }
     return {
       error: errorStatus ?? 500,
-      message: errorMessage ?? 'Erro ao adicionar chat Room',
+      message: errorMessage ?? 'Erro ao adicionar sala de chat',
     };
   }
 }

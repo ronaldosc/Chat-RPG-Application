@@ -1,6 +1,6 @@
 import { ContainerStyle } from './container.styled';
 
-interface ContainerProps {
+export interface ContainerProps {
   width?: string;
   height?: string;
   padding?: string;
@@ -8,14 +8,13 @@ interface ContainerProps {
   align?: string;
   direction?: string;
   backgroundColor?: string;
-  // backgroundGradient?: string;
   margin?: string;
   children?: JSX.Element | JSX.Element[];
   gap?: string;
   border?: string;
   overflow?: string;
   flexWrap?: string;
-  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  onClick?: (event: React.MouseEvent<HTMLElement>) => void;
 }
 
 export const Container = ({
@@ -32,6 +31,7 @@ export const Container = ({
   overflow,
   flexWrap,
   children,
+  onClick,
 }: ContainerProps) => {
   return (
     <ContainerStyle
@@ -47,6 +47,7 @@ export const Container = ({
       gap={gap}
       border={border}
       overflow={overflow}
+      onClick={onClick}
     >
       {children}
     </ContainerStyle>

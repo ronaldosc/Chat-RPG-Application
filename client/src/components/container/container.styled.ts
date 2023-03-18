@@ -1,19 +1,5 @@
 import styled from 'styled-components';
-
-interface ContainerProps {
-  width?: string;
-  height?: string;
-  padding?: string;
-  justify?: string;
-  align?: string;
-  direction?: string;
-  backgroundColor?: string;
-  margin?: string;
-  gap?: string;
-  border?: string;
-  overflow?: string;
-  flexWrap?: string;
-}
+import { ContainerProps } from './container.component';
 
 export const ContainerStyle = styled.div<ContainerProps>`
   display: flex;

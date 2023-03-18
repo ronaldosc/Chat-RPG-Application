@@ -9,20 +9,6 @@ orbs:
   # See the orb documentation here: https://circleci.com/developer/orbs/orb/circleci/node
   node: circleci/node@5.1.0
 
-workflows:
-  simple-tests:
-    jobs:
-      - frontend-tests:
-          filters:
-            branches:
-              only: main
-          when: << pipeline.parameters.trigger_client_tests == 'true' >>
-      - backend-tests:
-          filters:
-            branches:
-              only: main
-          when: << pipeline.parameters.trigger_server_tests == 'true' >>
-
 jobs:
   frontend-tests:
     docker:
@@ -47,3 +33,21 @@ jobs:
           working_directory: server
           name: Run tests on backend
           command: npm test
+
+workflows:
+  simple-integration-tests:
+    jobs:
+      - frontend-tests:
+          filters:
+            branches:
+              only: master
+          paths:
+            only:
+              - client/**
+      - backend-tests:
+          filters:
+            branches:
+              only: master
+          paths:
+            only:
+              - server/**

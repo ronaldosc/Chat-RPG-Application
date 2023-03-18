@@ -18,6 +18,7 @@ interface likeTypes {
 }
 
 interface PublicationTypes {
+  owner: string;
   title: string;
   description: string;
   playersAmount: number;
@@ -29,6 +30,7 @@ interface PublicationTypes {
 export const Publication = () => {
   const navigate = useNavigate();
   const [publication, setPublication] = useState<PublicationTypes>({
+    owner: '',
     title: 'titulo',
     description: 'INSERINDO SUA DESCRIÇÃO...',
     playersAmount: 0,
@@ -120,7 +122,7 @@ export const Publication = () => {
                   </MiniLabel>
                 </span>
 
-                <Button label="Entrar" color={Color.Gold} />
+                <Button label="Entrar" color={Color.Gold} onClick={() => navigate(`/chat-room/${setPublication}`) } />
               </Container>
 
               <Container

@@ -34,14 +34,14 @@ export const ChatRoom = () => {
   const [messages, setMessages] = React.useState<Message[]>([]);
 
   async function getMessages() {
-    const { data } = await api.get(`/feed-chat/chatfeeds/${id}`);
+    const { data } = await api.get(`/chatroom-id/${id}`);
     setMessages(data.data.messages);
   }
 
-  React.useEffect(() => {
-    const host = window.location.hostname;
-    const ws = new WebSocket(`ws://${host}:5001`);
+  const host = window.location.hostname;
+  const ws = new WebSocket(`ws://${host}:5001`);
 
+  React.useEffect(() => {
     getMessages();
 
     ws.onmessage = (e) => {
@@ -57,8 +57,8 @@ export const ChatRoom = () => {
   function sendMessage() {
     if (!messageBody) return null;
     const message = { author: FAKE_DATA.userName, body: messageBody };
+    ws.send(JSON.stringify(message))
 
-    setMessages([...messages, message]);
     setMessageBody('');
     return message;
   }

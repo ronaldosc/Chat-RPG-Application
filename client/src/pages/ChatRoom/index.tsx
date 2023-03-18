@@ -57,7 +57,7 @@ export const ChatRoom = () => {
   function sendMessage() {
     if (!messageBody) return null;
     const message = { author: FAKE_DATA.userName, body: messageBody };
-    ws.send(JSON.stringify(message))
+    ws.send(JSON.stringify(message));
 
     setMessageBody('');
     return message;

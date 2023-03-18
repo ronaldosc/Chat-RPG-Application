@@ -1,23 +1,19 @@
+import { X } from 'phosphor-react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
-import WebSocket from 'ws';
-import { Container } from '../../components/Container';
-import { Plus, X } from 'phosphor-react';
 import { Button } from '../../components/Button';
-import { Color } from '../../components/common/constants';
 import { Header } from '../../components/Header';
-import { PublicationStyle } from './style';
+import { Color } from '../../components/common/constants';
 import {
-  BodyText,
-  H1,
-  H2,
-  MiniLabel,
+    BodyText,
+    H2,
+    MiniLabel
 } from '../../components/common/typography';
+import { Container } from '../../components/container';
+import { PublicationStyle } from './style';
 
-import { api, apiJSON } from '../../libs/api';
+import { apiJSON } from '../../libs/api';
 
-import { encodeURL } from '../../helpers/URLNavigationReplace';
-import { direction } from 'html2canvas/dist/types/css/property-descriptors/direction';
 
 interface commentTypes {
   author: string;

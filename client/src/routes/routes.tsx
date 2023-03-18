@@ -1,14 +1,16 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 
-import { Register } from '../pages/Register';
-import { Home } from '../pages/Home';
-import { Feed } from '../pages/Feed';
-import { CreateGame } from '../pages/CreateGame';
+import {
+  ChatRoom,
+  CreateGame,
+  Error404,
+  Feed,
+  Home,
+  Publication,
+  Register,
+} from '@pages';
 import { ReactElement } from 'react';
 import { useUser } from '../providers/UserProvider';
-import { Error404 } from '../pages/Error404';
-import { ChatRoom } from '../pages/ChatRoom';
-import { Publication } from '../pages/Publication';
 
 interface ChildrenTypes {
   children: ReactElement;

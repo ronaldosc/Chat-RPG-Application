@@ -1,14 +1,13 @@
-import { BodyText, H1 } from '../common/typography';
-import { HeaderLogo, HeaderStyle } from './style';
-import { Logo } from '../../assets/icons/logo';
-import { Button } from '../Button';
-import { House, SignOut } from 'phosphor-react';
-import { Color } from '../common/constants';
-import { useNavigate } from 'react-router-dom';
-import { encodeURL } from '../../helpers/URLNavigationReplace';
+import { Logo } from '@assets/icons';
+import { Color } from '@componentes/common';
+import { H1 } from '@components/common';
+import { encodeURL } from '@helpers';
+import { useUser } from '@providers';
 import { useSnackbar } from 'notistack';
-import { api } from '../../libs/api';
-import { useUser } from '../../providers/UserProvider';
+import { House, SignOut } from 'phosphor-react';
+import { useNavigate } from 'react-router-dom';
+import { Button } from '../Button';
+import { HeaderLogo, HeaderStyle } from './header.styled';
 
 interface PropTypes {
   children?: JSX.Element | JSX.Element[];
@@ -18,7 +17,6 @@ export const Header = ({ children }: PropTypes) => {
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
   const { logout } = useUser();
-
 
   return (
     <HeaderStyle>
@@ -39,7 +37,9 @@ export const Header = ({ children }: PropTypes) => {
       <Button
         color={Color.Red}
         icon={<SignOut size={22} color={Color.White.base} />}
-        onClick={() => {logout && logout()}}
+        onClick={() => {
+          logout && logout();
+        }}
       />
       {children}
     </HeaderStyle>

@@ -1,13 +1,13 @@
 import { Label } from '../typography';
 import {
-  TextField,
-  TextInputWrapper,
+  SelectStyled,
   TextArea,
   TextAreaProps,
-  SelectStyled,
+  TextField,
+  TextInputWrapper,
 } from './inputs-components.styled';
 
-interface TextInputProps {
+interface TextInputProps  {
   type?: 'text' | 'password' | 'email';
   placeholder?: string;
   label?: string;
@@ -47,6 +47,12 @@ export const TextInput = ({
   );
 };
 
+export const TextAreaInput = ({
+  label,
+  height,
+  width,
+  lightLabel,
+}: TextAreaInputProps) => {
 export const TextAreaInput = ({
   label,
   height,

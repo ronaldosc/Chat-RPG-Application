@@ -1,4 +1,4 @@
-import { Color } from '../../common/constants';
+import { Color } from '@components/common';
 import styled from 'styled-components';
 
 export const ChatLounge = styled.div`

@@ -1,21 +1,13 @@
+import { api } from '@api';
+import { Button } from '@components/button';
+import { Plus } from 'phosphor-react';
+import { BodyText, Color, H2, MiniLabel } from '@components/common';
+import { Container } from '@components/container';
+import { Header } from '@components/header';
+import { encodeURL } from '@helpers';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
-import { Container } from '../../components/Container';
-import { Plus } from 'phosphor-react';
-import { Button } from '../../components/Button';
-import { Color } from '../../components/common/constants';
-import { Header } from '../../components/Header';
 import { FeedStyle } from './style';
-import {
-  BodyText,
-  H1,
-  H2,
-  MiniLabel,
-} from '../../components/common/typography';
-
-import { api, apiJSON } from '../../libs/api';
-
-import { encodeURL } from '../../helpers/URLNavigationReplace';
 
 interface commentTypes {
   author: string;

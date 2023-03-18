@@ -1,14 +1,14 @@
 import React from 'react';
-import { Container } from '../../components/Container';
-import {
-  ChatInput,
-  ChatLounge,
-  MessageComponent,
-} from '../../components/chatRoom';
 import { Button } from '../../components/Button';
 import { Header } from '../../components/Header';
+import {
+    ChatInput,
+    ChatLounge,
+    MessageComponent,
+} from '../../components/chatRoom';
 import { Color } from '../../components/common/constants';
 import { H1 } from '../../components/common/typography';
+import { Container } from '../../components/container';
 
 interface Message {
   author: string;
@@ -48,7 +48,7 @@ export const ChatRoom = () => {
             );
           })}
         </ChatLounge>
-        <Container height={'fit-contet'}>
+        <Container height={'fit-content'}>
           <ChatInput
             type="text"
             value={messageBody}

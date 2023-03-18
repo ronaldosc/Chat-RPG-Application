@@ -7,9 +7,5 @@ interface AppProviderProps {
 }
 
 export const AppProvider = ({ children }: AppProviderProps) => {
-  return (
-    
-      <UserProvider>{children}</UserProvider>
-    
-  );
+  return <UserProvider>{children}</UserProvider>;
 };

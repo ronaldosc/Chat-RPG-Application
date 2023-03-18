@@ -1,5 +1,5 @@
+import { Color } from '@components/common';
 import styled from 'styled-components';
-import { Color } from '../common/constants';
 
 interface ButtonTypes {
   baseColor: string;

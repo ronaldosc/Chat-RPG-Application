@@ -12,6 +12,8 @@ import userRoutes from './modules/users/routes';
 import feedRoutes from './modules/feedMessages/routes';
 import chatRoomRoutes from './modules/chatRooms/routes';
 import chatFeedRoutes from './modules/chatMessages/routes';
+import reactionRoutes from './modules/feedMessageLikes/routes';
+import feedCommentRoutes from './modules/feedMessageComments/routes';
 
 const PORT = parseInt(process.env.PORT) || 5000;
 const redisSub = new Redis(redisConfig.socket);
@@ -36,6 +38,8 @@ app.use('/user', userRoutes);
 app.use('/feed-room', feedRoutes);
 app.use('/chat-room', chatRoomRoutes);
 app.use('/feed-chat', chatFeedRoutes);
+app.use('/reaction', reactionRoutes);
+app.use('/feed-comment',feedCommentRoutes);
 
 // Listen for messages on the Redis channel
 redisSub

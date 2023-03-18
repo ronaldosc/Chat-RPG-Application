@@ -17,7 +17,6 @@ class WebSocketInitializer {
   public userClients = new Map<string, string>(); // relaciona userId com clientId(ws)
   public roomClients = new Map<string, string[]>(); // relaciona roomId com clientId(ws)
   public redisPub = new Redis(redisConfig.socket);
-  public redisClient = new Redis();
 
   constructor() {
     this.wss = new websocket.Server({
@@ -36,7 +35,7 @@ class WebSocketInitializer {
         const { action, data } = JSON.parse(message);
         console.log('action ', action);
         console.log('chatroom ', data.chatRoom);
-        console.log('user', data.user);
+        console.log('token', data.token);
         console.log('message ', data.message);
 
         switch (action) {

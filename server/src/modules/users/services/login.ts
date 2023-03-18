@@ -1,10 +1,13 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { ErrorWithStatus } from '../../../utils/errorWithStatus';
+import { connectToMongoDB } from '../../../config/mongodb';
 import { ILoginUser } from '../interface';
 import { User } from '../model';
 
 export async function login(param: ILoginUser) {
   try {
+    await connectToMongoDB();
+
     const userAlreadyExists = await User.findOne({ email: param.email }).select('password').exec();
 
     if (!userAlreadyExists) {

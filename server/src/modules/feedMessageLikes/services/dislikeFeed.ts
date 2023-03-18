@@ -1,17 +1,19 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-import { FeedMessages } from '../model';
+import { FeedMessageLikes } from '../model';
 import { connectToMongoDB } from '../../../config/mongodb';
+import { FeedMessageLikesModel } from '../interface';
 import { ErrorWithStatus } from '../../../utils/errorWithStatus';
 
-export async function getFeeds() {
+export async function dislike(param: FeedMessageLikesModel) {
   try {
     await connectToMongoDB();
-    const documents = await FeedMessages.find().sort({ _id: -1 });
+
+    const removeLike = FeedMessageLikes.findOneAndDelete({ feedMessage: param.feedMessage, author: param.author });
 
     return {
-      message: 'Sucesso! Retornado todos os feeds ordenados cronologicamente',
+      message: 'Dislike realizado com sucesso!',
       data: {
-        feeds: documents,
+        removeLike,
       },
     };
   } catch (error) {

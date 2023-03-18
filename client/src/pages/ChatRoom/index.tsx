@@ -4,6 +4,8 @@ import { Color, H1 } from '@components/common';
 import { Container } from '@components/container';
 import { Header } from '@components/header';
 import React from 'react';
+import { useParams } from 'react-router-dom';
+import { api } from '../../libs/api';
 
 interface Message {
   author: string;
@@ -15,9 +17,42 @@ const FAKE_DATA = {
   userName: 'Eu',
 };
 
+interface ChatRoom {
+  chatRoomId: string;
+}
+
+interface WSResponseTypes {
+  action: string;
+  data: {
+    message: any;
+  };
+}
+
 export const ChatRoom = () => {
+  const { id } = useParams();
   const [messageBody, setMessageBody] = React.useState('');
   const [messages, setMessages] = React.useState<Message[]>([]);
+
+  async function getMessages() {
+    const { data } = await api.get(`/feed-chat/chatfeeds/${id}`);
+    setMessages(data.data.messages);
+  }
+
+  React.useEffect(() => {
+    const host = window.location.hostname;
+    const ws = new WebSocket(`ws://${host}:5001`);
+
+    getMessages();
+
+    ws.onmessage = (e) => {
+      const data = JSON.parse(e.data.toString()) as WSResponseTypes;
+      setMessages((oldMessages) => [...oldMessages, data.data.message]);
+    };
+
+    return () => {
+      ws.close();
+    };
+  }, []);
 
   function sendMessage() {
     if (!messageBody) return null;

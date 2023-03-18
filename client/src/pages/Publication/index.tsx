@@ -122,7 +122,7 @@ export const Publication = () => {
                   </MiniLabel>
                 </span>
 
-                <Button label="Entrar" color={Color.Gold} onClick={() => navigate(`/chat-room/${setPublication}`) } />
+                <Button label="Entrar" color={Color.Gold} onClick={() => navigate(`/chat-room/${publication.owner}`) } />
               </Container>
 
               <Container

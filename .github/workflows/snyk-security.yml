@@ -75,12 +75,24 @@ jobs:
         continue-on-error: true
 
         # Build the docker image for testing
-      - name: Build a Docker image
-        run: docker build -t chat-rpg:1.0 .
+      - name: Prepare front
+        run: |
+          cd client
+          yarn
+          yarn build
+
+      - name: Prepare back
+        run: |
+          cd ../server
+          npm i
+          cp server/.env.example server/.env
+
+      - name: Check all integration
+        run: docker compose up -d
         # Runs Snyk Container (Container and SCA) analysis and uploads result to Snyk.
-      - name: Snyk Container monitor
-        run: snyk container monitor chat-rpg:1.0 --file=Dockerfile
-        continue-on-error: true
+      # - name: Snyk Container monitor
+      #   run: snyk container monitor chat-rpg:1.0 --file=Dockerfile
+      #   continue-on-error: true
 
         # Push the Snyk Code results into GitHub Code Scanning tab
       # - name: Upload result to GitHub Code Scanning

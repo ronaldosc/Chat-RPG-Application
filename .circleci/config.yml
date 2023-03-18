@@ -19,6 +19,7 @@ jobs:
     # Then run your tests!
     # CircleCI will report the results back to your VCS provider.
     steps:
+      
       # Checkout the code as the first step.
       - checkout
       # Next, the node orb's install-packages step will install the dependencies from a package.json.
@@ -27,8 +28,13 @@ jobs:
           # If you are using yarn, change the line below from "npm" to "yarn"
           pkg-manager: npm
       - run:
+          working_directory: client
           name: Run tests
           command: npm test
+      - run:
+          working_directory: server
+          command: npm test
+
 
 workflows:
   # Below is the definition of your workflow.

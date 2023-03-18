@@ -9,28 +9,41 @@ orbs:
   # See the orb documentation here: https://circleci.com/developer/orbs/orb/circleci/node
   node: circleci/node@4.7
 
-  jobs:
-    frontend-tests:
-      docker:
-        - image: cimg/node:18.10
-      steps:
-        - checkout
-        - node/install-packages:
-            pkg-manager: npm
-        - run:
-            working_directory: client
-            name: Run tests on frontend
-            command: npx -y tsc --noemit
-  
-    backend-tests:
-      docker:
-        - image: cimg/node:18.10
-      steps:
-        - checkout
-        - node/install-packages:
-            pkg-manager: npm
-        - run:
-            working_directory: server
-            name: Run tests on backend
-            command: npm test
-...  
+jobs:
+  frontend-tests:
+    docker:
+      - image: cimg/node:18.10
+    steps:
+      - checkout
+      - node/install-packages:
+          pkg-manager: npm
+      - run:
+          working_directory: client
+          name: Run tests on frontend
+          command: npx -y tsc --noemit
+
+  backend-tests:
+    docker:
+      - image: cimg/node:18.10
+    steps:
+      - checkout
+      - node/install-packages:
+          pkg-manager: npm
+      - run:
+          working_directory: server
+          name: Run tests on backend
+          command: npm test
+workflows:
+  sample:
+    jobs:
+      - frontend-tests:
+          filters:
+            branches:
+              only:
+                - client/*
+      - backend-tests:
+          filters:
+            branches:
+              only:
+                - server/*
+...

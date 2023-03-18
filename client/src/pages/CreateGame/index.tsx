@@ -1,11 +1,13 @@
-import { Button } from '@components/button';
-import { BodyText, Color, H2 } from '@components/common';
 import { api } from '@api';
+import { Button } from '@components/button';
 import {
+  BodyText,
+  Color,
+  H2,
   SelectInput,
   TextArea,
   TextInput,
-} from '@components/common/inputs/index';
+} from '@components/common';
 import { Container } from '@components/container';
 import { Header } from '@components/header';
 import { encodeURL } from '@helpers';

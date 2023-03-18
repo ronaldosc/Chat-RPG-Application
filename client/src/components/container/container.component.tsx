@@ -15,6 +15,7 @@ interface ContainerProps {
   border?: string;
   overflow?: string;
   flexWrap?: string;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 export const Container = ({

@@ -28,11 +28,12 @@ jobs:
           # If you are using yarn, change the line below from "npm" to "yarn"
           pkg-manager: npm
       - run:
-          working_directory: client
-          name: Run tests
-          command: npm test
+          working_directory: ./client
+          name: Run tests on frontend
+          command: npx -y tsc --noemit
       - run:
-          working_directory: server
+          working_directory: ./server
+          name: Run tests on backend
           command: npm test
 
 

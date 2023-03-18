@@ -85,7 +85,7 @@ jobs:
         run: |
           cd server
           npm i
-          cp server/.env.example server/.env
+          cp .env.example .env
 
       - name: Check all integration
         run: docker compose up -d

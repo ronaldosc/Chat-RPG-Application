@@ -46,7 +46,7 @@ export async function createChatRoom(req: Request, res: Response): Promise<void>
       const clientws = webSocketInitializer.userClients.get(user);
       clients.push(clientws);
 
-      for (let i = 1; i < result.data.newChatRoom.playerCharacters.length; i++) {
+      for (let i = 0; i < result.data.newChatRoom.playerCharacters.length; i++) {
         if (result.data.newChatRoom.playerCharacters[i].player) {
           const clientws = webSocketInitializer.userClients.get(
             result.data.newChatRoom.playerCharacters[i].player.toString(),

@@ -4,10 +4,10 @@ import { Button } from '@components/button';
 import { Color, H1, TextInput } from '@components/common';
 import { Container } from '@components/container';
 import { encodeURL } from '@helpers';
+import { useUser } from '@providers';
 import { useSnackbar } from 'notistack';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useUser } from '../../providers/UserProvider';
 
 interface UserTypes {
   email: string;

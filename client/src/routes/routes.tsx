@@ -1,5 +1,3 @@
-import { Navigate, Route, Routes } from 'react-router-dom';
-
 import {
   ChatRoom,
   CreateGame,
@@ -9,8 +7,9 @@ import {
   Publication,
   Register,
 } from '@pages';
+import { useUser } from '@providers';
 import { ReactElement } from 'react';
-import { useUser } from '../providers/UserProvider';
+import { Navigate, Route, Routes } from 'react-router-dom';
 
 interface ChildrenTypes {
   children: ReactElement;

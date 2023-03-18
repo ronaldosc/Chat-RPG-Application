@@ -1,10 +1,9 @@
-import { api } from '@api';
 import { Logo } from '@assets/icons';
 import { Button } from '@components/button';
 import { Color, H1, TextInput } from '@components/common';
 import { Container } from '@components/container';
 import { encodeURL } from '@helpers';
-import { useSnackbar } from 'notistack';
+import { useUser } from '@providers';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 

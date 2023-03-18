@@ -11,7 +11,7 @@ export async function getChatRoomIdByFeedId(param: string) {
                                       { _id: 1, title: 1, owner: 1 });
 
     return {
-      message: 'chatRoom selecionado com sucesso!',
+      message: 'Sala do chat selecionado com sucesso!',
       data: {
         chat,
       },
@@ -25,7 +25,7 @@ export async function getChatRoomIdByFeedId(param: string) {
     }
     return {
       error: errorStatus ?? 500,
-      message: errorMessage ?? 'Erro ao selecionar chatRoom',
+      message: errorMessage ?? 'Erro ao selecionar sala do chat',
     };
   }
 }

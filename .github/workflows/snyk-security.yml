@@ -83,7 +83,7 @@ jobs:
 
       - name: Prepare back
         run: |
-          cd ../server
+          cd server
           npm i
           cp server/.env.example server/.env
 

@@ -111,7 +111,7 @@ export const Publication = () => {
               >
                 <span>
                   <Button label="Curtir" color={Color.Green} />
-                  <MiniLabel> {publication?.likes} Curtidas</MiniLabel>
+                  <MiniLabel> {publication?.likes.length} Curtidas</MiniLabel>
                 </span>
                 <span>
                   <Button label="Comentar" color={Color.Brown} />

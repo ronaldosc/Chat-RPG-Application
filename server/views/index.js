@@ -30,7 +30,7 @@ btnGet.addEventListener('click', () => {
     action: 'join-feedRoom',
     data: {
       chatRoom: 'feedRoom',
-      token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDE0YzhiMTQ2NjdhMTQ0OGFkNjZkZGUiLCJpYXQiOjE2NzkwODM3MTMsImV4cCI6MTY3OTEyNjkxM30.vpL0ROzI_xeRw74wtiJFM7m_GRguykqKmXFlhtrA3Qk',
+      token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDEyMGQ2NDAxMTNlMGQ1MzJhNTU0NTEiLCJpYXQiOjE2NzkwNDc3NjUsImV4cCI6MTY3OTA5MDk2NX0.T4e3SykWWefetObbSN6MD4rLwYEais-TkN39zVRP39Y',
       message: txt_mensagem.value
     }
   }

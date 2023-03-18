@@ -1,27 +1,21 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { connectToMongoDB } from '../../../config/mongodb';
 import { ErrorWithStatus } from '../../../utils/errorWithStatus';
-import { FeedMessages } from '../model';
+import { ChatRooms } from '../model';
 
-export async function getFeedMessage(param: string) {
+export async function getChatRoomIdByFeedId(param: string) {
   try {
     await connectToMongoDB();
-    const feedMessage = await FeedMessages.find({ _id: param }).exec();
 
-    if (feedMessage.length===0) {
-      return {
-        error: 500,
-        message: 'Feed de oringem não encontrado!',
-      };
-    } else {
-      return {
-        message: 'Feed selecionado com sucesso!',
-        data: {
-          feedMessage,
-        },
-      }
-    }
+    const chat = await ChatRooms.find({ feedMessageOrigin: param },
+                                      { _id: 1, title: 1, owner: 1 });
 
+    return {
+      message: 'chatRoom selecionado com sucesso!',
+      data: {
+        chat,
+      },
+    };
   } catch (error) {
     let errorStatus: number | null;
     let errorMessage: string | null;
@@ -31,7 +25,7 @@ export async function getFeedMessage(param: string) {
     }
     return {
       error: errorStatus ?? 500,
-      message: errorMessage ?? 'Erro ao selecionar feedMessage',
+      message: errorMessage ?? 'Erro ao selecionar chatRoom',
     };
   }
 }

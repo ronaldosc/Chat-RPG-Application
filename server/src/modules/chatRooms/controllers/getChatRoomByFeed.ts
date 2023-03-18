@@ -12,7 +12,7 @@ export async function getChatRoomByFeed(req: Request, res: Response): Promise<vo
 
   if (!chatRoom.error && !chatMessages.error) {
     const chatRoomInfo: ChatRoomsModel = chatRoom.data.chatRoom;
-    const result = { ...chatRoomInfo, messages: chatMessages.data.chatMessage };
+    const result = { chatRoomInfo, messages: chatMessages.data.chatMessage };
     res.status(200).json(result);
     return;
   }

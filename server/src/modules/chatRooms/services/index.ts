@@ -5,3 +5,4 @@ export { getChatRoomByUserId } from './getChatRoomByUser';
 export { addChatRoomPlayerId } from './addChatRoomPlayer';
 export { getChatRoomsListByUserId } from './getChatRoomsListByUser';
 export { getChatRoomByFeedId } from './getChatRoomByFeed';
+export { getChatRoomIdByFeedId } from './getChatRoomIdByFeed';

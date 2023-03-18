@@ -22,7 +22,7 @@
 			"@assets/icons": ["assets/icons"],
 			"@components/*": ["components/*"],
 			"@helpers": ["helpers"],
-			"@pages": ["pages/*"],
+			"@pages": ["pages"],
 			"@providers": ["providers"],
 			"@typography": ["components/common/typography"]
 		}

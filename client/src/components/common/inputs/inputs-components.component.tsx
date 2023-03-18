@@ -1,10 +1,10 @@
 import { Label } from '../typography';
 import {
-  TextField,
-  TextInputWrapper,
+  SelectStyled,
   TextArea,
   TextAreaProps,
-  SelectStyled,
+  TextField,
+  TextInputWrapper,
 } from './inputs-components.styled';
 
 interface TextInputProps {

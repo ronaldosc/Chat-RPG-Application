@@ -1,5 +1,5 @@
 import React from 'react';
-import { ModalBackground, ModalWrapper } from './moda.styled';
+import { ModalBackground, ModalWrapper } from './modal.styled';
 
 interface ModalProps {
   showModal: boolean;

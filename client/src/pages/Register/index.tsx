@@ -1,19 +1,13 @@
-import { useNavigate } from 'react-router-dom';
-
-import { Color } from '../../components/common/constants';
+import { api } from '@api';
+import { Logo } from '@assets/icons';
+import { Button } from '@components/button';
+import { Color, H1, TextInput } from '@components/common';
+import { Container } from '@components/container';
+import { encodeURL } from '@helpers';
+import { useUser } from '@providers';
 import { useSnackbar } from 'notistack';
-import { Button } from '../../components/Button/index';
-import {
-  BodyText,
-  H1,
-} from '../../components/common/typography/typography-components.component';
-import { Container } from '../../components/Container';
-import { Logo } from '../../assets/icons/logo';
-import { encodeURL } from '../../helpers/URLNavigationReplace';
-import { TextInput } from '../../components/common/inputs';
-import { api } from '../../libs/api';
 import { useState } from 'react';
-import { useUser } from '../../providers/UserProvider';
+import { useNavigate } from 'react-router-dom';
 
 interface UserTypes {
   email: string;
@@ -70,7 +64,6 @@ export const Register = () => {
           horizontal: 'center',
         },
       });
-      await console.log(error);
     }
   }
 
@@ -107,7 +100,7 @@ export const Register = () => {
           }}
         />
         <TextInput
-          label="Username"
+          label="Usuário"
           lightLabel
           onChange={(e) => {
             setUserProperties({
@@ -117,7 +110,7 @@ export const Register = () => {
           }}
         />
         <TextInput
-          label="Email"
+          label="E-mail"
           type="email"
           lightLabel
           onChange={(e) => {
@@ -138,7 +131,7 @@ export const Register = () => {
             });
           }}
         />
-        <TextInput label="Confirmar senha" type="password" lightLabel />
+        <TextInput label="Repita a senha" type="password" lightLabel />
         <Container
           width="80%"
           height="10%"

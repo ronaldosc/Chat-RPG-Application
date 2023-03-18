@@ -6,8 +6,8 @@ export const CreateGameStyle = styled.div`
   justify-content: start;
   align-items: center;
   width: 90%;
-  height: 100%;
-
+  height: 80%;
+  border-radius: 50%
   padding: 20px 0 0 0;
   gap: 20px;
   overflow: auto;

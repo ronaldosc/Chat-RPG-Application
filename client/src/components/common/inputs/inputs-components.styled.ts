@@ -1,10 +1,5 @@
 import styled from 'styled-components';
-import {
-  BorderRadius,
-  Color,
-  FontFamily,
-  FontSizeDesktop,
-} from '../constants';
+import { BorderRadius, Color, FontFamily, FontSizeDesktop } from '../constants';
 
 interface TextFieldProps {
   width?: string;
@@ -23,7 +18,7 @@ export const TextField = styled.input<TextFieldProps>`
   background: ${Color.White.base};
   height: 30px;
   padding: 0 5px;
-  width: ${({ width }) => width ?? "100%"};
+  width: ${({ width }) => width ?? '100%'};
   outline: none;
 `;
 
@@ -33,7 +28,7 @@ export const TextArea = styled.textarea<TextAreaProps>`
   border: 1px solid ${Color.Black.base};
   border-radius: ${BorderRadius.Medium};
   background: ${Color.White.base};
-  width: ${({ width }) => width ?? "100%"};
+  width: ${({ width }) => width ?? '100%'};
   height: ${({ height }) => height ?? 90}px;
   padding: 5px;
   resize: none;

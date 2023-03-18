@@ -20,8 +20,9 @@
 			"rules": {
 				"prettier/prettier": [
 					"warn",
-					{
-						"endOfLine": "auto"
+					{	
+						"endOfLine": "auto",
+						"tabWidth": "2"
 					}
 				],
 				"func-call-spacing": "off",

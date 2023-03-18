@@ -16,30 +16,37 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  background: 'transparent';
-  background-size: cover;
-  background-position: center center;
   gap: 1rem;
-  background-color: 'transparent';
-  background-repeat: no-repeat;
+  overflow: auto;
+  background: 'transparent' center no-repeat;
+  background-size: cover;
+  user-select: none;
 }
 
 html,
 body {
   display: flex;
   position: relative;
-  background-image: url('../assets/images/background.png');
+  background: url('../assets/images/background.png') center no-repeat;
   background-size: cover;
   overflow-x: hidden;
-  
-  background-position: center center;
-  background-repeat: no-repeat;
+}
+
+h1 {
+  padding-bottom: 2vh;
+  letter-spacing: .4vw;
 }
 
 span {
   text-align: center;
 }
 
+::placeholder {
+  padding-left: .5vw;
+  font-size: smaller;
+  opacity: .6;
+  letter-spacing: -1px;
+}
 
 ::-webkit-scrollbar {
   width: 5px;

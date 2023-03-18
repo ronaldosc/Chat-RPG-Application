@@ -1,21 +1,13 @@
+import { api } from '@api';
+import { Button } from '@components/button';
+import { BodyText, Color, H2, MiniLabel } from '@components/common';
+import { Container } from '@components/container';
+import { Header } from '@components/header';
+import { encodeURL } from '@helpers';
+import { Plus } from 'phosphor-react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
-import { Container } from '../../components/Container';
-import { Plus } from 'phosphor-react';
-import { Button } from '../../components/Button';
-import { Color } from '../../components/common/constants';
-import { Header } from '../../components/Header';
 import { FeedStyle } from './style';
-import {
-  BodyText,
-  H1,
-  H2,
-  MiniLabel,
-} from '../../components/common/typography';
-
-import { api, apiJSON } from '../../libs/api';
-
-import { encodeURL } from '../../helpers/URLNavigationReplace';
 
 interface commentTypes {
   author: string;
@@ -80,10 +72,13 @@ export const Feed = () => {
 
     ws.onmessage = (event) => {
       const data = JSON.parse(event.data.toString());
-      
+
       switch (data.action) {
         case 'message':
-          if ((data as WSResponseTypes<PublicationTypes>).data.chatRoom == 'feedRoom') {
+          if (
+            (data as WSResponseTypes<PublicationTypes>).data.chatRoom ===
+            'feedRoom'
+          ) {
             setPublications((oldPublications) => [
               data.data.message,
               ...oldPublications,
@@ -95,6 +90,7 @@ export const Feed = () => {
           break;
         case 'dislike-feed':
           break;
+        default:
       }
     };
 
@@ -123,7 +119,7 @@ export const Feed = () => {
           padding="0 30px 30px 30px"
           gap="12px"
         >
-          {publications.map((publication) => (
+          {publications.map((publication: PublicationTypes) => (
             <>
               <Container
                 backgroundColor={Color.Background.base}
@@ -143,9 +139,12 @@ export const Feed = () => {
                 >
                   <H2>{publication.title}</H2>
                   <H2>
-                    {publication.playerCharacters.filter((element) => {
-                      element.player != null
-                    }).length}/{publication.numberOfPlayers}
+                    {
+                      publication.playerCharacters.filter(
+                        (element) => element.player != null,
+                      ).length
+                    }
+                    /{publication.numberOfPlayers}
                   </H2>
                 </Container>
                 <Container
@@ -169,11 +168,13 @@ export const Feed = () => {
                 >
                   <span>
                     <Button label="Curtir" color={Color.Green} />
-                    <MiniLabel>{publication.likes} Curtidas</MiniLabel>
+                    <MiniLabel>{publication.likes.length} Curtidas</MiniLabel>
                   </span>
                   <span>
                     <Button label="Comentar" color={Color.Brown} />
-                    <MiniLabel>{publication.comments} Comentários</MiniLabel>
+                    <MiniLabel>
+                      {publication.comments.length} Comentários
+                    </MiniLabel>
                   </span>
 
                   <Button label="Entrar" color={Color.Gold} />

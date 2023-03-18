@@ -1,14 +1,9 @@
+import { Button } from '@components/button';
+import { ChatInput, ChatLounge, MessageComponent } from '@components/chatRoom';
+import { Color, H1 } from '@components/common';
+import { Container } from '@components/container';
+import { Header } from '@components/header';
 import React from 'react';
-import { Container } from '../../components/Container';
-import {
-  ChatInput,
-  ChatLounge,
-  MessageComponent,
-} from '../../components/chatRoom';
-import { Button } from '../../components/Button';
-import { Header } from '../../components/Header';
-import { Color } from '../../components/common/constants';
-import { H1 } from '../../components/common/typography';
 
 interface Message {
   author: string;
@@ -30,6 +25,7 @@ export const ChatRoom = () => {
 
     setMessages([...messages, message]);
     setMessageBody('');
+    return message;
   }
 
   return (
@@ -48,7 +44,7 @@ export const ChatRoom = () => {
             );
           })}
         </ChatLounge>
-        <Container height={'fit-contet'}>
+        <Container height={'fit-content'}>
           <ChatInput
             type="text"
             value={messageBody}

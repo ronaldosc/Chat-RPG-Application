@@ -1,5 +1,5 @@
+import { BorderRadius, Color } from '@components/common';
 import styled from 'styled-components';
-import { BorderRadius, Color } from '../../common/constants';
 
 export const MessageComponentWrapper = styled.div`
   display: flex;
@@ -11,4 +11,4 @@ export const MessageComponentWrapper = styled.div`
   max-width: 100%;
   overflow-wrap: break-word;
   background: ${Color.Grey.base};
-` 
+`;

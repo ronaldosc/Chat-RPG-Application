@@ -1,16 +1,14 @@
+import { api } from '@api';
+import { encodeURL } from '@helpers';
 import { useSnackbar } from 'notistack';
-import { Jwt } from 'jsonwebtoken';
 import {
   createContext,
   ReactNode,
-  useCallback,
   useContext,
   useEffect,
   useState,
 } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { encodeURL } from '../helpers/URLNavigationReplace';
-import { api } from '../libs/api';
 
 interface ContextTypes {
   token: string;
@@ -54,13 +52,13 @@ export const UserProvider = ({ children }: UserProviderTypes) => {
 
       setToken(data);
     } catch (error) {
-        enqueueSnackbar('Erro ao realizar login!', {
-            variant: 'error',
-            anchorOrigin: {
-            vertical: 'top',
-            horizontal: 'center',
-            },
-        });
+      enqueueSnackbar('Erro ao realizar login!', {
+        variant: 'error',
+        anchorOrigin: {
+          vertical: 'top',
+          horizontal: 'center',
+        },
+      });
     }
   };
 
@@ -80,20 +78,20 @@ export const UserProvider = ({ children }: UserProviderTypes) => {
       });
       navigate(encodeURL(['home']));
     } catch (error) {
-        enqueueSnackbar('Erro ao realizar logout!', {
-            variant: 'error',
-            anchorOrigin: {
-            vertical: 'top',
-            horizontal: 'center',
-            },
-        });
+      enqueueSnackbar('Erro ao realizar logout!', {
+        variant: 'error',
+        anchorOrigin: {
+          vertical: 'top',
+          horizontal: 'center',
+        },
+      });
     }
   };
 
   useEffect(() => {
     const storagedToken = localStorage.getItem('token');
     if (storagedToken) {
-        setToken(storagedToken);
+      setToken(storagedToken);
     } else logout();
   }, []);
 

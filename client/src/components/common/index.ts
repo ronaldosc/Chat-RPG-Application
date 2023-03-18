@@ -1,4 +1,5 @@
 export * from './constants';
-export * from './modal';
 export * from './inputs';
+export * from './modal';
 export * from './typography';
+

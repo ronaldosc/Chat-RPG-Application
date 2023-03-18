@@ -10,4 +10,3 @@ export const api = axios.create({
   baseURL: `http://${host}:5000`,
   withCredentials: true,
 });
-

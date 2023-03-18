@@ -1,20 +1,21 @@
+import { api } from '@api';
+import { Button } from '@components/button';
+import {
+  BodyText,
+  Color,
+  H2,
+  SelectInput,
+  TextArea,
+  TextInput,
+} from '@components/common';
+import { Container } from '@components/container';
+import { Header } from '@components/header';
+import { encodeURL } from '@helpers';
+import { useSnackbar } from 'notistack';
+import { X } from 'phosphor-react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
-import { Button } from '../../components/Button';
-import { Color } from '../..//components/common/constants';
-import { Header } from '../../components/Header';
-import { House, X } from 'phosphor-react';
-import { Container } from '../../components/Container';
-import { FeedStyle } from '../Feed/style';
-import { BodyText, H2 } from '../../components/common/typography';
-
-import { api, apiJSON } from '../../libs/api';
-
-import { encodeURL } from '../../helpers/URLNavigationReplace';
-import { SelectInput, TextInput } from '../../components/common/inputs';
-import { TextArea } from '../../components/common/inputs/inputs-components.styled';
 import { CreateGameStyle } from './style';
-import { useSnackbar } from 'notistack';
 
 interface characterProps {
   characterId: number;
@@ -66,12 +67,11 @@ export const CreateGame = () => {
           horizontal: 'center',
         },
       });
-      console.log(error);
     }
   }
 
   function handlePlayersAmount() {
-    let inputs: JSX.Element[] = [];
+    const inputs: JSX.Element[] = [];
     for (let i = 0; i < gameProperties.numberOfPlayers; i++) {
       inputs.push(
         <>
@@ -128,12 +128,14 @@ export const CreateGame = () => {
             direction="row"
             height="50px"
           >
-            <H2>Criar jogo</H2>
+            <H2>Edite as configurações do jogo</H2>
             <X
               size={22}
               color={Color.Black.base}
               onClick={() => navigate(-1)}
-              onMouseEnter={(e) => (e.currentTarget.style.cursor = 'pointer')}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.cursor = 'pointer';
+              }}
             />
           </Container>
           <Container
@@ -163,13 +165,13 @@ export const CreateGame = () => {
               gap="8px"
               height="200px"
             >
-              <BodyText>Número de jogadores</BodyText>
+              <BodyText>Número de Jogadores</BodyText>
               <SelectInput
                 options={['-', '1', '2', '3', '4', '5', '6', '7', '8']}
                 onChange={(e) => {
                   setGameProperties({
                     ...gameProperties,
-                    numberOfPlayers: Number(e.target.value),
+                    numberOfPlayers: +e.target.value,
                   });
                   handlePlayersAmount();
                 }}
@@ -190,9 +192,10 @@ export const CreateGame = () => {
                 align="start"
                 backgroundColor="transparent"
               >
-                <BodyText>História</BodyText>
+                <BodyText>Enredo</BodyText>
                 <TextArea
-                  onChange={(e) =>
+                  placeholder="Escreva aqui aquela sua narrativa e/ou a descrição de um contexto para iniciar o jogo. Regras somente se necessário inicialmente. Seja criativo!"
+                  onChange={(e: any) =>
                     setGameProperties({
                       ...gameProperties,
                       content: e.target.value,

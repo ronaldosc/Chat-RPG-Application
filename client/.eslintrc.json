@@ -3,32 +3,37 @@
     "es2021": true,
     "node": true
   },
+  "plugins": ["@typescript-eslint", "prettier"],
   "extends": [
     "airbnb-base",
     "plugin:@typescript-eslint/recommended",
-    "plugin:prettier/recommended"
+    "plugin:prettier/recommended",
+    "prettier"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": 2022,
     "sourceType": "module"
   },
-  "plugins": ["@typescript-eslint", "prettier"],
   "rules": {
     "prettier/prettier": [
       "warn",
       {
-        "endOfLine": "auto"
-      },
-      
+        "endOfLine": "auto",
+        "tabWidth": 2
+      }
     ],
     "lines-between-class-members": ["error", "never"],
     "no-use-before-define": "off",
     "@typescript-eslint/no-use-before-define": ["error"],
     "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/no-explicit-any": ["off"],
+    "@typescript-eslint/no-empty-function": ["off"],
+    "@typescript-eslint/no-namespace": "off",
     "no-shadow": "off",
-    "@typescript-eslint/no-shadow": ["error"],
+    "no-plusplus": "off",
     "import/prefer-default-export": "off",
+    "import/no-unresolved": "off",
     "import/extensions": [
       "error",
       "ignorePackages",
@@ -49,6 +54,5 @@
       "typescript": {}
     }
   },
-  "ignorePatterns":["**/*.js", "node_modules", "build"]
-
+  "ignorePatterns": ["**/*.js", "build", "dist"]
 }

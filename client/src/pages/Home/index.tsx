@@ -1,16 +1,11 @@
-import { useSnackbar } from 'notistack';
-import { Color } from '../../components/common/constants';
-import { House } from 'phosphor-react';
-import { Button } from '../../components/Button/index';
-import { BodyText, H1 } from '../../components/common/typography';
-import { Header } from '../../components/Header';
-import { Container } from '../../components/Container';
-import { Logo } from '../../assets/icons/logo';
-import { useNavigate } from 'react-router-dom';
-import { encodeURL } from '../../helpers/URLNavigationReplace';
-import { TextInput, SelectInput } from '../../components/common/inputs';
+import { Logo } from '@assets/icons';
+import { Button } from '@components/button';
+import { Color, H1, TextInput } from '@components/common';
+import { Container } from '@components/container';
+import { encodeURL } from '@helpers';
+import { useUser } from '@providers';
 import { useState } from 'react';
-import { useUser } from '../../providers/UserProvider';
+import { useNavigate } from 'react-router-dom';
 
 interface LoginTypes {
   email: string;
@@ -29,21 +24,24 @@ export const Home = () => {
 
   return (
     <Container
-      width="90vw"
-      height="60vh"
+      width="80vw"
+      height="65vh"
       gap="12px"
-      backgroundColor="rgba(31, 25, 35, 0.5)"
+      backgroundColor="rgba(31, 25, 35, 0.6)"
+      // backgroundGradient='radial-gradient(circle, rgba(200, 25, 35, 0.5) 50%, rgba(1, 25, 35, 0.8) 20%)'
     >
-      <Logo width="95px" height="108px" />
-      <H1 light>Chat RPG</H1>
+      <Logo width="95px" height="180px" title="Logo Chat RPG" />
+      <H1 light title="Bem vindo(a) ao Chat RPG">
+        CHAT RPG
+      </H1>
       <TextInput
-        placeholder="Email"
+        placeholder="Digite o e-mail cadastrado"
         label="E-mail"
         lightLabel
         onChange={(e) => setLogin({ ...login, email: e.target.value })}
       />
       <TextInput
-        placeholder="Senha"
+        placeholder="Digite a senha de acesso"
         label="Senha"
         type="password"
         lightLabel
@@ -69,7 +67,7 @@ export const Home = () => {
           }}
         />
         <Button
-          label="Cadastre-se"
+          label="Cadastrar"
           color={Color.Gold}
           onClick={() => navigate(encodeURL(['register']))}
         />

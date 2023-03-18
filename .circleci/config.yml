@@ -1,0 +1,53 @@
+---
+# Use the latest 2.1 version of CircleCI pipeline process engine.
+# See: https://circleci.com/docs/2.0/configuration-reference
+version: 2.1
+
+orbs:
+  # The Node.js orb contains a set of prepackaged CircleCI configuration you can utilize
+  # Orbs reduce the amount of configuration required for common tasks.
+  # See the orb documentation here: https://circleci.com/developer/orbs/orb/circleci/node
+  node: circleci/node@5.1.0
+
+jobs:
+  frontend-tests:
+    docker:
+      - image: cimg/node:18.10
+    steps:
+      - checkout
+      - node/install-packages:
+          pkg-manager: npm
+      - run:
+          working_directory: client
+          name: Run tests on frontend
+          command: npx -y tsc --noemit
+
+  backend-tests:
+    docker:
+      - image: cimg/node:18.10
+    steps:
+      - checkout
+      - node/install-packages:
+          pkg-manager: npm
+      - run:
+          working_directory: server
+          name: Run tests on backend
+          command: npm test
+
+workflows:
+  simple-integration-tests:
+    jobs:
+      - frontend-tests:
+          filters:
+            branches:
+              only: master
+          paths:
+            only:
+              - client/**
+      - backend-tests:
+          filters:
+            branches:
+              only: master
+          paths:
+            only:
+              - server/**

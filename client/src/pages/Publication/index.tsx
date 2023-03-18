@@ -1,23 +1,13 @@
+import { Button } from '@components/button';
+import { BodyText, Color, H2, MiniLabel } from '@components/common';
+import { Container } from '@components/container';
+import { Header } from '@components/header';
+import { X } from 'phosphor-react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
-import WebSocket from 'ws';
-import { Container } from '../../components/Container';
-import { Plus, X } from 'phosphor-react';
-import { Button } from '../../components/Button';
-import { Color } from '../../components/common/constants';
-import { Header } from '../../components/Header';
 import { PublicationStyle } from './style';
-import {
-  BodyText,
-  H1,
-  H2,
-  MiniLabel,
-} from '../../components/common/typography';
 
-import { api, apiJSON } from '../../libs/api';
-
-import { encodeURL } from '../../helpers/URLNavigationReplace';
-import { direction } from 'html2canvas/dist/types/css/property-descriptors/direction';
+import { apiJSON } from '../../libs/api';
 
 interface commentTypes {
   author: string;
@@ -40,8 +30,7 @@ export const Publication = () => {
   const navigate = useNavigate();
   const [publication, setPublication] = useState<PublicationTypes>({
     title: 'titulo',
-    description:
-      'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa ',
+    description: 'INSERINDO SUA DESCRIÇÃO...',
     playersAmount: 0,
     playersLimit: 0,
     likes: [],
@@ -94,9 +83,9 @@ export const Publication = () => {
                     size={22}
                     color={Color.Black.base}
                     onClick={() => navigate(-1)}
-                    onMouseEnter={(e) =>
-                      (e.currentTarget.style.cursor = 'pointer')
-                    }
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.cursor = 'pointer';
+                    }}
                   />
                 </div>
               </Container>
@@ -122,7 +111,7 @@ export const Publication = () => {
               >
                 <span>
                   <Button label="Curtir" color={Color.Green} />
-                  <MiniLabel>{publication?.likes} Curtidas</MiniLabel>
+                  <MiniLabel> {publication?.likes.length} Curtidas</MiniLabel>
                 </span>
                 <span>
                   <Button label="Comentar" color={Color.Brown} />

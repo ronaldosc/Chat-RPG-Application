@@ -37,7 +37,6 @@ export class Color {
     base: '#1E760F',
     hover: '#2E8B1F',
   };
-
   public static readonly Background = { base: '#FEEFDA', hover: '#FEEFDA' };
   public static readonly TrasnparentBlack = {
     base: 'rgba(31, 25, 35, 0.5)',

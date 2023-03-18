@@ -30,7 +30,7 @@ btnGet.addEventListener('click', () => {
     action: 'join-feedRoom',
     data: {
       chatRoom: 'feedRoom',
-      token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDEyMGQ2NDAxMTNlMGQ1MzJhNTU0NTEiLCJpYXQiOjE2NzkwNDc3NjUsImV4cCI6MTY3OTA5MDk2NX0.T4e3SykWWefetObbSN6MD4rLwYEais-TkN39zVRP39Y',
+      token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDEyMGQ2NDAxMTNlMGQ1MzJhNTU0NTEiLCJpYXQiOjE2NzkxNDg1MTksImV4cCI6MTY3OTE5MTcxOX0.zk9Nys9jdY8vePeHqmBgyMr2b9VSgG-LX5v3xyoKQMU',
       message: txt_mensagem.value
     }
   }
@@ -42,7 +42,7 @@ btn.addEventListener('click', () => {
     action: 'join-feedRoom',
     data: {
       chatRoom: 'feedRoom',
-      token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDE0YzhiMTQ2NjdhMTQ0OGFkNjZkZGUiLCJpYXQiOjE2NzkwODM3MTMsImV4cCI6MTY3OTEyNjkxM30.vpL0ROzI_xeRw74wtiJFM7m_GRguykqKmXFlhtrA3Qk',
+      token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDExMTAxZGYzODJkOWViMTcxODVmNzEiLCJpYXQiOjE2NzkxNjA3NDgsImV4cCI6MTY3OTIwMzk0OH0.I8fdIb65CuChf5jgWwKB8sNhcPzD2gxQypzkaw1HXho',
       message: txt_mensagem.value
     }
   }

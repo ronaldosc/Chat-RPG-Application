@@ -19,7 +19,7 @@ export async function createChatFeed(req: Request, res: Response): Promise<void>
       author: result.data.newFeed.author,
       content: result.data.newFeed.content,
       image: result.data.newFeed.image,
-      diectedTo: result.data.newFeed.directedTo,
+      directedTo: result.data.newFeed.directedTo,
     };
 
     const message = {

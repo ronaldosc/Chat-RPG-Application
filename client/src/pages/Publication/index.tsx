@@ -59,14 +59,19 @@ export const Publication = () => {
   const [comment, setComment] = useState<string>('');
 
   async function sendComment() {
-    const { data } = await api.post<ResquestCommentType>(
-      '/feed-comment/new-comment',
-      {
-        feedMessage: id,
-        content: comment,
-      },
-    );
-    console.log(data);
+    try {
+      const { data } = await api.post<ResquestCommentType>(
+        '/feed-comment/new-comment',
+        {
+          feedMessage: id,
+          content: comment,
+        },
+      );
+      getPublication();
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async function getPublication() {
@@ -83,7 +88,7 @@ export const Publication = () => {
 
   useEffect(() => {
     getPublication();
-  }, [comments, publication]);
+  }, []);
 
   return (
     <>

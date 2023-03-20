@@ -74,39 +74,16 @@ export const Feed = () => {
   }
 
   async function likeFeed(feedId: string) {
-    const { data } = await api.post<LikeResponseTypes>('/reaction/like', {
-      feedMessage: feedId,
-    });
-    setPublications((oldPublications) => {
-      const newPublications = oldPublications.map((publication) => {
-        if (publication._id === feedId) {
-          return {
-            ...publication,
-            likes: Array.isArray(publication.likes)
-              ? [
-                  ...publication.likes,
-                  {
-                    author: data.data.newLike.author,
-                    feedMessage: data.data.newLike.feedMessage,
-                  },
-                ]
-              : [
-                  {
-                    author: data.data.newLike.author,
-                    feedMessage: data.data.newLike.feedMessage,
-                  },
-                ],
-            numberOfLikes: publication.numberOfLikes + 1,
-          };
-        }
-        return publication;
+    try {
+      const { data } = await api.post<LikeResponseTypes>('/reaction/like', {
+        feedMessage: feedId,
       });
-      return newPublications;
-    });
-
-    console.log(data);
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
   }
-  console.log(document.cookie);
+
   useEffect(() => {
     const host = window.location.hostname;
     const ws = new WebSocket(`ws://${host}:5001`);
@@ -115,6 +92,7 @@ export const Feed = () => {
 
     ws.onmessage = (event) => {
       const data = JSON.parse(event.data.toString());
+      console.log(data);
 
       switch (data.action) {
         case 'message':
@@ -130,8 +108,45 @@ export const Feed = () => {
           }
           break;
         case 'like-feed':
+          setPublications((oldPublications) => {
+            const newPublications = oldPublications.map((publication) => {
+              if (publication._id === data.data.message.feedMessage) {
+                return {
+                  ...publication,
+                  likes: Array.isArray(publication.likes)
+                    ? [
+                        ...publication.likes,
+                        { author: data.data.message.author },
+                      ]
+                    : [{ author: data.data.message.author }],
+                  numberOfLikes: publication.numberOfLikes + 1,
+                };
+              }
+              return publication;
+            });
+            return newPublications;
+          });
+
           break;
         case 'dislike-feed':
+          setPublications((oldPublications) => {
+            const newPublications = oldPublications.map((publication) => {
+              if (publication._id === data.data.message.feedMessage) {
+                return {
+                  ...publication,
+                  likes: Array.isArray(publication.likes)
+                    ? [
+                        ...publication.likes,
+                        { author: data.data.message.author },
+                      ]
+                    : [{ author: data.data.message.author }],
+                  numberOfLikes: publication.numberOfLikes - 1,
+                };
+              }
+              return publication;
+            });
+            return newPublications;
+          });
           break;
         default:
       }

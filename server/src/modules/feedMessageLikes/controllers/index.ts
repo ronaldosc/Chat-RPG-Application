@@ -1,2 +1,1 @@
-export { likeFeed } from './likeFeed';
-export { dislikeFeed } from './dislikeFeed';
+export { reactToFeed } from './reactToFeed';

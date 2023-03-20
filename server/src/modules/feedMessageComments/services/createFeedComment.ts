@@ -23,20 +23,16 @@ export async function create(param: FeedMessageCommentsModel) {
     );
 
     const success = result.modifiedCount;
-    if (success === 1) {
-      return {
-        message: 'Comment inserido com sucesso!',
-        data: {
-          newComment,
-        },
-      };
-    } else {
-      return {
-        error: 500,
-        message: 'Comment NÃO foi inserido!',
-        data: {},
-      };
+    if (success !== 1) {
+      throw new ErrorWithStatus('Comentário não foi inserido', 500);
     }
+
+    return {
+      message: 'Comentário inserido com sucesso!',
+      data: {
+        newComment,
+      },
+    };
   } catch (error) {
     let errorStatus: number | null;
     let errorMessage: string | null;
@@ -46,7 +42,7 @@ export async function create(param: FeedMessageCommentsModel) {
     }
     return {
       error: errorStatus ?? 500,
-      message: errorMessage ?? 'Erro ao adicionar comment',
+      message: errorMessage ?? 'Erro ao adicionar comentário',
     };
   }
 }

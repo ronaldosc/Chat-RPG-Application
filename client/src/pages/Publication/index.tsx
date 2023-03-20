@@ -12,10 +12,16 @@ import { ChatInput } from '../../components/chatRoom';
 
 interface commentTypes {
   author: string;
-  comment: string;
+  content: string;
 }
 interface likeTypes {
   author: string;
+}
+
+interface characterProps {
+  characterId: number;
+  characterName: string;
+  player: string | null;
 }
 
 interface ResquestCommentType {
@@ -27,11 +33,22 @@ interface PublicationTypes {
   _id: string;
   owner: string;
   title: string;
-  description: string;
-  playersAmount: number;
-  playersLimit: number;
+  content: string;
+  image: string | null;
+  numberOfPlayers: number;
+  numberOfLikes: number;
+  numberOfComments: number;
+  playerCharacters: characterProps[];
   likes: likeTypes[];
   comments: commentTypes[];
+}
+
+interface ResponsePublicationTypes {
+  message: string;
+  data: {
+    feedMessage: PublicationTypes[];
+    comments: commentTypes[];
+  };
 }
 
 export const Publication = () => {
@@ -41,20 +58,21 @@ export const Publication = () => {
   const [publication, setPublication] = useState<PublicationTypes>({
     _id: '',
     owner: '',
+    image: '',
     title: 'titulo',
-    description:
-      'INSERINDO SUA DESCRIÇÃO...INSERINDO SUA DESCRIÇÃO...INSERINDO SUA DESCRIÇÃO...INSERINDO SUA DESCRIÇÃO...INSERINDO SUA DESCRIÇÃO...',
-    playersAmount: 0,
-    playersLimit: 0,
+    numberOfPlayers: 0,
+    numberOfComments: 0,
+    numberOfLikes: 0,
+    playerCharacters: [{ characterId: 0, characterName: '', player: '' }],
     likes: [],
     comments: [
       {
         author: 'autor',
-        comment: 'comentario',
+        content: 'comentario',
       },
       {
         author: 'dbbitz',
-        comment: 'comentariocomentariocomentariocomentariocomentariocomentario',
+        content: 'comentariocomentariocomentariocomentariocomentariocomentario',
       },
     ],
   });
@@ -66,21 +84,27 @@ export const Publication = () => {
       '/feed-comment/new-comment',
       {
         feedMessage: id,
-        content: "comentario"
+        content: comment,
       },
     );
     console.log(data);
   }
 
   async function getPublication() {
-    const { data } = await apiJSON.get<PublicationTypes>('/feed-room/:id');
-    setPublication(data);
+    try {
+      const { data } = await api.get<ResponsePublicationTypes>(
+        `/feed-room/${id}`,
+      );
+      setPublication(data.data.feedMessage[0]);
+      setComments(data.data.comments);
+    } catch (error) {
+      console.log(error);
+    }
   }
-  
 
   useEffect(() => {
     getPublication();
-  }, []);
+  }, [comments, publication]);
 
   return (
     <>
@@ -107,9 +131,7 @@ export const Publication = () => {
                 <div
                   style={{ display: 'flex', flexDirection: 'row', gap: '16px' }}
                 >
-                  <H2>
-                    {publication?.playersAmount}/{publication?.playersLimit}
-                  </H2>
+                  <H2></H2>
                 </div>
               </Container>
               <Container
@@ -122,7 +144,7 @@ export const Publication = () => {
                 padding="8px"
                 overflow="auto"
               >
-                <BodyText>{publication?.description}</BodyText>
+                <BodyText>{publication?.content}</BodyText>
               </Container>
               <Container
                 direction="row"
@@ -134,12 +156,12 @@ export const Publication = () => {
               >
                 <span>
                   <Button label="Curtir" color={Color.Green} />
-                  <MiniLabel> {publication?.likes.length} Curtidas</MiniLabel>
+                  <MiniLabel> {publication.numberOfLikes} Curtidas</MiniLabel>
                 </span>
                 <span>
                   <Button label="Comentar" color={Color.Brown} />
                   <MiniLabel>
-                    {publication?.comments.length} Comentários
+                    {publication.numberOfComments} Comentários
                   </MiniLabel>
                 </span>
 
@@ -152,15 +174,15 @@ export const Publication = () => {
 
               <Container
                 padding="0px"
-                height={publication.comments.length > 0 ? '30px' : '0px'}
+                height={publication.numberOfComments > 0 ? '30px' : '0px'}
                 justify="start"
                 align="start"
                 margin="30px 0px 0px 0px"
               >
-                <H2>{publication.comments.length > 0 && 'Comentários'}</H2>
+                <H2>{publication?.comments?.length > 0 && 'Comentários'}</H2>
               </Container>
               <>
-                {publication?.comments.map((comment) => {
+                {comments?.map((comment) => {
                   return (
                     <Container
                       height="fit-content"
@@ -189,7 +211,7 @@ export const Publication = () => {
                             width: '100%',
                           }}
                         >
-                          <BodyText>{comment?.comment}</BodyText>
+                          <BodyText>{comment?.content}</BodyText>
                         </div>
                       </div>
                     </Container>

@@ -29,20 +29,16 @@ export async function deleteComment(author: Types.ObjectId, commentId: Types.Obj
     );
 
     const success = result.modifiedCount;
-    if (success === 1) {
-      return {
-        message: 'Comment excluído com sucesso!',
-        data: { commentId: commentId,
-                feedMessage: comments.feedMessage,
-        },
-      };
-    } else {
-      return {
-        error: 500,
-        message: 'Comment NÃO foi excluído!',
-        data: {},
-      };
+    if (success !== 1) {
+      throw new ErrorWithStatus('Erro ao excluir comentário', 500)
     }
+
+    return {
+      message: 'Comentário excluído com sucesso!',
+      data: { commentId: commentId,
+              feedMessage: comments.feedMessage,
+      },
+    };
   } catch (error) {
     let errorStatus: number | null;
     let errorMessage: string | null;

@@ -229,7 +229,13 @@ export const Feed = () => {
                     </MiniLabel>
                   </span>
 
-                  <Button label="Entrar" color={Color.Gold} />
+                  <Button
+                    label="Entrar"
+                    color={Color.Gold}
+                    onClick={() =>
+                      navigate(encodeURL(['chat-room', publication._id]))
+                    }
+                  />
                 </Container>
               </Container>
             </React.Fragment>

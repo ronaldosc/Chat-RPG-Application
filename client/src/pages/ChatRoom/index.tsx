@@ -78,6 +78,10 @@ export const ChatRoom = () => {
     getMessages();
     getChatRoom();
 
+    ws.onopen = () => {
+      console.log('Abriu');
+    }
+
     ws.onmessage = (e) => {
       const data = JSON.parse(e.data.toString()) as WSResponseTypes;
       setMessages((oldMessages) => [...oldMessages, data.data.message]);
@@ -103,7 +107,7 @@ export const ChatRoom = () => {
       <Container backgroundColor={Color.Background.base}>
         <H1>{chatProprieties?.data.title}</H1>
         <ChatLounge>
-          {messages.map((element, index) => {
+          {messages?.map((element, index) => {
             return (
               <MessageComponent
                 key={index}

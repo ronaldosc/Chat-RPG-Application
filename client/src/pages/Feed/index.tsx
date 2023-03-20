@@ -6,7 +6,7 @@ import { Header } from '@components/header';
 import { encodeURL } from '@helpers';
 import { Plus } from 'phosphor-react';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 import { FeedStyle } from './style';
 
 interface commentTypes {

@@ -12,6 +12,8 @@ export async function getFeedMessage(param: string) {
 
     const comments = await FeedMessageComments.find({ feedMessage: param }).exec();
 
+    const notDeletedComments = comments.filter((element) => element.deletedAt ? false : true);
+
     const likes = await FeedMessageLikes.find({ feedMessage: param }).exec();
 
     if (feedMessage.length===0) {
@@ -24,7 +26,7 @@ export async function getFeedMessage(param: string) {
         message: 'Feed selecionado com sucesso!',
         data: {
           feedMessage,
-          comments,
+          comments: notDeletedComments,
           likes,
         },
       }

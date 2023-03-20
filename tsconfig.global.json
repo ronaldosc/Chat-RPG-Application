@@ -4,7 +4,6 @@
         "target": "ES2022",
         "module": "CommonJS",
         "moduleResolution": "node",
-        "outDir": "dist",
         "removeComments": true,
         "allowSyntheticDefaultImports": true,
         "forceConsistentCasingInFileNames": true,

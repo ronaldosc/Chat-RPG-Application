@@ -5,6 +5,7 @@
 		"esModuleInterop": true,
 		"noImplicitAny": true,
 		"strictNullChecks": false,
+		"outDir": "dist",
 		"baseUrl": "src",
 		"paths": {
 			"@assets/*": ["assets/*"],

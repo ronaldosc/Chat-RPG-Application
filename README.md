@@ -1,4 +1,6 @@
-# <center> Desafio Ciclo 2  <center> Alpha EdTech / turma Turing
+# <p align="center">&nbsp;&nbsp;&nbsp;**Desafio Ciclo 2**&nbsp;&nbsp;&nbsp;</p>  
+
+### <div align="center"> *Alpha EdTech / turma Turing* </vid>
 
 ---
 
@@ -6,7 +8,7 @@
 
 **Desenvolver a aplicação <u>Chat RPG</u>: Rede social para jogadores de RPG de mesa**
 
-_Exemplos_:
+*Exemplos*:
 
 Uma rede social para artistas, músicos, ou entusiastas de esportes.
 Uma rede social focada numa indústria específica, como médicos, professores ou advogados.
@@ -31,19 +33,20 @@ As aplicações criadas podem ser feitas com qualquer tecnologia de seu interess
 
 1º PASSO
 
-Na pasta client
+Na pasta `client`, execute:
 
 ```bash
-yarn && yarn build
+yarn
+yarn build
 ```
 
 2º PASSO
 
-Defina o endereço da API corretamente no arquivo src/libs/api.ts na baseURL da const api.
+Defina o endereço da API corretamente no arquivo `client/src/libs/api.ts` na prop *baseURL* da variável *api*.
 
 3º PASSO
 
-Na pasta server
+Na pasta `server`, execute:
 
 ```bash
 npm install

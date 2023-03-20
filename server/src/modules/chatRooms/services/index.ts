@@ -1,5 +1,7 @@
 export { addChatRoomPlayerId } from './addChatRoomPlayer';
+export { addChatRoomPlayerId } from './addChatRoomPlayer';
 export { create } from './createChatRoom';
+export { getChatRoomByFeedId } from './getChatRoomByFeed';
 export { getChatRoomByFeedId } from './getChatRoomByFeed';
 export { getChatRoom } from './getChatRoomById';
 export { getChatRoomByOwnerId } from './getChatRoomByOnwer';

@@ -2,6 +2,9 @@ import { Types } from 'mongoose';
 import { connectToMongoDB } from '@config';
 import { ChatRooms } from '@models';
 import { Err, ErrorWithStatus } from '@utils';
+import { connectToMongoDB } from '@config';
+import { ChatRooms } from '@models';
+import { Err, ErrorWithStatus } from '@utils';
 
 export async function getChatRoomByUserId(param: Types.ObjectId) {
   try {
@@ -19,7 +22,10 @@ export async function getChatRoomByUserId(param: Types.ObjectId) {
     };
   } catch (error: unknown) {
     let err: Err;
+  } catch (error: unknown) {
+    let err: Err;
     if (error instanceof ErrorWithStatus) {
+      err = { errorStatus: error.getStatus(), errorMessage: error.message };
       err = { errorStatus: error.getStatus(), errorMessage: error.message };
     }
     return {

@@ -7,10 +7,20 @@ export async function create(
   param: Omit<ChatRoomsModel, 'waitingForResponse' | 'createdAt' | 'updatedAt' | 'deletedAt'>,
 ) {
   const newChatRoom = new ChatRooms();
+import { ChatRoomsModel } from '@interfaces';
+import { connectToMongoDB } from '@config';
+import { ChatRooms } from '@models';
+import { Err, ErrorWithStatus } from '@utils';
+
+export async function create(
+  param: Omit<ChatRoomsModel, 'waitingForResponse' | 'createdAt' | 'updatedAt' | 'deletedAt'>,
+) {
+  const newChatRoom = new ChatRooms();
 
   try {
     await connectToMongoDB();
 
+    Object.assign(newChatRoom, { ...param });
     Object.assign(newChatRoom, { ...param });
 
     await newChatRoom.save();
@@ -23,7 +33,10 @@ export async function create(
     };
   } catch (error: unknown) {
     let err: Err;
+  } catch (error: unknown) {
+    let err: Err;
     if (error instanceof ErrorWithStatus) {
+      err = { errorStatus: error.getStatus(), errorMessage: error.message };
       err = { errorStatus: error.getStatus(), errorMessage: error.message };
     }
     return {

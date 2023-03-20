@@ -1,9 +1,6 @@
 import { connectToMongoDB } from '@config';
 import { ChatRooms } from '@models';
 import { Err, ErrorWithStatus } from '@utils';
-import { connectToMongoDB } from '@config';
-import { ChatRooms } from '@models';
-import { Err, ErrorWithStatus } from '@utils';
 
 export async function getChatRoom(param: string) {
   try {
@@ -19,10 +16,7 @@ export async function getChatRoom(param: string) {
     };
   } catch (error: unknown) {
     let err: Err;
-  } catch (error: unknown) {
-    let err: Err;
     if (error instanceof ErrorWithStatus) {
-      err = { errorStatus: error.getStatus(), errorMessage: error.message };
       err = { errorStatus: error.getStatus(), errorMessage: error.message };
     }
     return {

@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import { addChatRoomPlayerId } from '@services/chatRooms';
 import { webSocket } from '@config';
 
-export async function addChatRoomPlayer(req: Request, res: Response): Promise<void> {
+export async function addChatRoomPlayer(req: Request, { status }: Response): Promise<void> {
   const {
     body: {
       param,
@@ -19,10 +19,10 @@ export async function addChatRoomPlayer(req: Request, res: Response): Promise<vo
     openedRoom.push(roomUsers);
     webSocket.roomClients.set(roomId, openedRoom);
 
-    res.status(200).json(chatRoom);
+    status(200).json(chatRoom);
     return;
   }
 
-  res.status(chatRoom.error).json(chatRoom.message);
+  status(chatRoom.error).json(chatRoom.message);
   return;
 }

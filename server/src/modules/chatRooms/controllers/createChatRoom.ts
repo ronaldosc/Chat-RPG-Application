@@ -1,7 +1,5 @@
 import { webSocket } from '@config';
 import { AuthenticatedUserDataRequestModel, ChatRoomsModel, FeedMessagesModel } from '@interfaces';
-import { webSocket } from '@config';
-import { AuthenticatedUserDataRequestModel, ChatRoomsModel, FeedMessagesModel } from '@interfaces';
 import { Request, Response } from 'express';
 import { getFeedMessage } from '@services/feedMessages';
 import { create, getChatRoomIdByFeedId } from '@services/chatRooms';

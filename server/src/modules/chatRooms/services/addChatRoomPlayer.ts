@@ -2,22 +2,14 @@ import { ICharacter } from '@interfaces';
 import { connectToMongoDB } from '@config';
 import { ChatRooms } from '@models';
 import { Err, ErrorWithStatus } from '@utils';
-import { ICharacter } from '@interfaces';
-import { connectToMongoDB } from '@config';
-import { ChatRooms } from '@models';
-import { Err, ErrorWithStatus } from '@utils';
 
 export async function addChatRoomPlayerId(param: ICharacter) {
-  const { chatRoomId, playerCharacterId, playerId } = param;
-
   const { chatRoomId, playerCharacterId, playerId } = param;
 
   try {
     await connectToMongoDB();
 
     const result = await ChatRooms.updateOne(
-      { _id: chatRoomId, 'playerCharacters.characterId': playerCharacterId },
-      { $set: { 'playerCharacters.$.player': playerId } },
       { _id: chatRoomId, 'playerCharacters.characterId': playerCharacterId },
       { $set: { 'playerCharacters.$.player': playerId } },
     );
@@ -40,10 +32,7 @@ export async function addChatRoomPlayerId(param: ICharacter) {
     }
   } catch (error: unknown) {
     let err: Err;
-  } catch (error: unknown) {
-    let err: Err;
     if (error instanceof ErrorWithStatus) {
-      err = { errorStatus: error.getStatus(), errorMessage: error.message };
       err = { errorStatus: error.getStatus(), errorMessage: error.message };
     }
     return {

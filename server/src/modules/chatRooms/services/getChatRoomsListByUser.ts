@@ -1,7 +1,5 @@
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
-import { Err } from '@utils';
 import { connectToMongoDB } from '@config';
-import { ErrorWithStatus } from '@utils';
+import { Err, ErrorWithStatus } from '@utils';
 import { ChatRooms } from '@models';
 
 export async function getChatRoomsListByUserId(param: string) {

@@ -8,6 +8,7 @@ import { redisConfig } from './config/redisdb';
 import { getChatRoomsListByUserId } from './modules/chatRooms/services';
 import jwt from 'jsonwebtoken';
 import { decodeData } from './interfaces';
+import { ErrorWithStatus } from './utils/errorWithStatus';
 
 dotenv.config();
 
@@ -40,9 +41,30 @@ class WebSocketInitializer {
 
         switch (action) {
           case 'join-feedRoom': // just connect to server
-            const token = data.token || `User ${clientId}`;
-            const decoded = jwt.verify(token, process.env.JWT_SECRET) as decodeData;
-            const user = decoded.userId;
+            let user = '';
+            try {
+              const token = data.token || `User ${clientId}`;
+              const decoded = jwt.verify(token, process.env.JWT_SECRET) as decodeData;
+              user = decoded.userId;
+            }
+            catch (error) {
+              let errorStatus: number | null;
+              let errorMessage: string | null;
+              if (error instanceof ErrorWithStatus) {
+                errorStatus = error.getStatus();
+                errorMessage = error.message;
+              }
+              const message = {
+                action: 'erro',
+                data: {
+                  chatRoom: 'feedRoom',
+                  message: 'Erro verificando token',
+                },
+              };
+              console.log(message);
+              ws.send(JSON.stringify(message));
+              return;
+            }
 
             const chatRooms = await getChatRoomsListByUserId(user);
             this.userClients.set(user, clientId);
@@ -57,9 +79,9 @@ class WebSocketInitializer {
               }
             }
 
-            console.log('roomClients ', this.roomClients);
-            console.log('userClients ', this.userClients);
-            break;
+          console.log('roomClients ', this.roomClients);
+          console.log('userClients ', this.userClients);
+          break;
         }
       });
 

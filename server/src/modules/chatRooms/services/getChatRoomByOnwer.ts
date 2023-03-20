@@ -10,7 +10,7 @@ export async function getChatRoomByOwnerId(param: string) {
     const chatRooms = await ChatRooms.find({ owner: param });
 
     return {
-      message: 'chatRoom(s) selecionado(s) com sucesso!',
+      message: 'Sala(s) de chat selecionada(s) com sucesso!',
       data: {
         chatRooms,
       },
@@ -24,7 +24,7 @@ export async function getChatRoomByOwnerId(param: string) {
     }
     return {
       error: errorStatus ?? 500,
-      message: errorMessage ?? 'Erro ao selecionar chatRoom(s)',
+      message: errorMessage ?? 'Erro ao selecionar sala(s) de chat',
     };
   }
 }

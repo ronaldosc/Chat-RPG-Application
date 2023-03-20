@@ -6,16 +6,22 @@ import { FeedMessages } from '../model';
 export async function getFeedMessage(param: string) {
   try {
     await connectToMongoDB();
+    const feedMessage = await FeedMessages.find({ _id: param }).exec();
 
-    console.log(param);
-    const feedMessage = await FeedMessages.find({ _id: param });
+    if (feedMessage.length===0) {
+      return {
+        error: 500,
+        message: 'Feed de oringem não encontrado!',
+      };
+    } else {
+      return {
+        message: 'Feed selecionado com sucesso!',
+        data: {
+          feedMessage,
+        },
+      }
+    }
 
-    return {
-      message: 'Feed selecionado com sucesso!',
-      data: {
-        feedMessage,
-      },
-    };
   } catch (error) {
     let errorStatus: number | null;
     let errorMessage: string | null;

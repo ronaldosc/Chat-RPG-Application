@@ -6,11 +6,18 @@ interface PropTypes {
 
 export const Logo = ({ width, height }: PropTypes) => {
   return (
-    <div className="svg-logo">
+    <div
+      className="svg-logo"
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
       <svg
-        width={width || '20px'}
-        height={height || '20px'}
-        viewBox="0 0 24 28"
+        width={width || '30px'}
+        height={height || '30px'}
+        viewBox="0 0 30 30"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >

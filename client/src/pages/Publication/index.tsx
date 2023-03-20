@@ -18,6 +18,7 @@ interface likeTypes {
 }
 
 interface PublicationTypes {
+  _id: string;
   owner: string;
   title: string;
   description: string;
@@ -30,6 +31,7 @@ interface PublicationTypes {
 export const Publication = () => {
   const navigate = useNavigate();
   const [publication, setPublication] = useState<PublicationTypes>({
+    _id: '',
     owner: '',
     title: 'titulo',
     description: 'INSERINDO SUA DESCRIÇÃO...',
@@ -125,7 +127,7 @@ export const Publication = () => {
                 <Button
                   label="Entrar"
                   color={Color.Gold}
-                  onClick={() => navigate(`/chat-room/${publication.owner}`)}
+                  onClick={() => navigate(`/chat-room/${publication._id}`)}
                 />
               </Container>
 

@@ -29,6 +29,8 @@ interface PublicationTypes {
   content: string;
   image: string | null;
   numberOfPlayers: number;
+  numberOfLikes: number;
+  numberOfComments: number;
   playerCharacters: characterProps[];
   likes: likeTypes[];
   comments: commentTypes[];
@@ -43,6 +45,13 @@ interface ResponseTypes {
 interface LikeTypes {
   feedMessage: string;
   author: string;
+}
+
+interface LikeResponseTypes {
+  message: string;
+  data: {
+    newLike: LikeTypes;
+  };
 }
 
 interface WSResponseTypes<T> {
@@ -64,6 +73,40 @@ export const Feed = () => {
     setPublications(data.data.feeds);
   }
 
+  async function likeFeed(feedId: string) {
+    const { data } = await api.post<LikeResponseTypes>('/reaction/like', {
+      feedMessage: feedId,
+    });
+    setPublications((oldPublications) => {
+      const newPublications = oldPublications.map((publication) => {
+        if (publication._id === feedId) {
+          return {
+            ...publication,
+            likes: Array.isArray(publication.likes)
+              ? [
+                  ...publication.likes,
+                  {
+                    author: data.data.newLike.author,
+                    feedMessage: data.data.newLike.feedMessage,
+                  },
+                ]
+              : [
+                  {
+                    author: data.data.newLike.author,
+                    feedMessage: data.data.newLike.feedMessage,
+                  },
+                ],
+            numberOfLikes: publication.numberOfLikes + 1,
+          };
+        }
+        return publication;
+      });
+      return newPublications;
+    });
+
+    console.log(data);
+  }
+  console.log(document.cookie);
   useEffect(() => {
     const host = window.location.hostname;
     const ws = new WebSocket(`ws://${host}:5001`);
@@ -127,7 +170,6 @@ export const Feed = () => {
                 justify={'center'}
                 padding={'10px 16px'}
                 gap={'12px'}
-                onClick={() => navigate(encodeURL(['publication']))}
               >
                 <Container
                   backgroundColor="transparent"
@@ -167,13 +209,23 @@ export const Feed = () => {
                   overflow="none"
                 >
                   <span>
-                    <Button label="Curtir" color={Color.Green} />
-                    <MiniLabel>{publication?.likes?.length} Curtidas</MiniLabel>
+                    <Button
+                      label="Curtir"
+                      color={Color.Green}
+                      onClick={() => likeFeed(publication._id)}
+                    />
+                    <MiniLabel>{publication?.numberOfLikes} Curtidas</MiniLabel>
                   </span>
                   <span>
-                    <Button label="Comentar" color={Color.Brown} />
+                    <Button
+                      label="Comentar"
+                      color={Color.Brown}
+                      onClick={() =>
+                        navigate(encodeURL(['publication', publication._id]))
+                      }
+                    />
                     <MiniLabel>
-                      {publication?.comments?.length} Comentários
+                      {publication?.numberOfComments} Comentários
                     </MiniLabel>
                   </span>
 

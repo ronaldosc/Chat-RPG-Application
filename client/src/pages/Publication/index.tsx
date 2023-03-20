@@ -4,10 +4,11 @@ import { Container } from '@components/container';
 import { Header } from '@components/header';
 import { X } from 'phosphor-react';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { PublicationStyle } from './style';
 
-import { apiJSON } from '../../libs/api';
+import { api, apiJSON } from '../../libs/api';
+import { ChatInput } from '../../components/chatRoom';
 
 interface commentTypes {
   author: string;
@@ -15,6 +16,11 @@ interface commentTypes {
 }
 interface likeTypes {
   author: string;
+}
+
+interface ResquestCommentType {
+  feedMessage: string;
+  comment: string;
 }
 
 interface PublicationTypes {
@@ -29,20 +35,46 @@ interface PublicationTypes {
 
 export const Publication = () => {
   const navigate = useNavigate();
+
+  const { id } = useParams();
   const [publication, setPublication] = useState<PublicationTypes>({
     owner: '',
     title: 'titulo',
-    description: 'INSERINDO SUA DESCRIÇÃO...',
+    description:
+      'INSERINDO SUA DESCRIÇÃO...INSERINDO SUA DESCRIÇÃO...INSERINDO SUA DESCRIÇÃO...INSERINDO SUA DESCRIÇÃO...INSERINDO SUA DESCRIÇÃO...',
     playersAmount: 0,
     playersLimit: 0,
     likes: [],
-    comments: [],
+    comments: [
+      {
+        author: 'autor',
+        comment: 'comentario',
+      },
+      {
+        author: 'dbbitz',
+        comment: 'comentariocomentariocomentariocomentariocomentariocomentario',
+      },
+    ],
   });
+
+  const [comment, setComment] = useState<string>('');
+
+  async function sendComment() {
+    const { data } = await api.post<ResquestCommentType>(
+      '/feed-comment/new-comment',
+      {
+        feedMessage: id,
+        content: "comentario"
+      },
+    );
+    console.log(data);
+  }
 
   async function getPublication() {
     const { data } = await apiJSON.get<PublicationTypes>('/feed-room/:id');
     setPublication(data);
   }
+  
 
   useEffect(() => {
     getPublication();
@@ -52,26 +84,21 @@ export const Publication = () => {
     <>
       <Header></Header>
       <PublicationStyle>
-        <Container
-          height="250px"
-          justify="start"
-          padding="0 30px 30px 30px"
-          gap="12px"
-        >
+        <Container height="250px" justify="start" gap="12px">
           <>
             <Container
               backgroundColor={Color.Background.base}
-              height={'fit-content'}
-              justify={'center'}
-              padding={'10px 16px'}
-              gap={'12px'}
+              height="fit-content"
+              justify="center"
+              padding="16px 16px"
+              gap="16px"
             >
               <Container
                 backgroundColor="transparent"
                 justify="space-between"
                 align="center"
                 direction="row"
-                height="10%"
+                height="15%"
                 overflow="none"
               >
                 <H2>{publication?.title}</H2>
@@ -81,14 +108,6 @@ export const Publication = () => {
                   <H2>
                     {publication?.playersAmount}/{publication?.playersLimit}
                   </H2>
-                  <X
-                    size={22}
-                    color={Color.Black.base}
-                    onClick={() => navigate(-1)}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.cursor = 'pointer';
-                    }}
-                  />
                 </div>
               </Container>
               <Container
@@ -134,6 +153,7 @@ export const Publication = () => {
                 height={publication.comments.length > 0 ? '30px' : '0px'}
                 justify="start"
                 align="start"
+                margin="30px 0px 0px 0px"
               >
                 <H2>{publication.comments.length > 0 && 'Comentários'}</H2>
               </Container>
@@ -174,6 +194,22 @@ export const Publication = () => {
                   );
                 })}
               </>
+              <Container
+                height="fit-content"
+                direction="row"
+                gap="8px"
+                justify="space-between"
+              >
+                <ChatInput
+                  type="text"
+                  onChange={(e) => setComment(e.target.value)}
+                />
+                <Button
+                  color={Color.Green}
+                  label={'Enviar'}
+                  onClick={() => sendComment()}
+                />
+              </Container>
             </Container>
           </>
         </Container>

@@ -101,7 +101,7 @@ export const ChatRoom = () => {
       <Container backgroundColor={Color.Background.base}>
         <H1>{chatProprieties?.data.title}</H1>
         <ChatLounge>
-          {messages.map((element, index) => {
+          {messages?.map((element, index) => {
             return (
               <MessageComponent
                 key={index}

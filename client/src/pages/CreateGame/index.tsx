@@ -52,7 +52,9 @@ export const CreateGame = () => {
     );
     try {
       const { data } = await api.post('/feed-room/new-feed', gameProperties);
-      const { data: chatRoomData } = await api.post(`/new-chatroom/${data.owner}}`);
+      const { data: chatRoomData } = await api.post(
+        `/new-chatroom/${data.owner}}`,
+      );
 
       enqueueSnackbar('Jogo criado com sucesso!', {
         variant: 'success',

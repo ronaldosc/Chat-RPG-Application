@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 export const ChatLounge = styled.div`
   padding: 10px;
-  height: 400px;
+  min-height: 400px;
   width: 95%;
   display: flex;
   flex-direction: column;

@@ -12,8 +12,13 @@ interface Message {
   body: string;
 }
 
+interface GetMessagesTypes {
+  data: {
+    messages: Message[];
+  };
+}
+
 const FAKE_DATA = {
-  roomTitle: 'Sala Genérica',
   userName: 'Eu',
 };
 
@@ -49,11 +54,16 @@ export const ChatRoom = () => {
   const { id } = useParams();
   const [messageBody, setMessageBody] = React.useState('');
   const [messages, setMessages] = React.useState<Message[]>([]);
-  const [chatProprieties, setChatProprieties] = React.useState();
+  const [chatProprieties, setChatProprieties] = React.useState<ChatRoomTypes>();
 
   async function getMessages() {
-    const { data } = await api.get<ChatRoomTypes>(`/chatroom-id/${id}`);
+    const { data } = await api.get<GetMessagesTypes>(`/feed-chat/chatfeeds/${id}`);
     setMessages(data.data.messages);
+  }
+
+  async function getChatRoom() {
+    const { data } = await api.get<ChatRoomTypes>(`chat-room/chatroom-id/${id}`);
+    setChatProprieties(data);
   }
 
   const host = window.location.hostname;
@@ -61,6 +71,7 @@ export const ChatRoom = () => {
 
   React.useEffect(() => {
     getMessages();
+    getChatRoom();
 
     ws.onmessage = (e) => {
       const data = JSON.parse(e.data.toString()) as WSResponseTypes;
@@ -85,7 +96,7 @@ export const ChatRoom = () => {
     <>
       <Header />
       <Container backgroundColor={Color.Background.base}>
-        <H1>{FAKE_DATA.roomTitle}</H1>
+        <H1>{chatProprieties?.data.title}</H1>
         <ChatLounge>
           {messages.map((element, index) => {
             return (

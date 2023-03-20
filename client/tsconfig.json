@@ -1,16 +1,11 @@
 {
+	"extends": "../tsconfig.global.json",
 	"compilerOptions": {
-		"target": "ES2022",
-		"useDefineForClassFields": true,
 		"lib": ["DOM", "DOM.Iterable", "ESNext"],
-		"allowJs": false,
-		"skipLibCheck": true,
+		"moduleResolution": "nodenext",
 		"esModuleInterop": false,
-		"allowSyntheticDefaultImports": true,
-		"strict": true,
-		"forceConsistentCasingInFileNames": true,
-		"module": "CommonJS",
-		"moduleResolution": "Node",
+		"useDefineForClassFields": true,
+		"allowJs": false,
 		"resolveJsonModule": true,
 		"isolatedModules": true,
 		"noEmit": true,
@@ -19,7 +14,7 @@
 		"baseUrl": "src",
 		"paths": {
 			"@api": ["libs/api"],
-			"@assets/icons": ["assets/icons"],
+			"@assets/*": ["assets/*"],
 			"@components/*": ["components/*"],
 			"@helpers": ["helpers"],
 			"@pages": ["pages"],
@@ -28,5 +23,6 @@
 		}
 	},
 	"include": ["src/**/*"],
+	"exclude": ["**/node_modules/**/*"],
 	"references": [{ "path": "./tsconfig.node.json" }]
 }

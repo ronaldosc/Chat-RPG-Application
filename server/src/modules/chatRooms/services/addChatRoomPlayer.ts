@@ -1,21 +1,21 @@
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
-import { connectToMongoDB } from '../../../config/mongodb';
-import { ErrorWithStatus } from '../../../utils/errorWithStatus';
-import { ChatRooms } from '../model';
-import { ICharacter } from '../interface';
+import { ICharacter } from '@interfaces';
+import { connectToMongoDB } from '@config';
+import { ChatRooms } from '@models';
+import { Err, ErrorWithStatus } from '@utils';
 
 export async function addChatRoomPlayerId(param: ICharacter) {
+  const { chatRoomId, playerCharacterId, playerId } = param;
+
   try {
     await connectToMongoDB();
 
     const result = await ChatRooms.updateOne(
-      { _id: param.chatRoomId, 'playerCharacters.characterId': param.playerCharacterId },
-      { $set: { 'playerCharacters.$.player': param.playerId } },
+      { _id: chatRoomId, 'playerCharacters.characterId': playerCharacterId },
+      { $set: { 'playerCharacters.$.player': playerId } },
     );
-    const success = result.modifiedCount;
 
-    if (success === 1) {
-      const chatRoom = await ChatRooms.find({ _id: param.chatRoomId });
+    if (result.modifiedCount === 1) {
+      const chatRoom = await ChatRooms.find({ _id: chatRoomId });
 
       return {
         message: 'Jogador alterado com sucesso!',
@@ -30,16 +30,14 @@ export async function addChatRoomPlayerId(param: ICharacter) {
         data: {},
       };
     }
-  } catch (error) {
-    let errorStatus: number | null;
-    let errorMessage: string | null;
+  } catch (error: unknown) {
+    let err: Err;
     if (error instanceof ErrorWithStatus) {
-      errorStatus = error.getStatus();
-      errorMessage = error.message;
+      err = { errorStatus: error.getStatus(), errorMessage: error.message };
     }
     return {
-      error: errorStatus ?? 500,
-      message: errorMessage ?? 'Erro ao alterar jogador',
+      error: err.errorStatus ?? 500,
+      message: err.errorMessage ?? 'Erro ao alterar jogador',
     };
   }
 }

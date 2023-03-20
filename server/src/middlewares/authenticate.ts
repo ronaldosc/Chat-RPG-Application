@@ -1,19 +1,18 @@
-import { Request, Response, NextFunction } from 'express';
-import * as dotenv from 'dotenv';
-dotenv.config();
-import jwt from 'jsonwebtoken';
-import { decodeData } from '../interfaces';
+import { NextFunction, Request, Response } from 'express';
+import { verify } from 'jsonwebtoken';
+import { DecodeDataModel } from '@interfaces';
+import { Env } from '@env';
 
-function authenticate(req: Request, res: Response, next: NextFunction): any {
+export function authenticate(req: Request, res: Response, next: NextFunction): any {
   const token = req.cookies.token;
 
   if (!token) {
     return res.status(401).json({ message: 'Para prosseguir, faça login novamente.' });
   }
 
-  if (process.env.JWT_SECRET) {
+  if (Env('JWT_SECRET')) {
     try {
-      const decoded = jwt.verify(token, process.env.JWT_SECRET) as decodeData;
+      const decoded = verify(token, Env('JWT_SECRET')) as DecodeDataModel;
       (req as any).userId = decoded.userId;
 
       next();
@@ -24,5 +23,3 @@ function authenticate(req: Request, res: Response, next: NextFunction): any {
     return res.status(401).json({ message: 'Para prosseguir, faça login novamente.' });
   }
 }
-
-export default authenticate;

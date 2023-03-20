@@ -1,7 +1,6 @@
-/* eslint-disable @typescript-eslint/no-misused-promises */
+import { authenticate } from '@middlewares';
 import { Router } from 'express';
-import authenticate from '../../middlewares/authenticate';
-import * as chatRoomControllers from './controllers';
+import * as chatRoomControllers from '../modules/chatRooms/controllers';
 
 const router = Router();
 
@@ -13,4 +12,4 @@ router.get('/chatroom-user', authenticate, chatRoomControllers.getChatRoomByUser
 router.get('/chatroom-list', authenticate, chatRoomControllers.getChatRoomListByUser);
 router.put('/chatroom-player', authenticate, chatRoomControllers.addChatRoomPlayer);
 
-export default router;
+export { router as chatRoomRoutes };

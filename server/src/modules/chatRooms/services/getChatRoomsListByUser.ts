@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-import { connectToMongoDB } from '../../../config/mongodb';
-import { ErrorWithStatus } from '../../../utils/errorWithStatus';
-import { ChatRooms } from '../model';
+import { Err } from '@utils';
+import { connectToMongoDB } from '@config';
+import { ErrorWithStatus } from '@utils';
+import { ChatRooms } from '@models';
 
 export async function getChatRoomsListByUserId(param: string) {
   try {
@@ -18,16 +19,14 @@ export async function getChatRoomsListByUserId(param: string) {
         chatRooms,
       },
     };
-  } catch (error) {
-    let errorStatus: number | null;
-    let errorMessage: string | null;
+  } catch (error: unknown) {
+    let err: Err;
     if (error instanceof ErrorWithStatus) {
-      errorStatus = error.getStatus();
-      errorMessage = error.message;
+      err = { errorStatus: error.getStatus(), errorMessage: error.message };
     }
     return {
-      error: errorStatus ?? 500,
-      message: errorMessage ?? 'Erro ao selecionar Lista de Salas de Chat(s)',
+      error: err.errorStatus ?? 500,
+      message: err.errorMessage ?? 'Erro ao selecionar Lista de Salas de Chat(s)',
     };
   }
 }

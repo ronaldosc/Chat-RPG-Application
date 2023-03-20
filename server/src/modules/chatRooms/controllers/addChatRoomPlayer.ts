@@ -1,19 +1,23 @@
+import { ICharacter } from '@interfaces';
 import { Request, Response } from 'express';
-import { addChatRoomPlayerId } from '../services';
-import { ICharacter } from '../interface';
-import { webSocketInitializer } from '../../../index';
+import { addChatRoomPlayerId } from '@services/chatRooms';
+import { webSocket } from '@config';
 
 export async function addChatRoomPlayer(req: Request, res: Response): Promise<void> {
-  const param: ICharacter = req.body;
-
+  const {
+    body: {
+      param,
+      param: { playerId, chatRoomId },
+    },
+  }: { body: { param: ICharacter } } = req;
   const chatRoom = await addChatRoomPlayerId(param);
 
   if (!chatRoom.error) {
-    const roomId = param.chatRoomId.toString();
-    const clients = webSocketInitializer.roomClients.get(roomId) || [];
-    const clientws = webSocketInitializer.userClients.get(param.playerId.toString());
-    clients.push(clientws);
-    webSocketInitializer.roomClients.set(roomId, clients);
+    const roomId = chatRoomId.toString();
+    const openedRoom = webSocket.roomClients.get(roomId) || [];
+    const roomUsers = webSocket.userClients.get(playerId.toString());
+    openedRoom.push(roomUsers);
+    webSocket.roomClients.set(roomId, openedRoom);
 
     res.status(200).json(chatRoom);
     return;

@@ -1,10 +1,8 @@
 import { Request, Response } from 'express';
-import { getChatRoom } from '../services';
+import { getChatRoom } from '@services/chatRooms';
 
-export async function getChatRoomById(req: Request, res: Response): Promise<void> {
-  const chatRoomId = req.params.chatRoomId;
-
-  const chatRoom = await getChatRoom(chatRoomId);
+export async function getChatRoomById(req: Request, { status }: Response): Promise<void> {
+  const chatRoom = await getChatRoom(req.params.chatRoomId);
 
   if (!chatRoom.error) {
     let result = {};
@@ -19,11 +17,12 @@ export async function getChatRoomById(req: Request, res: Response): Promise<void
         data: {},
       };
     }
+    //TODO duas mensagens idênticas?
 
-    res.status(200).json(result);
+    status(200).json(result);
     return;
   }
 
-  res.status(chatRoom.error).json(chatRoom.message);
+  status(chatRoom.error).json(chatRoom.message);
   return;
 }

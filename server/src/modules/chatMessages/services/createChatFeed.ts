@@ -1,23 +1,20 @@
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
-import { ChatFeedMessages } from '../model';
-import { connectToMongoDB } from '../../../config/mongodb';
-import { ChatFeedMessagesModel } from '../interface';
-import { ErrorWithStatus } from '../../../utils/errorWithStatus';
+import { connectToMongoDB } from '@config';
+import { Err, ErrorWithStatus } from '@utils';
+import { ChatFeedMessagesModel } from '@interfaces';
+import { ChatFeedMessages } from '@models';
 
-export async function create(param: ChatFeedMessagesModel) {
+export async function create(param: Omit<ChatFeedMessagesModel, 'deletedAt' | 'createdAt'>) {
+  const { numberOfComments, numberOfLikes, ...rest } = param;
+  const newFeed = new ChatFeedMessages();
+
   try {
     await connectToMongoDB();
 
-    const newFeed = new ChatFeedMessages();
-
-    newFeed.chatRoomId = param.chatRoomId;
-    newFeed.author = param.author;
-    newFeed.content = param.content;
-    newFeed.image = param.image;
-    newFeed.directedTo = param.directedTo;
-    newFeed.choices = param.choices;
-    newFeed.numberOfComments = param.numberOfComments ?? 0;
-    newFeed.numberOfLikes = param.numberOfLikes ?? 0;
+    Object.assign(newFeed, {
+      numberOfComments: numberOfComments ?? 0,
+      numberOfLikes: numberOfLikes ?? 0,
+      ...rest,
+    });
 
     await newFeed.save();
 
@@ -27,16 +24,14 @@ export async function create(param: ChatFeedMessagesModel) {
         newFeed,
       },
     };
-  } catch (error) {
-    let errorStatus: number | null;
-    let errorMessage: string | null;
+  } catch (error: unknown) {
+    let err: Err;
     if (error instanceof ErrorWithStatus) {
-      errorStatus = error.getStatus();
-      errorMessage = error.message;
+      err = { errorStatus: error.getStatus(), errorMessage: error.message };
     }
     return {
-      error: errorStatus ?? 500,
-      message: errorMessage ?? 'Erro ao adicionar chat feed',
+      error: err.errorStatus ?? 500,
+      message: err.errorMessage ?? 'Erro ao adicionar chat feed',
     };
   }
 }

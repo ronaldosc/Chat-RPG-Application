@@ -1,70 +1,70 @@
+import { webSocket } from '@config';
+import { AuthenticatedUserDataRequestModel, ChatRoomsModel, FeedMessagesModel } from '@interfaces';
 import { Request, Response } from 'express';
-import * as ChatRoomServices from '../services';
-import { getFeedMessage } from '../../feedMessages/services';
-import { webSocketInitializer } from '../../../index';
-import { AuthenticatedUserDataRequest } from '../../../interfaces';
+import { getFeedMessage } from '@services/feedMessages';
+import { create, getChatRoomIdByFeedId } from '@services/chatRooms';
 
-export async function createChatRoom(req: Request, res: Response): Promise<void> {
+export async function createChatRoom(req: Request, { status }: Response): Promise<void> {
   const messageId = req.params.feedMessageId;
-
-  const chats = await ChatRoomServices.getChatRoomIdByFeedId(messageId);
-  if (chats.data.chat.length>0 ){
-    res.status(500).json({ message: 'Já existe um chat room com este feed de origem' });
+  const chats = (await getChatRoomIdByFeedId(messageId)).data.chat;
+  if (chats.length > 0) {
+    status(500).json({ message: 'Já existe um chat room com este feed de origem' });
     return;
   }
-
   const feedOrigin = await getFeedMessage(messageId);
+  const {
+    data: { feedMessage },
+  } = feedOrigin;
+  const { ...rest } = feedMessage[0] as Omit<
+    FeedMessagesModel,
+    'numberOfComments' | 'numberOfLikes' | 'updatedAt' | 'deletedAt'
+  >;
 
-  if (!feedOrigin.error){
+  if (!feedOrigin.error) {
+    const owner = (req as AuthenticatedUserDataRequestModel).userId;
 
-    const owner = (req as AuthenticatedUserDataRequest).userId;
-
-    if (feedOrigin.data.feedMessage[0].owner != owner) {
-      res.status(500).json({ message: 'usuário não é dono do feed de origem' });
+    if (feedMessage[0].owner !== owner) {
+      status(500).json({ message: 'usuário não é dono do feed de origem' });
       return;
     }
 
-    const newChatRoom = {
-      feedMessageOrigin: feedOrigin.data.feedMessage[0]._id,
-      playerCharacters: feedOrigin.data.feedMessage[0].playerCharacters,
-      owner: feedOrigin.data.feedMessage[0].owner,
-      title: feedOrigin.data.feedMessage[0].title,
-      content: feedOrigin.data.feedMessage[0].content,
-      image: feedOrigin.data.feedMessage[0].image,
-      numberOfPlayers: feedOrigin.data.feedMessage[0].numberOfPlayers,
+    const {} = feedMessage[0];
+    const newChatRoom: Omit<ChatRoomsModel, 'updatedAt' | 'deletedAt'> = {
+      feedMessageOrigin: feedMessage[0]._id,
       waitingForResponse: false,
-      createdAt: feedOrigin.data.feedMessage[0].createdAt,
+      description: feedMessage[0].content,
+      ...rest,
     };
 
-    const result = await ChatRoomServices.create(newChatRoom);
+    const result = await create(newChatRoom);
+    const {
+      data: { newChatRoom: createdChatRoom },
+    } = result;
 
     if (!result.error) {
       // join-chatroom
-      const user = result.data.newChatRoom.owner.toString();
-      const roomId = result.data.newChatRoom._id.toString();
-      const clients = webSocketInitializer.roomClients.get(roomId) || [];
-      const clientws = webSocketInitializer.userClients.get(user);
-      clients.push(clientws);
+      const user = createdChatRoom.owner.toString();
+      const roomId = createdChatRoom._id.toString();
+      const roomClients = webSocket.roomClients.get(roomId) || [];
+      const clients = webSocket.userClients.get(user);
+      roomClients.push(clients);
 
-      for (let i = 0; i < result.data.newChatRoom.playerCharacters.length; i++) {
-        if (result.data.newChatRoom.playerCharacters[i].player) {
-          const clientws = webSocketInitializer.userClients.get(
-            result.data.newChatRoom.playerCharacters[i].player.toString(),
-          );
-          clients.push(clientws);
+      for (let i = 0; i < createdChatRoom.playerCharacters.length; i++) {
+        if (createdChatRoom.playerCharacters[i].player) {
+          const clientWs = webSocket.userClients.get(createdChatRoom.playerCharacters[i].player.toString());
+          roomClients.push(clientWs);
         }
       }
-      webSocketInitializer.roomClients.set(roomId, clients);
+      webSocket.roomClients.set(roomId, roomClients);
 
-      res.status(200).json(result);
+      status(200).json(result);
       return;
-
     }
 
-    res.status(result.error).json(result.message);
+    status(result.error).json(result.message);
     return;
   }
 
-  res.status(feedOrigin.error).json(feedOrigin.message);
+  status(feedOrigin.error).json(feedOrigin.message);
   return;
 }

@@ -1,13 +1,11 @@
+import { webSocket } from '@config';
+import { AuthenticatedUserDataRequestModel, FeedMessageCommentsModel } from '@interfaces';
 import { Request, Response } from 'express';
-import { FeedMessageCommentsModel } from '../interface';
-import { webSocketInitializer } from '../../../index';
-import { create } from '../services';
-import { AuthenticatedUserDataRequest } from '../../../interfaces';
+import { create } from '@services/feedMessageComments';
 
 export async function createFeedComment(req: Request, res: Response): Promise<void> {
   const param: FeedMessageCommentsModel = req.body;
-  param.author = (req as AuthenticatedUserDataRequest).userId;
-
+  param.author = (req as AuthenticatedUserDataRequestModel).userId;
   const result = await create(param);
 
   if (!result.error) {
@@ -19,7 +17,7 @@ export async function createFeedComment(req: Request, res: Response): Promise<vo
       },
     };
 
-    await webSocketInitializer.redisPub.publish('feedRoom', JSON.stringify(message));
+    await webSocket.redisPub.publish('feedRoom', JSON.stringify(message));
 
     res.status(200).json(result);
     return;

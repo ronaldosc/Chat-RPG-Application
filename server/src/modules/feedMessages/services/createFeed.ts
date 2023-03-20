@@ -1,23 +1,18 @@
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
-import { FeedMessages } from '../model';
-import { connectToMongoDB } from '../../../config/mongodb';
-import { FeedMessagesModel } from '../interface';
-import { ErrorWithStatus } from '../../../utils/errorWithStatus';
+import { FeedMessagesModel } from '@interfaces';
+import { connectToMongoDB } from '@config';
+import { FeedMessages } from '@models';
+import { Err, ErrorWithStatus } from '@utils';
 
-export async function create(param: FeedMessagesModel) {
+export async function create(param: Omit<FeedMessagesModel, 'createdAt' | 'updatedAt' | 'deletedAt'>) {
+  const newFeed = new FeedMessages();
+
   try {
     await connectToMongoDB();
-
-    const newFeed = new FeedMessages();
-
-    newFeed.owner = param.owner;
-    newFeed.title = param.title;
-    newFeed.content = param.content;
-    newFeed.image = param.image;
-    newFeed.numberOfPlayers = param.numberOfPlayers;
-    newFeed.playerCharacters = param.playerCharacters;
-    newFeed.numberOfComments = param.numberOfComments ?? 0;
-    newFeed.numberOfLikes = param.numberOfLikes ?? 0;
+    Object.assign(newFeed, {
+      ...param,
+      numberOfComments: param.numberOfComments ?? 0,
+      numberOfLikes: param.numberOfLikes ?? 0,
+    });
 
     await newFeed.save();
 
@@ -27,16 +22,14 @@ export async function create(param: FeedMessagesModel) {
         newFeed,
       },
     };
-  } catch (error) {
-    let errorStatus: number | null;
-    let errorMessage: string | null;
+  } catch (error: unknown) {
+    let err: Err;
     if (error instanceof ErrorWithStatus) {
-      errorStatus = error.getStatus();
-      errorMessage = error.message;
+      err = { errorStatus: error.getStatus(), errorMessage: error.message };
     }
     return {
-      error: errorStatus ?? 500,
-      message: errorMessage ?? 'Erro ao adicionar feed',
+      error: err.errorStatus ?? 500,
+      message: err.errorMessage ?? 'Erro ao adicionar feed',
     };
   }
 }

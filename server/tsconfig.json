@@ -1,28 +1,41 @@
 {
-  "compilerOptions": {
-    "target": "ES2022",
-    "lib": ["ESNext"],
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "module": "CommonJS",
-    "rootDir": "./src",
-    "moduleResolution": "node",
-    "allowJs": true,
-    "outDir": "./dist",
-    "removeComments": true,
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "strict": true,
-    "noImplicitAny": true,
-    "strictNullChecks": false,
-    "skipLibCheck": true
-  },
-  "include": [
-    "src"
-  ],
-  "ts-node": {
-    "transpileOnly" : true,
-    "files" : true,
-   }
+	"compilerOptions": {
+		"lib": ["ESNext"],
+		"rootDir": "src",
+		"esModuleInterop": true,
+		"noImplicitAny": true,
+		"strictNullChecks": false,
+		"baseUrl": "src",
+		"paths": {
+			"@assets/*": ["assets/*"],
+			"@config": ["config"],
+			"@controllers": ["modules/*/controllers"],
+			"@env": ["utils/env-config"],
+			"@interfaces": ["interfaces"],
+			"@mainIndex": ["main"],
+			"@middlewares": ["middlewares"],
+			"@models": ["models"],
+			"@routes": ["routes"],
+			"@services/chatMessages": ["modules/chatMessages/services"],
+			"@services/chatRooms": ["modules/chatRooms/services"],
+			"@services/feedMessageComments": ["modules/feedMessageComments/services"],
+			"@services/feedMessageLikes": ["modules/feedMessageLikes/services"],
+			"@services/feedMessages": ["modules/feedMessages/services"],
+			"@services/users": ["modules/users/services"],
+			"@controllers/chatMessages": ["modules/chatMessages/controllers"],
+			"@controllers/chatRooms": ["modules/chatRooms/controllers"],
+			"@controllers/feedMessageComments": ["modules/controllersts/controllers"],
+			"@controllers/feedMessageLikes": ["modules/feedMessageLikes/controllers"],
+			"@controllers/feedMessages": ["modules/feedMessages/controllers"],
+			"@controllers/users": ["modules/users/controllers"],
+			"@utils": ["utils"]
+		}
+	},
+	"include": ["src/**/*"],
+	"exclude": ["**/node_modules/**/*"],
+	"ts-node": {
+		"transpileOnly": true,
+		"files": true
+	},
+	"extends": "../tsconfig.global.json"
 }

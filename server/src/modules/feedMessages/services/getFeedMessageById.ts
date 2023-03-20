@@ -1,17 +1,18 @@
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
-import { connectToMongoDB } from '../../../config/mongodb';
-import { ErrorWithStatus } from '../../../utils/errorWithStatus';
-import { FeedMessages } from '../model';
+import { connectToMongoDB } from '@config';
+import { FeedMessages } from '@models';
+import { Err, ErrorWithStatus } from '@utils';
 
 export async function getFeedMessage(param: string) {
+  const feedMessage = await FeedMessages.find({ _id: param });
+
   try {
     await connectToMongoDB();
     const feedMessage = await FeedMessages.find({ _id: param }).exec();
 
-    if (feedMessage.length===0) {
+    if (feedMessage.length === 0) {
       return {
         error: 500,
-        message: 'Feed de oringem não encontrado!',
+        message: 'Feed de origem não encontrado!',
       };
     } else {
       return {
@@ -19,19 +20,17 @@ export async function getFeedMessage(param: string) {
         data: {
           feedMessage,
         },
-      }
+      };
     }
-
   } catch (error) {
     let errorStatus: number | null;
     let errorMessage: string | null;
     if (error instanceof ErrorWithStatus) {
-      errorStatus = error.getStatus();
-      errorMessage = error.message;
+      err = { errorStatus: error.getStatus(), errorMessage: error.message };
     }
     return {
-      error: errorStatus ?? 500,
-      message: errorMessage ?? 'Erro ao selecionar feedMessage',
+      error: err.errorStatus ?? 500,
+      message: err.errorMessage ?? 'Erro ao selecionar feedMessage',
     };
   }
 }

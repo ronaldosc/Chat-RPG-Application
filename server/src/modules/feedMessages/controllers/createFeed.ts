@@ -1,27 +1,17 @@
+import { webSocket } from '@config';
+import { AuthenticatedUserDataRequestModel, FeedMessagesModel } from '@interfaces';
 import { Request, Response } from 'express';
-import { FeedMessagesModel } from '../interface';
-import * as feedRoomServices from '../services';
-import { webSocketInitializer } from '../../../index';
-import { AuthenticatedUserDataRequest } from '../../../interfaces';
+import { create } from '@services/feedMessages';
+import { Types } from 'mongoose';
 
 export async function createFeed(req: Request, res: Response): Promise<void> {
-  const feedData: FeedMessagesModel = req.body;
-  feedData['owner'] = (req as AuthenticatedUserDataRequest).userId;
-
-  const result = await feedRoomServices.create(feedData);
+  const feedData: Omit<FeedMessagesModel, 'updatedAt' | 'deletedAt'> & { _id: Types.ObjectId } = req.body;
+  feedData['owner'] = (req as AuthenticatedUserDataRequestModel).userId;
+  const result = await create(feedData);
 
   if (!result.error) {
     const newPost = {
-      _id: result.data.newFeed._id,
-      playerCharacters: result.data.newFeed.playerCharacters,
-      createdAt: result.data.newFeed.createdAt,
-      owner: result.data.newFeed.owner,
-      title: result.data.newFeed.title,
-      content: result.data.newFeed.content,
-      image: result.data.newFeed.image,
-      numberOfPlayers: result.data.newFeed.numberOfPlayers,
-      numberOfComments: result.data.newFeed.numberOfComments,
-      numberOfLikes: result.data.newFeed.numberOfLikes,
+      ...result,
     };
 
     const message = {
@@ -32,7 +22,7 @@ export async function createFeed(req: Request, res: Response): Promise<void> {
       },
     };
 
-    await webSocketInitializer.redisPub.publish('feedRoom', JSON.stringify(message));
+    await webSocket.redisPub.publish('feedRoom', JSON.stringify(message));
 
     res.status(200).json(result);
     return;

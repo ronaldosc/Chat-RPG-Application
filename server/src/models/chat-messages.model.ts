@@ -1,5 +1,5 @@
 import mongoose, { Schema, now } from 'mongoose';
-import { ChatFeedMessagesModel } from './interface';
+import { ChatFeedMessagesModel } from '@interfaces';
 
 const ChatFeedMessagesSchema = new mongoose.Schema<ChatFeedMessagesModel>({
   chatRoomId: { type: Schema.Types.ObjectId, required: true, ref: 'ChatRooms' },

@@ -1,11 +1,10 @@
-/* eslint-disable @typescript-eslint/no-misused-promises */
+import { authenticate } from '@middlewares';
 import { Router } from 'express';
-import authenticate from '../../middlewares/authenticate';
-import * as ChatFeedControllers from './controllers';
+import * as ChatFeedControllers from '../modules/chatMessages/controllers';
 
 const router = Router();
 
 router.post('/new-chatfeed', authenticate, ChatFeedControllers.createChatFeed);
 router.get('/chatfeeds/:chatRoomId', authenticate, ChatFeedControllers.getChatFeedMessagesByChat);
 
-export default router;
+export { router as chatFeedRoutes };

@@ -1,8 +1,7 @@
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { Types } from 'mongoose';
-import { connectToMongoDB } from '../../../config/mongodb';
-import { ErrorWithStatus } from '../../../utils/errorWithStatus';
-import { ChatRooms } from '../model';
+import { connectToMongoDB } from '@config';
+import { ChatRooms } from '@models';
+import { Err, ErrorWithStatus } from '@utils';
 
 export async function getChatRoomByUserId(param: Types.ObjectId) {
   try {
@@ -18,16 +17,14 @@ export async function getChatRoomByUserId(param: Types.ObjectId) {
         chatRooms,
       },
     };
-  } catch (error) {
-    let errorStatus: number | null;
-    let errorMessage: string | null;
+  } catch (error: unknown) {
+    let err: Err;
     if (error instanceof ErrorWithStatus) {
-      errorStatus = error.getStatus();
-      errorMessage = error.message;
+      err = { errorStatus: error.getStatus(), errorMessage: error.message };
     }
     return {
-      error: errorStatus ?? 500,
-      message: errorMessage ?? 'Erro ao selecionar salas(s) de chat',
+      error: err.errorStatus ?? 500,
+      message: err.errorMessage ?? 'Erro ao selecionar salas(s) de chat',
     };
   }
 }

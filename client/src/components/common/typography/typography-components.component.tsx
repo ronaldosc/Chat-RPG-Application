@@ -45,6 +45,7 @@ export const H1 = styled.h1<TypographyProps>`
   font-weight: ${({ medium }) =>
     medium ? FontWeight.Medium : FontWeight.Regular};
   font-size: ${FontSizeMobile.XLarge};
+  padding: 0;
 
   @media all and (min-width: ${Breakpoints.Mobile}) {
     font-size: ${FontSizeDesktop.XLarge};

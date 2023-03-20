@@ -4,12 +4,12 @@
 	"description": "Backend da aplicação 'Chat RPG', cujo desafio é quesito para finalizar o ciclo 2 - Alpha EdTech",
 	"main": "src/main.ts",
 	"scripts": {
-		"start": "node ./dist/main.js",
+		"start": "node -r ts-node/register ./dist/main.js",
 		"type-check": "tsc --noEmit",
-		"dev": "tsc-watch --onSuccess \"node ./dist/main.js \" ",
+		"dev": "tsc-watch --onSuccess \"node -r ts-node/register ./dist/main.js \" ",
 		"exec": "ts-node -r tsconfig-paths/register ./src/main.ts",
 		"lint": "eslint --ext .ts ./src",
-		"build": "npx tsc && node ./dist/main.js",
+		"build": "npx tsc && node -r ts-node/register ./dist/main.js",
 		"test": "npm run type-check  &&  npm run lint"
 	},
 	"repository": {
@@ -32,7 +32,6 @@
 		"mongoose": "7.0.0",
 		"multer": "1.4.5-lts.1",
 		"redis": "4.6.5",
-		"tsconfig-paths": "4.1.2",
 		"ws": "8.12.1"
 	},
 	"devDependencies": {
@@ -51,6 +50,7 @@
 		"prettier": "2.8.4",
 		"ts-node": "10.9.1",
 		"tsc-watch": "6.0.0",
+		"tsconfig-paths": "4.1.2",
 		"typescript": "4.9.5"
 	}
 }

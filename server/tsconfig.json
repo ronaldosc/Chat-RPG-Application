@@ -13,7 +13,7 @@
 			"@controllers": ["modules/*/controllers"],
 			"@env": ["utils/env-config"],
 			"@interfaces": ["interfaces"],
-			"@mainIndex": ["main"],
+			"@main": ["main"],
 			"@middlewares": ["middlewares"],
 			"@models": ["models"],
 			"@routes": ["routes"],
@@ -35,6 +35,7 @@
 	"include": ["src/**/*"],
 	"exclude": ["**/node_modules/**/*"],
 	"ts-node": {
+		"require": ["tsconfig-paths/register"],
 		"transpileOnly": true,
 		"files": true
 	},

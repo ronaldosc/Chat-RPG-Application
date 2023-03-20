@@ -1,5 +1,5 @@
 import { AuthenticatedUserDataRequestModel, ChatFeedMessagesModel } from '@interfaces';
-import { webSocket } from 'main';
+import { webSocket } from '@config';
 import { Request, Response } from 'express';
 import { create } from '@services/chatMessages';
 

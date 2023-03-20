@@ -4,7 +4,7 @@ import { Container } from '@components/container';
 import { Header } from '@components/header';
 import { X } from 'phosphor-react';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 import { PublicationStyle } from './style';
 
 import { apiJSON } from '../../libs/api';

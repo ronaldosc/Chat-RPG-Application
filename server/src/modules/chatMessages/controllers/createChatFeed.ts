@@ -1,36 +1,35 @@
+import { AuthenticatedUserDataRequestModel, ChatFeedMessagesModel } from '@interfaces';
+import { webSocket } from 'main';
 import { Request, Response } from 'express';
-import { ChatFeedMessagesModel } from '../interface';
-import * as chatFeedRoomServices from '../services';
-import { webSocketInitializer } from '../../../index';
-import { AuthenticatedUserDataRequest } from '../../../interfaces';
+import { create } from '@services/chatMessages';
 
 export async function createChatFeed(req: Request, res: Response): Promise<void> {
   const feedData: ChatFeedMessagesModel = req.body;
-  feedData['author'] = (req as AuthenticatedUserDataRequest).userId;
-
-  const result = await chatFeedRoomServices.create(feedData);
+  feedData['author'] = (req as AuthenticatedUserDataRequestModel).userId;
+  const result = await create(feedData);
 
   if (!result.error) {
+    const { _id, chatRoomId, choices, createdAt, author, content, image, directedTo } = result.data.newFeed;
     const newPost = {
-      _id: result.data.newFeed._id,
-      chatRoomId: result.data.newFeed.chatRoomId,
-      choices: result.data.newFeed.choices,
-      createdAt: result.data.newFeed.createdAt,
-      author: result.data.newFeed.author,
-      content: result.data.newFeed.content,
-      image: result.data.newFeed.image,
-      diectedTo: result.data.newFeed.directedTo,
+      _id,
+      chatRoomId,
+      choices,
+      createdAt,
+      author,
+      content,
+      image,
+      directedTo,
     };
 
     const message = {
       action: 'message',
       data: {
-        chatRoom: result.data.newFeed.chatRoomId,
+        chatRoom: chatRoomId,
         message: newPost,
       },
     };
 
-    await webSocketInitializer.redisPub.publish('feedRoom', JSON.stringify(message));
+    await webSocket.redisPub.publish('feedRoom', JSON.stringify(message));
 
     res.status(200).json(result);
     return;

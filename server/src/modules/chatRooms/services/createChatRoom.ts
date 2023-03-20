@@ -1,22 +1,17 @@
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
-import { connectToMongoDB } from '../../../config/mongodb';
-import { ChatRoomsModel } from '../interface';
-import { ErrorWithStatus } from '../../../utils/errorWithStatus';
-import { ChatRooms } from '../model';
+import { ChatRoomsModel } from '@interfaces';
+import { connectToMongoDB } from '@config';
+import { ChatRooms } from '@models';
+import { Err, ErrorWithStatus } from '@utils';
 
-export async function create(param: ChatRoomsModel) {
+export async function create(
+  param: Omit<ChatRoomsModel, 'waitingForResponse' | 'createdAt' | 'updatedAt' | 'deletedAt'>,
+) {
+  const newChatRoom = new ChatRooms();
+
   try {
     await connectToMongoDB();
 
-    const newChatRoom = new ChatRooms();
-
-    newChatRoom.feedMessageOrigin = param.feedMessageOrigin;
-    newChatRoom.owner = param.owner;
-    newChatRoom.title = param.title;
-    newChatRoom.content = param.content;
-    newChatRoom.image = param.image;
-    newChatRoom.numberOfPlayers = param.numberOfPlayers;
-    newChatRoom.playerCharacters = param.playerCharacters;
+    Object.assign(newChatRoom, { ...param });
 
     await newChatRoom.save();
 
@@ -26,16 +21,14 @@ export async function create(param: ChatRoomsModel) {
         newChatRoom,
       },
     };
-  } catch (error) {
-    let errorStatus: number | null;
-    let errorMessage: string | null;
+  } catch (error: unknown) {
+    let err: Err;
     if (error instanceof ErrorWithStatus) {
-      errorStatus = error.getStatus();
-      errorMessage = error.message;
+      err = { errorStatus: error.getStatus(), errorMessage: error.message };
     }
     return {
-      error: errorStatus ?? 500,
-      message: errorMessage ?? 'Erro ao adicionar chat Room',
+      error: err.errorStatus ?? 500,
+      message: err.errorMessage ?? 'Erro ao adicionar chat Room',
     };
   }
 }

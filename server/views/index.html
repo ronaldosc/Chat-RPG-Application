@@ -1,19 +1,22 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <!-- <meta http-equiv="Content-Security-Policy" content="connect-src 'ws://192.168.15.15:8001';"> -->
-        <title>Chat</title>
-        <link rel="stylesheet" type="text/css" href="./index.css" />
-    </head>
-    <body>
-        <div id="historico_mensagens"></div>
-        <form id="chat">
-            <input type='text' id='texto_mensagem' name='texto_mensagem' />
-            <input type='button' id='btnEnvia' value='Feeds Usuário1' />
-            <input type='button' id='btnGetFeeds' value='Feeds Usuário2' />
-        </form>
-        <!-- <script src="https://cdn.socket.io/3.1.3/socket.io.min.js" integrity="sha384-cPwlPLvBTa3sKAgddT6krw0cJat7egBga3DJepJyrLl4Q9/5WLra3rrnMcyTyOnh" crossorigin="anonymous"></script> -->
-                <!-- <script src="/socket.io/socket.io.js"></script> -->
-        <script type="text/javascript" defer src="./index.js"></script>
-    </body>
+
+<head>
+    <!-- <meta http-equiv="Content-Security-Policy" content="connect-src 'ws://192.168.15.15:8001';"> -->
+    <title>Chat</title>
+    <link rel="stylesheet" type="text/css" href="./index.css" />
+</head>
+
+<body>
+    <div id="historico_mensagens"></div>
+    <form id="chat">
+        <input type="text" id="texto_mensagem" name="texto_mensagem" />
+        <input type="button" id="btnEnvia" value="Feeds Usuário1" />
+        <input type="button" id="btnGetFeeds" value="Feeds Usuário2" />
+    </form>
+    <!-- <script src="https://cdn.socket.io/3.1.3/socket.io.min.js" integrity="sha384-cPwlPLvBTa3sKAgddT6krw0cJat7egBga3DJepJyrLl4Q9/5WLra3rrnMcyTyOnh" crossorigin="anonymous"></script> -->
+    <!-- <script src="/socket.io/socket.io.js"></script> -->
+    <script type="text/javascript" defer src="./index.js"></script>
+</body>
+
 </html>

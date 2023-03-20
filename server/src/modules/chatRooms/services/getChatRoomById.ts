@@ -1,7 +1,6 @@
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
-import { connectToMongoDB } from '../../../config/mongodb';
-import { ErrorWithStatus } from '../../../utils/errorWithStatus';
-import { ChatRooms } from '../model';
+import { connectToMongoDB } from '@config';
+import { ChatRooms } from '@models';
+import { Err, ErrorWithStatus } from '@utils';
 
 export async function getChatRoom(param: string) {
   try {
@@ -15,16 +14,14 @@ export async function getChatRoom(param: string) {
         chatRoom,
       },
     };
-  } catch (error) {
-    let errorStatus: number | null;
-    let errorMessage: string | null;
+  } catch (error: unknown) {
+    let err: Err;
     if (error instanceof ErrorWithStatus) {
-      errorStatus = error.getStatus();
-      errorMessage = error.message;
+      err = { errorStatus: error.getStatus(), errorMessage: error.message };
     }
     return {
-      error: errorStatus ?? 500,
-      message: errorMessage ?? 'Erro ao selecionar chatRoom',
+      error: err.errorStatus ?? 500,
+      message: err.errorMessage ?? 'Erro ao selecionar chatRoom',
     };
   }
 }

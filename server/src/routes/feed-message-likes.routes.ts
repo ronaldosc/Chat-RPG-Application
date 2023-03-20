@@ -1,11 +1,10 @@
-/* eslint-disable @typescript-eslint/no-misused-promises */
+import { authenticate } from '@middlewares';
 import { Router } from 'express';
-import authenticate from '../../middlewares/authenticate';
-import * as reactionControllers from './controllers';
+import * as reactionControllers from '../modules/feedMessageLikes/controllers';
 
 const router = Router();
 
 router.post('/like', authenticate, reactionControllers.likeFeed);
 router.delete('/like', authenticate, reactionControllers.dislikeFeed);
 
-export default router;
+export { router as reactionRoutes };

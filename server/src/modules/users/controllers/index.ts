@@ -1,3 +1,3 @@
 export { createUser } from './createUser';
-export { login } from './login';
+export { loginAuth } from './login';
 export { logout } from './logout';

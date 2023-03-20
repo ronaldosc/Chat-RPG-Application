@@ -1,5 +1,5 @@
 import mongoose, { Schema, now } from 'mongoose';
-import { FeedMessageCommentsModel } from './interface';
+import { FeedMessageCommentsModel } from '@interfaces';
 
 const FeedMessageCommentsSchema = new mongoose.Schema<FeedMessageCommentsModel>({
   feedMessage: { type: Schema.Types.ObjectId, required: true, ref: 'FeedMessages' },

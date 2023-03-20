@@ -1,14 +1,12 @@
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
-import { connectToMongoDB } from '../../../config/mongodb';
-import { ErrorWithStatus } from '../../../utils/errorWithStatus';
-import { FeedMessages } from '../model';
+import { connectToMongoDB } from '@config';
+import { FeedMessages } from '@models';
+import { Err, ErrorWithStatus } from '@utils';
 
 export async function getFeedMessage(param: string) {
+  const feedMessage = await FeedMessages.find({ _id: param });
+
   try {
     await connectToMongoDB();
-
-    console.log(param);
-    const feedMessage = await FeedMessages.find({ _id: param });
 
     return {
       message: 'Feed selecionado com sucesso!',
@@ -16,16 +14,14 @@ export async function getFeedMessage(param: string) {
         feedMessage,
       },
     };
-  } catch (error) {
-    let errorStatus: number | null;
-    let errorMessage: string | null;
+  } catch (error: unknown) {
+    let err: Err;
     if (error instanceof ErrorWithStatus) {
-      errorStatus = error.getStatus();
-      errorMessage = error.message;
+      err = { errorStatus: error.getStatus(), errorMessage: error.message };
     }
     return {
-      error: errorStatus ?? 500,
-      message: errorMessage ?? 'Erro ao selecionar feedMessage',
+      error: err.errorStatus ?? 500,
+      message: err.errorMessage ?? 'Erro ao selecionar feedMessage',
     };
   }
 }

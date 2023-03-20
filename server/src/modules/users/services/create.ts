@@ -1,24 +1,20 @@
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
-import { User } from '../model';
-import { connectToMongoDB } from '../../../config/mongodb';
-import { IUser } from '../interface';
-import { ErrorWithStatus } from '../../../utils/errorWithStatus';
+import { IUser } from '@interfaces';
+import { connectToMongoDB } from '@config';
+import { User } from '@models';
+import { Err, ErrorWithStatus } from '@utils';
 
-export async function create(param: IUser) {
+export async function create({ email, contact, password }: IUser) {
+  const userAlreadyExists = await User.findOne({ email }).exec();
+
   try {
     await connectToMongoDB();
-
-    const userAlreadyExists = await User.findOne({ email: param.email }).exec();
 
     if (userAlreadyExists) {
       throw new ErrorWithStatus('Usuário com esse email já existe', 522);
     }
 
     const newUser = new User();
-
-    newUser.email = param.email;
-    newUser.contact = param.contact;
-    newUser.setPassword(param.password);
+    Object.assign(newUser, { email, contact, password: newUser.setPassword(password) });
 
     await newUser.save();
 
@@ -26,16 +22,14 @@ export async function create(param: IUser) {
       message: 'Usuário adicionado com sucesso!',
       data: {},
     };
-  } catch (error) {
-    let errorStatus: number | null;
-    let errorMessage: string | null;
+  } catch (error: unknown) {
+    let err: Err;
     if (error instanceof ErrorWithStatus) {
-      errorStatus = error.getStatus();
-      errorMessage = error.message;
+      err = { errorStatus: error.getStatus(), errorMessage: error.message };
     }
     return {
-      error: errorStatus ?? 500,
-      message: errorMessage ?? 'Erro ao adicionar usuário',
+      error: err.errorStatus ?? 500,
+      message: err.errorMessage ?? 'Erro ao adicionar usuário',
     };
   }
 }

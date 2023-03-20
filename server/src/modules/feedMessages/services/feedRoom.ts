@@ -1,6 +1,5 @@
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import websocket from 'ws';
-import crypto from 'crypto';
+import crypto from 'node:crypto';
 
 class WebSocketServices {
   public websocketClients: any = {};
@@ -12,5 +11,5 @@ class WebSocketServices {
     return;
   }
 }
-
+//TODO arquivo parece repetido com outro que tem classe com mesmo nome
 export default WebSocketServices;

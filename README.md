@@ -1,4 +1,4 @@
-# <center> Desafio Ciclo 2  <center> Alpha EdTech / turma Turing)
+# <center> Desafio Ciclo 2  <center> Alpha EdTech / turma Turing
 
 ---
 
@@ -34,8 +34,7 @@ As aplicações criadas podem ser feitas com qualquer tecnologia de seu interess
 Na pasta client
 
 ```bash
-yarn
-yarn build
+yarn && yarn build
 ```
 
 2º PASSO

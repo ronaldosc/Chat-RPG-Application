@@ -1,11 +1,11 @@
+import { PlayerCharacters } from './users.interface';
 import { Types } from 'mongoose';
-import { PlayerCharacters } from '../users/interface';
 
 export interface ChatRoomsModel {
   feedMessageOrigin: Types.ObjectId;
   owner: Types.ObjectId;
   title: string;
-  content: string;
+  description: string;
   image?: string;
   numberOfPlayers: number;
   playerCharacters: Omit<PlayerCharacters, 'deletedAt'>[];

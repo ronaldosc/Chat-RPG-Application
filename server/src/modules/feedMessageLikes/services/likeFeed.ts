@@ -1,36 +1,32 @@
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
-import { FeedMessageLikes } from '../model';
-import { connectToMongoDB } from '../../../config/mongodb';
-import { FeedMessageLikesModel } from '../interface';
-import { ErrorWithStatus } from '../../../utils/errorWithStatus';
+import { FeedMessageLikesModel } from '@interfaces';
+import { connectToMongoDB } from '@config';
+import { FeedMessageLikes } from '@models';
+import { Err, ErrorWithStatus } from '@utils';
 
 export async function like(param: FeedMessageLikesModel) {
+  const addLike = new FeedMessageLikes();
+  const { feedMessage, author } = param;
+
   try {
     await connectToMongoDB();
+    Object.assign(addLike, { feedMessage, author });
 
-    const newLike = new FeedMessageLikes();
-
-    newLike.feedMessage = param.feedMessage;
-    newLike.author = param.author;
-
-    await newLike.save();
+    await addLike.save();
 
     return {
       message: 'Like realizado com sucesso!',
       data: {
-        newLike,
+        addLike,
       },
     };
-  } catch (error) {
-    let errorStatus: number | null;
-    let errorMessage: string | null;
+  } catch (error: unknown) {
+    let err: Err;
     if (error instanceof ErrorWithStatus) {
-      errorStatus = error.getStatus();
-      errorMessage = error.message;
+      err = { errorStatus: error.getStatus(), errorMessage: error.message };
     }
     return {
-      error: errorStatus ?? 500,
-      message: errorMessage ?? 'Erro ao adicionar feed',
+      error: err.errorStatus ?? 500,
+      message: err.errorMessage ?? 'Erro ao adicionar feed',
     };
   }
 }

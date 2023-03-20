@@ -1,14 +1,14 @@
 import { Request, Response } from 'express';
-import * as feedRoomServices from '../services';
+import { get } from '@services/feedMessages';
 
-export async function getFeeds(req: Request, res: Response): Promise<void> {
-  const result = await feedRoomServices.getFeeds();
+export async function getFeeds(_req: Request, { status }: Response): Promise<void> {
+  const result = await get();
 
   if (!result.error) {
-    res.status(200).json(result);
+    status(200).json(result);
     return;
   }
 
-  res.status(result.error).json(result.message);
+  status(result.error).json(result.message);
   return;
 }

@@ -1,16 +1,16 @@
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
-import { FeedMessageComments } from '../model';
-import { connectToMongoDB } from '../../../config/mongodb';
-import { ErrorWithStatus } from '../../../utils/errorWithStatus';
-import { FeedMessages } from '../../feedMessages/model';
 import { Types } from 'mongoose';
+import { connectToMongoDB } from '@config';
+import { FeedMessageComments } from '@models';
+import { FeedMessages } from '@models';
+import { Err, ErrorWithStatus } from '@utils';
 
 export async function deleteComment(author: Types.ObjectId, commentId: Types.ObjectId) {
+  const comments = await FeedMessageComments.findOne({ _id: commentId, deletedAt: null });
+
   try {
     await connectToMongoDB();
 
-    const comments = await FeedMessageComments.findOne({ _id: commentId, deletedAt: null });
-    if (comments.author != author) {
+    if (comments.author !== author) {
       return {
         error: 500,
         message: 'Author do comentário não é o usuário logado!',
@@ -23,18 +23,13 @@ export async function deleteComment(author: Types.ObjectId, commentId: Types.Obj
       { $set: { deletedAt: new Date() } },
     );
 
-    const result = await FeedMessages.updateOne(
-      { _id: comments.feedMessage },
-      { $inc: { numberOfComments: -1 } },
-    );
+    const result = await FeedMessages.updateOne({ _id: comments.feedMessage }, { $inc: { numberOfComments: -1 } });
 
     const success = result.modifiedCount;
     if (success === 1) {
       return {
         message: 'Comment excluído com sucesso!',
-        data: { commentId: commentId,
-                feedMessage: comments.feedMessage,
-        },
+        data: { commentId: commentId, feedMessage: comments.feedMessage },
       };
     } else {
       return {
@@ -43,16 +38,14 @@ export async function deleteComment(author: Types.ObjectId, commentId: Types.Obj
         data: {},
       };
     }
-  } catch (error) {
-    let errorStatus: number | null;
-    let errorMessage: string | null;
+  } catch (error: unknown) {
+    let err: Err;
     if (error instanceof ErrorWithStatus) {
-      errorStatus = error.getStatus();
-      errorMessage = error.message;
+      err = { errorStatus: error.getStatus(), errorMessage: error.message };
     }
     return {
-      error: errorStatus ?? 500,
-      message: errorMessage ?? 'Erro ao excluir comment',
+      error: err.errorStatus ?? 500,
+      message: err.errorMessage ?? 'Erro ao excluir comment',
     };
   }
 }

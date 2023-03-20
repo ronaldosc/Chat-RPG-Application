@@ -1,11 +1,10 @@
-/* eslint-disable @typescript-eslint/no-misused-promises */
+import { authenticate } from '@middlewares';
 import { Router } from 'express';
-import authenticate from '../../middlewares/authenticate';
-import * as feedMessagesControllers from './controllers';
+import * as feedMessagesControllers from '../modules/feedMessageComments/controllers';
 
 const router = Router();
 
 router.post('/new-comment', authenticate, feedMessagesControllers.createFeedComment);
 router.delete('/:commentId', authenticate, feedMessagesControllers.deleteFeedComment);
 
-export default router;
+export { router as feedCommentRoutes };

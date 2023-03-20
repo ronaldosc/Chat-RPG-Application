@@ -1,15 +1,12 @@
-/* eslint-disable @typescript-eslint/no-misused-promises */
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
-import websocket from 'ws';
-import crypto from 'crypto';
+import { DecodeDataModel } from '@interfaces';
+import { getChatRoomsListByUserId } from '@services/chatRooms';
 import Redis from 'ioredis';
-import * as dotenv from 'dotenv';
-import { redisConfig } from './config/redisdb';
-import { getChatRoomsListByUserId } from './modules/chatRooms/services';
-import jwt from 'jsonwebtoken';
-import { decodeData } from './interfaces';
-
-dotenv.config();
+import { verify } from 'jsonwebtoken';
+import { dir, log } from 'node:console';
+import { randomUUID } from 'node:crypto';
+import websocket from 'ws';
+import { redisConfig } from './redisDb';
+import { Env } from '@env';
 
 class WebSocketInitializer {
   public wss: websocket.Server;
@@ -26,22 +23,19 @@ class WebSocketInitializer {
 
   public initialize() {
     this.wss.on('connection', async (ws: websocket) => {
-      const clientId = crypto.randomUUID();
+      const clientId = randomUUID();
 
       this.websocketClients.set(clientId, ws);
-      console.log(`Client connected ${clientId}`);
+      log(`Client connected ${clientId}`);
 
       ws.on('message', async (message: string) => {
         const { action, data } = JSON.parse(message);
-        console.log('action ', action);
-        console.log('chatroom ', data.chatRoom);
-        console.log('token', data.token);
-        console.log('message ', data.message);
+        dir({ action: action, chatroom: data.chatRoom, token: data.token, message: data.message });
 
         switch (action) {
           case 'join-feedRoom': // just connect to server
             const token = data.token || `User ${clientId}`;
-            const decoded = jwt.verify(token, process.env.JWT_SECRET) as decodeData;
+            const decoded = verify(token, Env('JWT_SECRET')) as DecodeDataModel;
             const user = decoded.userId;
 
             const chatRooms = await getChatRoomsListByUserId(user);
@@ -57,28 +51,28 @@ class WebSocketInitializer {
               }
             }
 
-            console.log('roomClients ', this.roomClients);
-            console.log('userClients ', this.userClients);
+            log('roomClients ', this.roomClients);
+            log('userClients ', this.userClients);
             break;
         }
       });
 
       ws.on('close', async () => {
         this.websocketClients.delete(clientId);
-        console.log(`Client closed ${clientId}`);
+        log(`Client closed ${clientId}`);
       });
 
       ws.on('disconnect', async () => {
         this.websocketClients.delete(clientId);
-        console.log(`Client disconnected ${clientId}`);
+        log(`Client disconnected ${clientId}`);
       });
 
       ws.on('error', () => {
         this.websocketClients.delete(clientId);
-        console.log(`Client error ${clientId}`);
+        log(`Client error ${clientId}`);
       });
     });
   }
 }
 
-export { WebSocketInitializer };
+export const webSocket = new WebSocketInitializer();

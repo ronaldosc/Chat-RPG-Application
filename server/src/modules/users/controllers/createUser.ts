@@ -1,17 +1,15 @@
 import { Request, Response } from 'express';
-import { IUser } from '../interface';
-import * as userServices from '../services';
+import { IUser } from '@interfaces';
+import { create } from '@services/users';
 
-export async function createUser(req: Request, res: Response): Promise<void> {
-  const userData: IUser = req.body;
-
-  const result = await userServices.create(userData);
+export async function createUser({ body }: Request, { status }: Response): Promise<void> {
+  const result = await create(<IUser>body);
 
   if (!result.error) {
-    res.status(200).json(result);
+    status(200).json(result);
     return;
   }
 
-  res.status(result.error).json(result.message);
+  status(result.error).json(result.message);
   return;
 }

@@ -1,12 +1,12 @@
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
-import { FeedMessages } from '../model';
-import { connectToMongoDB } from '../../../config/mongodb';
-import { ErrorWithStatus } from '../../../utils/errorWithStatus';
+import { connectToMongoDB } from '@config';
+import { FeedMessages } from '@models';
+import { Err, ErrorWithStatus } from '@utils';
 
-export async function getFeeds() {
+export async function get() {
+  const documents = await FeedMessages.find().sort({ _id: -1 });
+
   try {
     await connectToMongoDB();
-    const documents = await FeedMessages.find().sort({ _id: -1 });
 
     return {
       message: 'Sucesso! Retornado todos os feeds ordenados cronologicamente',
@@ -14,16 +14,14 @@ export async function getFeeds() {
         feeds: documents,
       },
     };
-  } catch (error) {
-    let errorStatus: number | null;
-    let errorMessage: string | null;
+  } catch (error: unknown) {
+    let err: Err;
     if (error instanceof ErrorWithStatus) {
-      errorStatus = error.getStatus();
-      errorMessage = error.message;
+      err = { errorStatus: error.getStatus(), errorMessage: error.message };
     }
     return {
-      error: errorStatus ?? 500,
-      message: errorMessage ?? 'Erro ao adicionar feed',
+      error: err.errorStatus ?? 500,
+      message: err.errorMessage ?? 'Erro ao adicionar feed',
     };
   }
 }

@@ -1,16 +1,14 @@
 import { Request, Response } from 'express';
-import { getChatFeedMessagesByChatId } from '../services';
+import { getChatFeedMessagesByChatId } from '@services/chatMessages';
 
-export async function getChatFeedMessagesByChat(req: Request, res: Response): Promise<void> {
-  const chatRoomId = req.params.chatRoomId;
-
-  const chatMessages = await getChatFeedMessagesByChatId(chatRoomId);
+export async function getChatFeedMessagesByChat(req: Request, { status }: Response): Promise<void> {
+  const chatMessages = await getChatFeedMessagesByChatId(req.params.chatRoomId);
 
   if (!chatMessages.error) {
-    res.status(200).json(chatMessages);
+    status(200).json(chatMessages);
     return;
   }
 
-  res.status(chatMessages.error).json(chatMessages.message);
+  status(chatMessages.error).json(chatMessages.message);
   return;
 }

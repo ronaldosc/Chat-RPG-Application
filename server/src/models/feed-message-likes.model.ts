@@ -1,5 +1,5 @@
 import mongoose, { Schema, now } from 'mongoose';
-import { FeedMessageLikesModel } from './interface';
+import { FeedMessageLikesModel } from '@interfaces';
 
 const FeedMessageLikesSchema = new mongoose.Schema<FeedMessageLikesModel>({
   feedMessage: { type: Schema.Types.ObjectId, required: true, ref: 'FeedMessage' },

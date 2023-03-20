@@ -3,7 +3,7 @@ import { ChatInput, ChatLounge, MessageComponent } from '@components/chatRoom';
 import { Color, H1 } from '@components/common';
 import { Container } from '@components/container';
 import { Header } from '@components/header';
-import React from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { api } from '../../libs/api';
 
@@ -52,47 +52,29 @@ interface ChatRoomTypes {
 
 export const ChatRoom = () => {
   const { id } = useParams();
-  const [messageBody, setMessageBody] = React.useState('');
-  const [messages, setMessages] = React.useState<Message[]>([]);
-  const [chatProprieties, setChatProprieties] = React.useState<ChatRoomTypes>();
+  const [messageBody, setMessageBody] = useState('');
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [chatProprieties, setChatProprieties] = useState<ChatRoomTypes>();
 
   async function getMessages() {
-    const { data } = await api.get<GetMessagesTypes>(`/feed-chat/chatfeeds/${id}`);
+    const { data } = await api.get<GetMessagesTypes>(
+      `/feed-chat/chatfeeds/${id}`,
+    );
     setMessages(data.data.messages);
   }
 
   async function getChatRoom() {
-    const { data } = await api.get<ChatRoomTypes>(`chat-room/chatroom-id/${id}`);
+    const { data } = await api.get<ChatRoomTypes>(
+      `chat-room/chatroom-id/${id}`,
+    );
     setChatProprieties(data);
   }
 
-  const host = window.location.hostname;
-  const ws = new WebSocket(`ws://${host}:5001`);
-
-  React.useEffect(() => {
+  useEffect(() => {
+    const host = window.location.hostname;
+    const ws = new WebSocket(`ws://${host}:5001`);
     getMessages();
     getChatRoom();
-
-    ws.onmessage = (e) => {
-      const data = JSON.parse(e.data.toString()) as WSResponseTypes;
-      setMessages((oldMessages) => [...oldMessages, data.data.message]);
-    };
-
-    return () => {
-      ws.close();
-    };
-  }, []);
-
-  async function getMessages() {
-    const { data } = await api.get(`/chatroom-id/${id}`);
-    setMessages(data.data.messages);
-  }
-
-  const host = window.location.hostname;
-  const ws = new WebSocket(`ws://${host}:5001`);
-
-  React.useEffect(() => {
-    getMessages();
 
     ws.onmessage = (e) => {
       const data = JSON.parse(e.data.toString()) as WSResponseTypes;

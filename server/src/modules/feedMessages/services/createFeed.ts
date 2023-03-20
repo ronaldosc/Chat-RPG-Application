@@ -3,12 +3,17 @@ import { FeedMessages } from '../model';
 import { connectToMongoDB } from '../../../config/mongodb';
 import { FeedMessagesModel } from '../interface';
 import { ErrorWithStatus } from '../../../utils/errorWithStatus';
+import { IUser } from '../../users/interface';
 
 export async function create(param: FeedMessagesModel) {
   try {
     await connectToMongoDB();
 
     const newFeed = new FeedMessages();
+
+    if (param.numberOfPlayers !== param.playerCharacters.length) {
+      throw new ErrorWithStatus('Deve ser informado uma quantidade de personagens compatível com o número de jogadores.', 400);
+    }
 
     newFeed.owner = param.owner;
     newFeed.title = param.title;
@@ -20,6 +25,8 @@ export async function create(param: FeedMessagesModel) {
     newFeed.numberOfLikes = param.numberOfLikes ?? 0;
 
     await newFeed.save();
+
+    newFeed.populate<{ owner: Pick<IUser, 'contact'> }>('owner', 'contact.userName' );
 
     return {
       message: 'Feed adicionado com sucesso!',

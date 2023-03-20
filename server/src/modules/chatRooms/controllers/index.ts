@@ -5,3 +5,5 @@ export { getChatRoomByUser } from './getChatRoomByUser';
 export { addChatRoomPlayer } from './addChatRoomPlayer';
 export { getChatRoomListByUser } from './getChatRoomListByUser';
 export { getChatRoomByFeed } from './getChatRoomByFeed';
+export { getAvailableCharacters } from './getAvailableCharacters';
+export { deleteChatRoomPlayer } from './deleteChatRoomPlayer';

@@ -7,7 +7,7 @@ export interface FeedMessagesModel {
   content: string;
   image?: string;
   numberOfPlayers: number;
-  playerCharacters: Omit<PlayerCharacters, 'deletedAt'>[];
+  playerCharacters: PlayerCharacters[];
   numberOfComments: number;
   numberOfLikes: number;
   createdAt: Date;

@@ -4,20 +4,21 @@ import { ErrorWithStatus } from '../../../utils/errorWithStatus';
 import { ChatRooms } from '../model';
 import { ICharacter } from '../interface';
 import { FeedMessages } from '../../feedMessages/model';
+import { Types } from 'mongoose';
 
-export async function addChatRoomPlayerId(param: ICharacter) {
+export async function deleteChatRoomPlayerId(param: ICharacter, owner: Types.ObjectId) {
   try {
     await connectToMongoDB();
 
-    const resultChat = await ChatRooms.findOne({ _id: param.chatRoomId, 'playerCharacters.characterId': param.playerCharacterId });
+    const resultChat = await ChatRooms.findOneAndUpdate({ _id: param.chatRoomId, 'playerCharacters.characterId': param.playerCharacterId });
+
+    if (resultChat.owner !== owner) {
+      throw new ErrorWithStatus('Você não pode excluir um jogador pois não é o dono da sala!', 403)
+    }
 
     for (let i = 0; i < resultChat.playerCharacters.length; i++) {
       if (resultChat.playerCharacters[i].characterId == param.playerCharacterId && !resultChat.playerCharacters[i].deletedAt) {
-        if (resultChat.playerCharacters[i].player === undefined) {
-          resultChat.playerCharacters[i].player = param.playerId;
-        } else {
-          throw new ErrorWithStatus('Já existe um usuário para esse personagem', 422)
-        }
+        resultChat.playerCharacters[i].player = undefined;
       }
     }
 
@@ -29,11 +30,11 @@ export async function addChatRoomPlayerId(param: ICharacter) {
     );
 
     if (resultFeed.modifiedCount !== 1) {
-      throw new ErrorWithStatus('Jogador não foi adicionado!', 500);
+      throw new ErrorWithStatus('Jogador não foi excluído!', 500);
     }
 
     return {
-      message: 'Jogador alterado com sucesso!',
+      message: 'Jogador excluído com sucesso!',
       data: {
         resultChat,
       },
@@ -47,7 +48,7 @@ export async function addChatRoomPlayerId(param: ICharacter) {
     }
     return {
       error: errorStatus ?? 500,
-      message: errorMessage ?? 'Erro ao adicionar jogador',
+      message: errorMessage ?? 'Erro ao excluir jogador',
     };
   }
 }

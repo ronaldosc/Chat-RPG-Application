@@ -5,7 +5,6 @@ import * as reactionControllers from './controllers';
 
 const router = Router();
 
-router.post('/like', authenticate, reactionControllers.likeFeed);
-router.delete('/like', authenticate, reactionControllers.dislikeFeed);
+router.post('/like', authenticate, reactionControllers.reactToFeed);
 
 export default router;

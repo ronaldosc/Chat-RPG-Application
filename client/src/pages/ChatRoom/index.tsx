@@ -28,13 +28,31 @@ interface WSResponseTypes {
   };
 }
 
+interface PlayerCharactersProps {
+  characterId: number[];
+  player: string;
+  characterName: string;
+}
+
+interface ChatRoomTypes {
+  data: {
+    playerCharacters: PlayerCharactersProps[];
+    feedMessageOrigin: string;
+    owner: string;
+    title: string;
+    image: string;
+    numberOfPlayers: number;
+  };
+}
+
 export const ChatRoom = () => {
   const { id } = useParams();
   const [messageBody, setMessageBody] = React.useState('');
   const [messages, setMessages] = React.useState<Message[]>([]);
+  const [chatProprieties, setChatProprieties] = React.useState();
 
   async function getMessages() {
-    const { data } = await api.get(`/chatroom-id/${id}`);
+    const { data } = await api.get<ChatRoomTypes>(`/chatroom-id/${id}`);
     setMessages(data.data.messages);
   }
 

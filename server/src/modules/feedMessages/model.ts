@@ -12,6 +12,7 @@ const FeedMessagesSchema = new mongoose.Schema<FeedMessagesModel>({
       characterId: { type: [Number], index: { sparse: true } },
       characterName: { type: String },
       player: { type: Schema.Types.ObjectId, ref: 'User' },
+      deletedAt: { type: Date },
     },
   ],
   numberOfComments: { type: Number, required: true },

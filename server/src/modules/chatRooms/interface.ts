@@ -8,7 +8,7 @@ export interface ChatRoomsModel {
   content: string;
   image?: string;
   numberOfPlayers: number;
-  playerCharacters: Omit<PlayerCharacters, 'deletedAt'>[];
+  playerCharacters: PlayerCharacters[];
   waitingForResponse: boolean;
   createdAt: Date;
   updatedAt?: Date;

@@ -13,6 +13,7 @@ const ChatRoomsSchema = new mongoose.Schema<ChatRoomsModel>({
       characterId: { type: [Number], index: { sparse: true } },
       characterName: { type: String },
       player: { type: Schema.Types.ObjectId, ref: 'User' },
+      deletedAt: { type: Date },
     },
   ],
   createdAt: { type: Date, default: now, immutable: true },

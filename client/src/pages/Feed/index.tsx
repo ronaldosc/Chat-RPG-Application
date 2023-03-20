@@ -168,12 +168,12 @@ export const Feed = () => {
                 >
                   <span>
                     <Button label="Curtir" color={Color.Green} />
-                    <MiniLabel>{publication.likes.length} Curtidas</MiniLabel>
+                    <MiniLabel>{publication?.likes?.length} Curtidas</MiniLabel>
                   </span>
                   <span>
                     <Button label="Comentar" color={Color.Brown} />
                     <MiniLabel>
-                      {publication.comments.length} Comentários
+                      {publication?.comments?.length} Comentários
                     </MiniLabel>
                   </span>
 

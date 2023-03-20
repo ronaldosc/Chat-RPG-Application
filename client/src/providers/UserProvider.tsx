@@ -92,7 +92,7 @@ export const UserProvider = ({ children }: UserProviderTypes) => {
     const storagedToken = localStorage.getItem('token');
     if (storagedToken) {
       setToken(storagedToken);
-    } else logout();
+    }
   }, []);
 
   return (

@@ -8,3 +8,4 @@ export { getChatRoomByFeedId } from './getChatRoomByFeed';
 export { getChatRoomIdByFeedId } from './getChatRoomIdByFeed';
 export { getAvailableCharactersByChatRoomId } from './getAvailableCharacters';
 export { deleteChatRoomPlayerId } from './deleteChatRoomPlayer';
+export { getChatRoomByIdAndUserId } from './getChatRoomByIdAndUser';

@@ -2,11 +2,19 @@ import { Request, Response } from 'express';
 import { ChatFeedMessagesModel } from '../interface';
 import * as chatFeedRoomServices from '../services';
 import { webSocketInitializer } from '../../../index';
+import { getChatRoomByIdAndUserId } from '../../chatRooms/services';
 import { AuthenticatedUserDataRequest } from '../../../interfaces';
 
 export async function createChatFeed(req: Request, res: Response): Promise<void> {
   const feedData: ChatFeedMessagesModel = req.body;
   feedData['author'] = (req as AuthenticatedUserDataRequest).userId;
+
+  const chatRoom = await getChatRoomByIdAndUserId(feedData.chatRoomId, feedData.author);
+
+  if (chatRoom.data.chatRoom.length != 1) {
+    res.status(500).json({ message: 'Usuário não é jogador da sala' });
+    return;
+  }
 
   const result = await chatFeedRoomServices.create(feedData);
 

@@ -14,7 +14,7 @@ import { encodeURL } from '@helpers';
 import { useSnackbar } from 'notistack';
 import { X } from 'phosphor-react';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 import { CreateGameStyle } from './style';
 
 interface characterProps {
@@ -24,6 +24,7 @@ interface characterProps {
 }
 
 interface CreateGameProps {
+  owner: string;
   title: string;
   numberOfPlayers: number;
   playerCharacters: characterProps[];
@@ -41,6 +42,7 @@ export const CreateGame = () => {
     playerCharacters: [],
     image: null,
     content: '',
+    owner: '',
   });
 
   async function createGame() {
@@ -50,6 +52,9 @@ export const CreateGame = () => {
     );
     try {
       const { data } = await api.post('/feed-room/new-feed', gameProperties);
+      const { data: chatRoomData } = await api.post(
+        `/new-chatroom/${data.owner}}`,
+      );
 
       enqueueSnackbar('Jogo criado com sucesso!', {
         variant: 'success',
@@ -167,7 +172,7 @@ export const CreateGame = () => {
             >
               <BodyText>Número de Jogadores</BodyText>
               <SelectInput
-                options={['-', '1', '2', '3', '4', '5', '6', '7', '8']}
+                options={['1', '2', '3', '4', '5', '6', '7', '8']}
                 onChange={(e) => {
                   setGameProperties({
                     ...gameProperties,

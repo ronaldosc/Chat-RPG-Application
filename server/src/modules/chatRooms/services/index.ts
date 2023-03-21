@@ -6,5 +6,5 @@ export { addChatRoomPlayerId } from './addChatRoomPlayer';
 export { getChatRoomsListByUserId } from './getChatRoomsListByUser';
 export { getChatRoomByFeedId } from './getChatRoomByFeed';
 export { getChatRoomIdByFeedId } from './getChatRoomIdByFeed';
-export { getAvailableCharactersByChatRoomId } from './getAvailableCharacters';
-export { deleteChatRoomPlayerId } from './deleteChatRoomPlayer';
+// export { getAvailableCharactersByChatRoomId } from './getAvailableCharacters';
+// export { deleteChatRoomPlayerId } from './deleteChatRoomPlayer';

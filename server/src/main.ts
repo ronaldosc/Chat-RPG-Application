@@ -1,4 +1,4 @@
-import { redisConfig, webSocket } from '@config';
+import { redisConfig, WebSocket } from '@config';
 import { Env } from '@env';
 import { chatFeedRoutes, chatRoomRoutes, feedCommentRoutes, feedRoutes, reactionRoutes, userRoutes } from '@routes';
 import cookieParser from 'cookie-parser';
@@ -10,6 +10,7 @@ import { error, log } from 'node:console';
 const PORT = +Env('PORT') || 5000;
 const app: express.Application = express();
 const redisSub = new Redis(redisConfig.socket);
+const webSocket = new WebSocket();
 
 webSocket.initialize();
 

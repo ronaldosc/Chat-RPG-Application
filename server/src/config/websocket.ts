@@ -75,4 +75,4 @@ class WebSocketInitializer {
   }
 }
 
-export const webSocket = new WebSocketInitializer();
+export { WebSocketInitializer };

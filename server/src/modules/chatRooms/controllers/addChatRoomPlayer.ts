@@ -1,7 +1,7 @@
 import { ICharacter } from '@interfaces';
 import { Request, Response } from 'express';
 import { addChatRoomPlayerId } from '@services/chatRooms';
-import { webSocket } from '@config';
+import { webSocket } from '@main';
 
 export async function addChatRoomPlayer(req: Request, { status }: Response): Promise<void> {
   const {

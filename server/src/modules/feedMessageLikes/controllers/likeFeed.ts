@@ -1,4 +1,4 @@
-import { webSocket } from '@config';
+import { webSocket } from '@main';
 import { AuthenticatedUserDataRequestModel, FeedMessageLikesModel } from '@interfaces';
 import { Request, Response } from 'express';
 import { like } from '@services/feedMessageLikes';

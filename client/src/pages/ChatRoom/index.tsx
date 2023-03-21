@@ -3,24 +3,10 @@ import { ChatInput, ChatLounge, MessageComponent } from '@components/chatRoom';
 import { Color, H1 } from '@components/common';
 import { Container } from '@components/container';
 import { Header } from '@components/header';
+import { useWebSocket } from 'providers/WebSocketProvider';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { api } from '../../libs/api';
-
-interface Message {
-  author: string;
-  body: string;
-}
-
-interface GetMessagesTypes {
-  data: {
-    chatMessage: Message[];
-  };
-}
-
-const FAKE_DATA = {
-  userName: 'Eu',
-};
 
 interface ChatRoom {
   chatRoomId: string;
@@ -40,79 +26,92 @@ interface PlayerCharactersProps {
 }
 
 interface ChatRoomTypes {
-  data: {
-    playerCharacters: PlayerCharactersProps[];
-    feedMessageOrigin: string;
-    owner: string;
-    title: string;
-    image: string;
-    numberOfPlayers: number;
-  };
+  _id: string;
+  playerCharacters: PlayerCharactersProps[];
+  feedMessageOrigin: string;
+  owner: string;
+  title: string;
+  image: string;
+  numberOfPlayers: number;
+}
+
+interface MessageTypes {
+  _id: string;
+  choices: [];
+  chatRoomId: string;
+  author: string;
+  content: string;
+  directedTo: null;
+}
+
+interface ResponseChatRoomTypes {
+  messages: MessageTypes[];
+  chatRoomInfo: ChatRoomTypes;
 }
 
 export const ChatRoom = () => {
+  const websocket = useWebSocket();
+
   const { id } = useParams();
   const [messageBody, setMessageBody] = useState('');
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<MessageTypes[]>([]);
   const [chatProprieties, setChatProprieties] = useState<ChatRoomTypes>();
-  const [ws, setWs] = useState<WebSocket>();
-
-  async function getMessages() {
-    const { data } = await api.get<GetMessagesTypes>(
-      `/feed-chat/chatfeeds/${id}`,
-    );
-    setMessages(data.data.chatMessage);
-  }
 
   async function getChatRoom() {
-    const { data } = await api.get<ChatRoomTypes>(
-      `chat-room/chatroom-id/${id}`,
+    const { data } = await api.get<ResponseChatRoomTypes>(
+      `chat-room/chatroom-feed/${id}`,
     );
-    setChatProprieties(data);
+    console.log('ChatProprieties:');
+    console.log(data);
+
+    setChatProprieties(data.chatRoomInfo);
+    setMessages(data.messages);
   }
 
   useEffect(() => {
-    const host = window.location.hostname;
-    const ws = new WebSocket(`ws://${host}:5001`);
-    setWs(ws);
-    getMessages();
     getChatRoom();
 
-    ws.onopen = () => {
-      console.log('Abriu');
+    if (websocket) {
+      websocket.onmessage = (e) => {
+        const data = JSON.parse(e.data.toString()) as WSResponseTypes;
+        console.log(data);
+
+        setMessages((oldMessages) => [...oldMessages, data.data.message]);
+      };
     }
-
-    ws.onmessage = (e) => {
-      const data = JSON.parse(e.data.toString()) as WSResponseTypes;
-      setMessages((oldMessages) => [...oldMessages, data.data.message]);
-    };
-
-    return () => {
-      ws.close();
-    };
   }, []);
 
-  function sendMessage() {
-    if (!messageBody) return null;
-    const message = { author: FAKE_DATA.userName, body: messageBody };
-    console.log(message);
-    if (ws) ws.send(JSON.stringify(message));
+  // async function sendMessage() {
+  //   await console.log(chatProprieties);
 
-    setMessageBody('');
-    return message;
-  }
+  //   try {
+  //     const { data } = await api.post<ResponseSendMessageTypes>(
+  //       '/feed-chat/new-chatfeed',
+  //       {
+  //         chatRoomId: chatProprieties?._id,
+  //         content: 'testando mensagem',
+  //         image: null,
+  //         directedTo: null,
+  //         choices: [],
+  //       },
+  //     );
+  //     console.log(data);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
 
   return (
     <>
       <Header />
       <Container backgroundColor={Color.Background.base}>
-        <H1>{chatProprieties?.data.title}</H1>
+        <H1>{chatProprieties?.title}</H1>
         <ChatLounge>
           {messages?.map((element, index) => {
             return (
               <MessageComponent
                 key={index}
-                body={element.body}
+                body={element.content}
                 author={element.author}
               />
             );
@@ -124,7 +123,11 @@ export const ChatRoom = () => {
             value={messageBody}
             onChange={(e) => setMessageBody(e.target.value)}
           />
-          <Button onClick={sendMessage} color={Color.Green} label={'Enviar'} />
+          <Button
+            onClick={() => sendMessage()}
+            color={Color.Green}
+            label={'Enviar'}
+          />
         </Container>
       </Container>
     </>

@@ -23,6 +23,7 @@
         "tabWidth": 2
       }
     ],
+    "no-underscore-dangle": ["error", { "allow": [ "_id"] }],
     "lines-between-class-members": ["error", "never"],
     "no-use-before-define": "off",
     "@typescript-eslint/no-use-before-define": ["error"],

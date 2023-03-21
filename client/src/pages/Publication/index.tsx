@@ -55,30 +55,22 @@ export const Publication = () => {
   const navigate = useNavigate();
 
   const { id } = useParams();
-  const [publication, setPublication] = useState<PublicationTypes>({
-    _id: '',
-    owner: '',
-    image: '',
-    title: 'titulo',
-    numberOfPlayers: 0,
-    numberOfComments: 0,
-    numberOfLikes: 0,
-    playerCharacters: [{ characterId: 0, characterName: '', player: '' }],
-    likes: [],
-    comments: [
-      {
-        author: 'autor',
-        content: 'comentario',
-      },
-      {
-        author: 'dbbitz',
-        content: 'comentariocomentariocomentariocomentariocomentariocomentario',
-      },
-    ],
-  });
+  const [publication, setPublication] = useState<PublicationTypes>();
 
   const [comment, setComment] = useState<string>('');
+  const [comments, setComments] = useState<commentTypes[]>([]);
 
+  async function getPublication() {
+    try {
+      const { data } = await api.get<ResponsePublicationTypes>(
+        `/feed-room/${id}`,
+      );
+      setPublication(data.data.feedMessage[0]);
+      setComments(data.data.comments);
+    } catch (error) {
+      console.log(error);
+    }
+  }
   async function sendComment() {
     try {
       const { data } = await api.post<ResquestCommentType>(
@@ -90,18 +82,6 @@ export const Publication = () => {
       );
       getPublication();
       console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  async function getPublication() {
-    try {
-      const { data } = await api.get<ResponsePublicationTypes>(
-        `/feed-room/${id}`,
-      );
-      setPublication(data.data.feedMessage[0]);
-      setComments(data.data.comments);
     } catch (error) {
       console.log(error);
     }
@@ -161,30 +141,35 @@ export const Publication = () => {
               >
                 <span>
                   <Button label="Curtir" color={Color.Green} />
-                  <MiniLabel> {publication.numberOfLikes} Curtidas</MiniLabel>
+                  <MiniLabel> {publication?.numberOfLikes} Curtidas</MiniLabel>
                 </span>
                 <span>
                   <Button label="Comentar" color={Color.Brown} />
                   <MiniLabel>
-                    {publication.numberOfComments} Comentários
+                    {publication?.numberOfComments} Comentários
                   </MiniLabel>
                 </span>
 
                 <Button
                   label="Entrar"
                   color={Color.Gold}
-                  onClick={() => navigate(`/chat-room/${publication._id}`)}
+                  onClick={() => navigate(`/chat-room/${publication?._id}`)}
                 />
               </Container>
 
               <Container
                 padding="0px"
-                height={publication.numberOfComments > 0 ? '30px' : '0px'}
+                height={
+                  publication?.numberOfComments &&
+                  publication.numberOfComments > 0
+                    ? '30px'
+                    : '0px'
+                }
                 justify="start"
                 align="start"
                 margin="30px 0px 0px 0px"
               >
-                <H2>{publication?.comments?.length > 0 && 'Comentários'}</H2>
+                <H2>{comments && 'Comentários'}</H2>
               </Container>
               <>
                 {comments?.map((comment) => {

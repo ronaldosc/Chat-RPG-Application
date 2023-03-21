@@ -1,3 +1,5 @@
+import { Navigate, Route, Routes } from 'react-router-dom';
+import React from 'react';
 import {
   ChatRoom,
   CreateGame,
@@ -8,11 +10,9 @@ import {
   Register,
 } from '@pages';
 import { useUser } from '@providers';
-import { ReactElement } from 'react';
-import { Navigate, Route, Routes } from 'react-router-dom';
 
 interface ChildrenTypes {
-  children: ReactElement;
+  children: React.ReactElement;
 }
 
 const Private = ({ children }: ChildrenTypes) => {
@@ -34,7 +34,6 @@ const Public = ({ children }: ChildrenTypes) => {
 export const Router = () => {
   return (
     <Routes>
-      <Route path="*" element={<Error404 />} />
       <Route path="/" element={<Navigate to="/home" />} />
 
       <Route
@@ -88,6 +87,7 @@ export const Router = () => {
           </Private>
         }
       />
+      <Route path="*" element={<Error404 />} />
     </Routes>
   );
 };

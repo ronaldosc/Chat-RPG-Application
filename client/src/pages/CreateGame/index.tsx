@@ -14,7 +14,7 @@ import { encodeURL } from '@helpers';
 import { useSnackbar } from 'notistack';
 import { X } from 'phosphor-react';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 import { CreateGameStyle } from './style';
 
 interface characterProps {
@@ -50,7 +50,7 @@ export const CreateGame = () => {
     );
     try {
       const { data } = await api.post('/feed-room/new-feed', gameProperties);
-
+      // TODO aqui falta utilizar o 'data'
       enqueueSnackbar('Jogo criado com sucesso!', {
         variant: 'success',
         anchorOrigin: {
@@ -110,7 +110,7 @@ export const CreateGame = () => {
     return inputs;
   }
 
-  useEffect(() => {}, []);
+  useEffect(() => { }, []);
 
   return (
     <>
@@ -167,7 +167,7 @@ export const CreateGame = () => {
             >
               <BodyText>Número de Jogadores</BodyText>
               <SelectInput
-                options={['-', '1', '2', '3', '4', '5', '6', '7', '8']}
+                options={['1', '2', '3', '4', '5', '6', '7', '8']}
                 onChange={(e) => {
                   setGameProperties({
                     ...gameProperties,

@@ -1,7 +1,7 @@
 import { AppProvider } from '@providers';
 import { SnackbarProvider } from 'notistack';
+import '@assets/styles';
 import { Router } from './routes/routes';
-import './styles/global.css';
 
 export const App = () => {
   return (

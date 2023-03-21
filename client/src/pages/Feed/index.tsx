@@ -6,7 +6,7 @@ import { Header } from '@components/header';
 import { encodeURL } from '@helpers';
 import { Plus } from 'phosphor-react';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 import { FeedStyle } from './style';
 
 interface commentTypes {
@@ -58,7 +58,7 @@ export const Feed = () => {
   const [publications, setPublications] = useState<PublicationTypes[]>([]);
 
   async function getPublications() {
-    const { data } = await api.get<ResponseTypes>('/feed-room');
+    const { data } = await api.get<ResponseTypes>('/feed-message');
     console.log(data);
 
     setPublications(data.data.feeds);
@@ -91,6 +91,7 @@ export const Feed = () => {
         case 'dislike-feed':
           break;
         default:
+          break;
       }
     };
 
@@ -141,7 +142,7 @@ export const Feed = () => {
                   <H2>
                     {
                       publication.playerCharacters.filter(
-                        (element) => element.player != null,
+                        (element) => element.player !== null,
                       ).length
                     }
                     /{publication.numberOfPlayers}

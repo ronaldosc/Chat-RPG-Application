@@ -21,14 +21,13 @@ export const Home = () => {
     email: '',
     password: '',
   });
-
   return (
     <Container
       width="80vw"
       height="65vh"
       gap="12px"
       backgroundColor="rgba(31, 25, 35, 0.6)"
-      // backgroundGradient='radial-gradient(circle, rgba(200, 25, 35, 0.5) 50%, rgba(1, 25, 35, 0.8) 20%)'
+    // TODO backgroundGradient='radial-gradient(circle, rgba(200, 25, 35, 0.5) 50%, rgba(1, 25, 35, 0.8) 20%)'
     >
       <Logo width="95px" height="180px" title="Logo Chat RPG" />
       <H1 light title="Bem vindo(a) ao Chat RPG">
@@ -62,9 +61,7 @@ export const Home = () => {
         <Button
           label="Entrar"
           color={Color.Green}
-          onClick={() => {
-            signIn && signIn(login);
-          }}
+          onClick={() => signIn && signIn(login)}
         />
         <Button
           label="Cadastrar"

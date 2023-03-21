@@ -1,9 +1,9 @@
-import { ReactNode } from 'react';
+import React from 'react';
 // import { BrowserRouter } from 'react-router-dom';
 import { UserProvider } from './UserProvider';
 
 interface AppProviderProps {
-  children: ReactNode;
+  children: React.ReactNode;
 }
 
 export const AppProvider = ({ children }: AppProviderProps) => {

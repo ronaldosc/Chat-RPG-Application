@@ -3,27 +3,101 @@ import { ChatInput, ChatLounge, MessageComponent } from '@components/chatRoom';
 import { Color, H1 } from '@components/common';
 import { Container } from '@components/container';
 import { Header } from '@components/header';
-import React from 'react';
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { api } from '../../libs/api';
 
 interface Message {
   author: string;
   body: string;
 }
 
+interface GetMessagesTypes {
+  data: {
+    chatMessage: Message[];
+  };
+}
+
 const FAKE_DATA = {
-  roomTitle: 'Sala Genérica',
   userName: 'Eu',
 };
 
+interface ChatRoom {
+  chatRoomId: string;
+}
+
+interface WSResponseTypes {
+  action: string;
+  data: {
+    message: any;
+  };
+}
+
+interface PlayerCharactersProps {
+  characterId: number[];
+  player: string;
+  characterName: string;
+}
+
+interface ChatRoomTypes {
+  data: {
+    playerCharacters: PlayerCharactersProps[];
+    feedMessageOrigin: string;
+    owner: string;
+    title: string;
+    image: string;
+    numberOfPlayers: number;
+  };
+}
+
 export const ChatRoom = () => {
-  const [messageBody, setMessageBody] = React.useState('');
-  const [messages, setMessages] = React.useState<Message[]>([]);
+  const { id } = useParams();
+  const [messageBody, setMessageBody] = useState('');
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [chatProprieties, setChatProprieties] = useState<ChatRoomTypes>();
+  const [ws, setWs] = useState<WebSocket>();
+
+  async function getMessages() {
+    const { data } = await api.get<GetMessagesTypes>(
+      `/feed-chat/chatfeeds/${id}`,
+    );
+    setMessages(data.data.chatMessage);
+  }
+
+  async function getChatRoom() {
+    const { data } = await api.get<ChatRoomTypes>(
+      `chat-room/chatroom-id/${id}`,
+    );
+    setChatProprieties(data);
+  }
+
+  useEffect(() => {
+    const host = window.location.hostname;
+    const ws = new WebSocket(`ws://${host}:5001`);
+    setWs(ws);
+    getMessages();
+    getChatRoom();
+
+    ws.onopen = () => {
+      console.log('Abriu');
+    }
+
+    ws.onmessage = (e) => {
+      const data = JSON.parse(e.data.toString()) as WSResponseTypes;
+      setMessages((oldMessages) => [...oldMessages, data.data.message]);
+    };
+
+    return () => {
+      ws.close();
+    };
+  }, []);
 
   function sendMessage() {
     if (!messageBody) return null;
     const message = { author: FAKE_DATA.userName, body: messageBody };
+    console.log(message);
+    if (ws) ws.send(JSON.stringify(message));
 
-    setMessages([...messages, message]);
     setMessageBody('');
     return message;
   }
@@ -32,9 +106,9 @@ export const ChatRoom = () => {
     <>
       <Header />
       <Container backgroundColor={Color.Background.base}>
-        <H1>{FAKE_DATA.roomTitle}</H1>
+        <H1>{chatProprieties?.data.title}</H1>
         <ChatLounge>
-          {messages.map((element, index) => {
+          {messages?.map((element, index) => {
             return (
               <MessageComponent
                 key={index}

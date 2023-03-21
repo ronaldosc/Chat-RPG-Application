@@ -24,6 +24,8 @@ interface characterProps {
 }
 
 interface CreateGameProps {
+  _id: string;
+  owner: string;
   title: string;
   numberOfPlayers: number;
   playerCharacters: characterProps[];
@@ -36,11 +38,13 @@ export const CreateGame = () => {
   const { enqueueSnackbar } = useSnackbar();
 
   const [gameProperties, setGameProperties] = useState<CreateGameProps>({
+    _id: '',
     title: '',
     numberOfPlayers: 0,
     playerCharacters: [],
     image: null,
     content: '',
+    owner: '',
   });
 
   async function createGame() {
@@ -50,7 +54,10 @@ export const CreateGame = () => {
     );
     try {
       const { data } = await api.post('/feed-room/new-feed', gameProperties);
-      // TODO aqui falta utilizar o 'data'
+      const { data: chatRoomData } = await api.post(
+        `/new-chatroom/${data._id}}`,
+      );
+
       enqueueSnackbar('Jogo criado com sucesso!', {
         variant: 'success',
         anchorOrigin: {

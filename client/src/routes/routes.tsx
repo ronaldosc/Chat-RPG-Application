@@ -80,7 +80,7 @@ export const Router = () => {
         }
       />
       <Route
-        path="/publication"
+        path="/publication/:id"
         element={
           <Private>
             <Publication />

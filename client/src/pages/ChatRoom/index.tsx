@@ -4,7 +4,7 @@ import { Color, H1 } from '@components/common';
 import { Container } from '@components/container';
 import { Header } from '@components/header';
 import { useWebSocket } from 'providers/WebSocketProvider';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { api } from '../../libs/api';
 
@@ -35,6 +35,13 @@ interface ChatRoomTypes {
   numberOfPlayers: number;
 }
 
+interface ResponseSendMessageTypes {
+  message: string;
+  data: {
+    newFeed: ChatRoomTypes;
+  };
+}
+
 interface MessageTypes {
   _id: string;
   choices: [];
@@ -61,11 +68,9 @@ export const ChatRoom = () => {
     const { data } = await api.get<ResponseChatRoomTypes>(
       `chat-room/chatroom-feed/${id}`,
     );
-    console.log('ChatProprieties:');
-    console.log(data);
 
     setChatProprieties(data.chatRoomInfo);
-    setMessages(data.messages);
+    setMessages(data.messages.reverse());
   }
 
   useEffect(() => {
@@ -81,31 +86,30 @@ export const ChatRoom = () => {
     }
   }, []);
 
-  // async function sendMessage() {
-  //   await console.log(chatProprieties);
-
-  //   try {
-  //     const { data } = await api.post<ResponseSendMessageTypes>(
-  //       '/feed-chat/new-chatfeed',
-  //       {
-  //         chatRoomId: chatProprieties?._id,
-  //         content: 'testando mensagem',
-  //         image: null,
-  //         directedTo: null,
-  //         choices: [],
-  //       },
-  //     );
-  //     console.log(data);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }
+  async function sendMessage() {
+    try {
+      const { data } = await api.post<ResponseSendMessageTypes>(
+        '/feed-chat/new-chatfeed',
+        {
+          chatRoomId: chatProprieties?._id,
+          content: messageBody,
+          image: null,
+          directedTo: null,
+          choices: [],
+        },
+      );
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <>
       <Header />
       <Container backgroundColor={Color.Background.base}>
         <H1>{chatProprieties?.title}</H1>
+
         <ChatLounge>
           {messages?.map((element, index) => {
             return (
@@ -117,6 +121,7 @@ export const ChatRoom = () => {
             );
           })}
         </ChatLounge>
+
         <Container height={'fit-content'}>
           <ChatInput
             type="text"

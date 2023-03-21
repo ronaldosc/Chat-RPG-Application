@@ -80,8 +80,8 @@ redisSub.on('message', (channel, message) => {
 });
 
 const httpsOptions = {
-  key: fs.readFileSync("chat-rpg.key"),
-  cert: fs.readFileSync("chat-rpg.pem-chain"),
+  key: fs.readFileSync(path.resolve(__dirname, './chat-rpg.key')),
+  cert: fs.readFileSync(path.resolve(__dirname, './chat-rpg.pem-chain')),
 }
 
 https.createServer(httpsOptions, app).listen(PORT, () => {

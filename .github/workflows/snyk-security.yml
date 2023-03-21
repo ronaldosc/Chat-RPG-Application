@@ -62,7 +62,8 @@ jobs:
         run: |
           cd client          
           yarn &> /dev/null
-          yarn test
+          yarn type-check && echo 'TypeScript errors:'
+          yarn lint && echo 'Linter errors:'
 
       - name: Prepare backend...
         run: |

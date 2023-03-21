@@ -59,20 +59,21 @@ jobs:
 
         # Build the docker image for testing
       - name: Prepare frontend...
+        working-directory: client/
         run: |
-          cd client          
-          yarn &> /dev/null
-          yarn type-check && echo 'TypeScript errors:'
-          yarn lint && echo 'Linter errors:'
+          yarn type-check
+          yarn lint
 
       - name: Prepare backend...
+        working-directory: server/
         run: |
-          cd server
-          npm i &> /dev/null
-          cp .env.example .env
+          npm test
 
       - name: Check all integration
-        run: docker compose up -d
+        run: |
+          cp .env.example .env
+          docker compose up -d
+          
         # Runs Snyk Container (Container and SCA) analysis and uploads result to Snyk.
       # - name: Snyk Container monitor
       #   run: snyk container monitor chat-rpg:1.0 --file=Dockerfile

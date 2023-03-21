@@ -68,7 +68,6 @@ export const ChatRoom = () => {
     const { data } = await api.get<ChatRoomTypes>(
       `chat-room/chatroom-id/${id}`,
     );
-    console.log(data);
     setChatProprieties(data);
   }
 

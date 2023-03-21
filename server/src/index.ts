@@ -26,13 +26,13 @@ const webSocketInitializer = new WebSocketInitializer();
 
 webSocketInitializer.initialize();
 
-// const corsOptions = {
-//   origin: process.env.CORS_ORIGIN,
-//   credentials: true,
-// };
+const corsOptions = {
+  origin: process.env.CORS_ORIGIN,
+  credentials: true,
+};
 
 app.use('/', express.static(path.join(__dirname, '/public')));
-// app.use(cors(corsOptions));
+app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());

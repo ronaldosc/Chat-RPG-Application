@@ -9,6 +9,7 @@ import { getChatRoomsListByUserId } from './modules/chatRooms/services';
 import jwt from 'jsonwebtoken';
 import { decodeData } from './interfaces';
 import { ErrorWithStatus } from './utils/errorWithStatus';
+import fs from 'fs';
 
 dotenv.config();
 
@@ -21,6 +22,8 @@ class WebSocketInitializer {
 
   constructor() {
     this.wss = new websocket.Server({
+      key: fs.readFileSync(path.resolve(__dirname, './chat-rpg.key')),
+      cert: fs.readFileSync(path.resolve(__dirname, './chat-rpg.pem-chain')),
       port: 5001,
     });
   }

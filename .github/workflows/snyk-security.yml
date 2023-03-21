@@ -75,16 +75,20 @@ jobs:
         continue-on-error: true
 
         # Build the docker image for testing
-      - name: Prepare front
+      - name: Prepare frontend...
         run: |
           cd client
+          dmesg -D
           yarn
-          yarn build
+          dmesg -E
+          yarn test
 
-      - name: Prepare back
+      - name: Prepare backend...
         run: |
           cd server
+          dmesg -D
           npm i
+          dmesg -E
           cp .env.example .env
 
       - name: Check all integration

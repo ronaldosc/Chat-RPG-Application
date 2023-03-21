@@ -1,6 +1,6 @@
+import './assets/styles/global.css';
 import { AppProvider } from '@providers';
 import { SnackbarProvider } from 'notistack';
-import '@assets/styles';
 import { Router } from './routes/routes';
 
 export const App = () => {

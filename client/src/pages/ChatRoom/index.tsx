@@ -1,6 +1,6 @@
 import { Button } from '@components/button';
 import { ChatInput, ChatLounge, MessageComponent } from '@components/chatRoom';
-import { Color, H1 } from '@components/common';
+import { Color, H1, H2 } from '@components/common';
 import { Container } from '@components/container';
 import { Header } from '@components/header';
 import { useWebSocket } from 'providers/WebSocketProvider';
@@ -107,8 +107,15 @@ export const ChatRoom = () => {
   return (
     <>
       <Header />
-      <Container backgroundColor={Color.Background.base}>
-        <H1>{chatProprieties?.title}</H1>
+
+      <Container
+        backgroundColor={Color.Background.base}
+        gap="16px"
+        padding="10px 10px"
+      >
+        <div style={{marginTop: "10px"}}>
+          <H2>{chatProprieties?.title}</H2>
+        </div>
 
         <ChatLounge>
           {messages?.map((element, index) => {
@@ -122,14 +129,29 @@ export const ChatRoom = () => {
           })}
         </ChatLounge>
 
-        <Container height={'fit-content'}>
+        <Container
+          height={'fit-content'}
+          direction="row"
+          justify="space-between"
+          width="100%"
+          padding="0 16px"
+        >
           <ChatInput
             type="text"
             value={messageBody}
             onChange={(e) => setMessageBody(e.target.value)}
+            onKeyPress={(e) => {
+              if (e.key === 'Enter') {
+                setMessageBody('');
+                sendMessage();
+              }
+            }}
           />
           <Button
-            onClick={() => sendMessage()}
+            onClick={() => {
+              setMessageBody('');
+              sendMessage();
+            }}
             color={Color.Green}
             label={'Enviar'}
           />

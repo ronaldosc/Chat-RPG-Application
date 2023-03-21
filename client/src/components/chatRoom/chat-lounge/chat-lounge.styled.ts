@@ -2,8 +2,9 @@ import { Color } from '@components/common';
 import styled from 'styled-components';
 
 export const ChatLounge = styled.div`
-  height: 400px;
+  height: 350px;
   display: flex;
+  margin-top: 16px;
   flex-direction: column-reverse;
   justify-content: flex-start;
   overflow: auto;

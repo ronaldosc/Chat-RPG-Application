@@ -169,7 +169,7 @@ export const Publication = () => {
                 align="start"
                 margin="30px 0px 0px 0px"
               >
-                <H2>{comments && 'Comentários'}</H2>
+                <H2>{comments.length > 0 && 'Comentários'}</H2>
               </Container>
               <>
                 {comments?.map((comment) => {
@@ -217,11 +217,21 @@ export const Publication = () => {
                 <ChatInput
                   type="text"
                   onChange={(e) => setComment(e.target.value)}
+                  value={comment}
+                  onKeyPress={(e) => {
+                    if (e.key === 'Enter') {
+                      setComment('');
+                      sendComment();
+                    }
+                  }}
                 />
                 <Button
                   color={Color.Green}
                   label={'Enviar'}
-                  onClick={() => sendComment()}
+                  onClick={() => {
+                    setComment('');
+                    sendComment();
+                  }}
                 />
               </Container>
             </Container>

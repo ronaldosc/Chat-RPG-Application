@@ -73,7 +73,7 @@ export const ChatRoom = () => {
 
   useEffect(() => {
     const host = window.location.hostname;
-    const ws = new WebSocket(`wss://${host}:5001`);
+    const ws = new WebSocket(`wss://${host}:5000`);
     setWs(ws);
     getMessages();
     getChatRoom();

@@ -6,6 +6,8 @@ import Redis from 'ioredis';
 import { redisConfig } from './config/redisdb';
 import cors from 'cors';
 import path from 'path';
+import https from 'https';
+import fs from 'fs';
 
 import { WebSocketInitializer } from './websocket';
 
@@ -77,7 +79,12 @@ redisSub.on('message', (channel, message) => {
   }
 });
 
-app.listen(PORT, () => {
+const httpsOptions = {
+  key: fs.readFileSync("chat-rpg.key"),
+  cert: fs.readFileSync("chat-rpg.pem-chain"),
+}
+
+https.createServer(httpsOptions, app).listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
 });
 

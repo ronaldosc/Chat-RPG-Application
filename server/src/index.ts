@@ -22,9 +22,6 @@ const PORT = parseInt(process.env.PORT) || 5000;
 const redisSub = new Redis(redisConfig.socket);
 
 const app: express.Application = express();
-const webSocketInitializer = new WebSocketInitializer();
-
-webSocketInitializer.initialize();
 
 const corsOptions = {
   origin: process.env.CORS_ORIGIN,
@@ -47,6 +44,19 @@ app.use('/feed-comment', feedCommentRoutes);
 app.get('*', function (req, res) {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
+
+const httpsOptions = {
+  key: fs.readFileSync(path.resolve(__dirname, './chat-rpg.key')),
+  cert: fs.readFileSync(path.resolve(__dirname, './chat-rpg.pem-chain')),
+}
+
+const httpsServer = https.createServer(httpsOptions, app).listen(PORT, () => {
+  console.log(`Servidor rodando na porta ${PORT}`);
+});
+
+const webSocketInitializer = new WebSocketInitializer(httpsServer);
+
+webSocketInitializer.initialize();
 
 // Listen for messages on the Redis channel
 redisSub
@@ -77,15 +87,6 @@ redisSub.on('message', (channel, message) => {
       webSocketInitializer.websocketClients.get(id)?.send(message);
     });
   }
-});
-
-const httpsOptions = {
-  key: fs.readFileSync(path.resolve(__dirname, './chat-rpg.key')),
-  cert: fs.readFileSync(path.resolve(__dirname, './chat-rpg.pem-chain')),
-}
-
-https.createServer(httpsOptions, app).listen(PORT, () => {
-  console.log(`Servidor rodando na porta ${PORT}`);
 });
 
 export { webSocketInitializer };

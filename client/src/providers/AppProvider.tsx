@@ -8,9 +8,5 @@ interface AppProviderProps {
 }
 
 export const AppProvider = ({ children }: AppProviderProps) => {
-  return (
-    <WebSocketProvider>
-      <UserProvider>{children}</UserProvider>;
-    </WebSocketProvider>
-  );
+  return <UserProvider>{children}</UserProvider>;
 };

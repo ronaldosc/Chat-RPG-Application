@@ -14,15 +14,18 @@ export const WebSocketProvider = ({ children }: WebSocketProviderProps) => {
   useEffect(() => {
     const newSocket = new WebSocket('ws://localhost:5001');
     setWebsocket(newSocket);
-    const message = {
-      action: 'join-feedRoom',
-      data: {
-        chatRoom: 'feedRoom',
-        token: localStorage.getItem('token')?.toString(),
-        message: 'ola',
-      },
+    newSocket.onopen = () => {
+      const message = {
+        action: 'join-feedRoom',
+        data: {
+          chatRoom: 'feedRoom',
+          token: localStorage.getItem('token')?.toString(),
+          message: 'ola',
+        },
+      };
+      newSocket?.send(JSON.stringify(message));
     };
-    websocket?.send(JSON.stringify(message));
+
     return () => {
       newSocket.close();
     };

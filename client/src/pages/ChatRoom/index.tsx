@@ -81,7 +81,7 @@ export const ChatRoom = () => {
         const data = JSON.parse(e.data.toString()) as WSResponseTypes;
         console.log(data);
 
-        setMessages((oldMessages) => [...oldMessages, data.data.message]);
+        setMessages((oldMessages) => [data.data.message, ...oldMessages]);
       };
     }
   }, []);

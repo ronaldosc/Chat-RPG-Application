@@ -68,6 +68,7 @@ export const ChatRoom = () => {
     const { data } = await api.get<ChatRoomTypes>(
       `chat-room/chatroom-id/${id}`,
     );
+    console.log(data);
     setChatProprieties(data);
   }
 
@@ -95,6 +96,7 @@ export const ChatRoom = () => {
   function sendMessage() {
     if (!messageBody) return null;
     const message = { author: FAKE_DATA.userName, body: messageBody };
+    console.log(message);
     if (ws) ws.send(JSON.stringify(message));
 
     setMessageBody('');

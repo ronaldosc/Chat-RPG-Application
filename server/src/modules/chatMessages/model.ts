@@ -5,7 +5,6 @@ const ChatFeedMessagesSchema = new mongoose.Schema<ChatFeedMessagesModel>({
   chatRoomId: { type: Schema.Types.ObjectId, required: true, ref: 'ChatRooms' },
   author: { type: Schema.Types.ObjectId, required: true, ref: 'User' },
   content: { type: String, required: true },
-  image: { type: String },
   directedTo: { type: Number },
   choices: [
     {
@@ -14,8 +13,6 @@ const ChatFeedMessagesSchema = new mongoose.Schema<ChatFeedMessagesModel>({
       selected: { type: Boolean },
     },
   ],
-  numberOfComments: { type: Number, required: true },
-  numberOfLikes: { type: Number, required: true },
   createdAt: { type: Date, default: now, immutable: true },
   deletedAt: { type: Date },
 });

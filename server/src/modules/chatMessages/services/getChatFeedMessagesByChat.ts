@@ -1,13 +1,14 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { connectToMongoDB } from '../../../config/mongodb';
 import { ErrorWithStatus } from '../../../utils/errorWithStatus';
+import { IUser } from '../../users/interface';
 import { ChatFeedMessages } from '../model';
 
 export async function getChatFeedMessagesByChatId(param: string) {
   try {
     await connectToMongoDB();
 
-    const chatMessage = await ChatFeedMessages.find({ chatRoomId: param });
+    const chatMessage = await ChatFeedMessages.find({ chatRoomId: param }).populate<{ author: Pick<IUser, 'contact'> }>('author', 'contact.userName');
 
     return {
       message: 'Chat Feed(s) selecionado(s) com sucesso!',

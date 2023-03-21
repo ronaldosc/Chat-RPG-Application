@@ -13,11 +13,8 @@ export async function create(param: ChatFeedMessagesModel) {
     newFeed.chatRoomId = param.chatRoomId;
     newFeed.author = param.author;
     newFeed.content = param.content;
-    newFeed.image = param.image;
     newFeed.directedTo = param.directedTo;
     newFeed.choices = param.choices;
-    newFeed.numberOfComments = param.numberOfComments ?? 0;
-    newFeed.numberOfLikes = param.numberOfLikes ?? 0;
 
     await newFeed.save();
 

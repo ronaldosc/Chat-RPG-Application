@@ -4,6 +4,7 @@ import { connectToMongoDB } from '../../../config/mongodb';
 import { FeedMessageCommentsModel } from '../interface';
 import { ErrorWithStatus } from '../../../utils/errorWithStatus';
 import { FeedMessages } from '../../feedMessages/model';
+import { IUser } from '../../users/interface';
 
 export async function create(param: FeedMessageCommentsModel) {
   try {
@@ -16,6 +17,8 @@ export async function create(param: FeedMessageCommentsModel) {
     newComment.content = param.content;
 
     await newComment.save();
+
+    await newComment.populate<{ author: Pick<IUser, 'contact'> }>('author', 'contact.userName' );
 
     const result = await FeedMessages.updateOne(
       { _id: param.feedMessage },

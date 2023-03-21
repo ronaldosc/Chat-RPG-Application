@@ -58,25 +58,23 @@ export const Publication = () => {
   const [publication, setPublication] = useState<PublicationTypes>({
     _id: '',
     owner: '',
-    image: '',
-    title: 'titulo',
+    title: '',
+    content: '',
+    image: null,
     numberOfPlayers: 0,
-    numberOfComments: 0,
     numberOfLikes: 0,
-    playerCharacters: [{ characterId: 0, characterName: '', player: '' }],
-    likes: [],
-    comments: [
+    numberOfComments: 0,
+    playerCharacters: [
       {
-        author: 'autor',
-        content: 'comentario',
-      },
-      {
-        author: 'dbbitz',
-        content: 'comentariocomentariocomentariocomentariocomentariocomentario',
+        characterId: 0,
+        characterName: '',
+        player: null,
       },
     ],
+    likes: [],
+    comments: [],
   });
-
+  const [comments, setComments] = useState<commentTypes[]>([]);
   const [comment, setComment] = useState<string>('');
 
   async function sendComment() {

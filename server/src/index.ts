@@ -5,6 +5,7 @@ import express from 'express';
 import Redis from 'ioredis';
 import { redisConfig } from './config/redisdb';
 import cors from 'cors';
+import path from 'path';
 
 import { WebSocketInitializer } from './websocket';
 
@@ -23,13 +24,13 @@ const webSocketInitializer = new WebSocketInitializer();
 
 webSocketInitializer.initialize();
 
-const corsOptions = {
-  origin: process.env.CORS_ORIGIN,
-  credentials: true,
-};
+// const corsOptions = {
+//   origin: process.env.CORS_ORIGIN,
+//   credentials: true,
+// };
 
-app.use('/', express.static('./views'));
-app.use(cors(corsOptions));
+app.use('/', express.static(path.join(__dirname, '/public')));
+// app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -39,7 +40,11 @@ app.use('/feed-room', feedRoutes);
 app.use('/chat-room', chatRoomRoutes);
 app.use('/feed-chat', chatFeedRoutes);
 app.use('/reaction', reactionRoutes);
-app.use('/feed-comment',feedCommentRoutes);
+app.use('/feed-comment', feedCommentRoutes);
+
+app.get('*', function (req, res) {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 
 // Listen for messages on the Redis channel
 redisSub

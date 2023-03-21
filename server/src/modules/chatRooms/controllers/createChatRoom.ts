@@ -20,7 +20,7 @@ export async function createChatRoom(req: Request, res: Response): Promise<void>
     const owner = (req as AuthenticatedUserDataRequest).userId;
 
     if (feedOrigin.data.feedMessage[0].owner != owner) {
-      res.status(500).json({ message: 'usuário não é dono do feed de origem' });
+      res.status(500).json({ message: 'Usuário não é dono do feed de origem' });
       return;
     }
 

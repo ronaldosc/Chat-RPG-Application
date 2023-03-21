@@ -31,6 +31,7 @@ interface ResquestCommentType {
 
 interface PublicationTypes {
   _id: string;
+  owner: string;
   title: string;
   content: string;
   image: string | null;
@@ -54,8 +55,28 @@ export const Publication = () => {
   const navigate = useNavigate();
 
   const { id } = useParams();
-  const [publication, setPublication] = useState<PublicationTypes>([]);
-  const [comments, setComments] = useState<commentTypes[]>([]);
+  const [publication, setPublication] = useState<PublicationTypes>({
+    _id: '',
+    owner: '',
+    image: '',
+    title: 'titulo',
+    numberOfPlayers: 0,
+    numberOfComments: 0,
+    numberOfLikes: 0,
+    playerCharacters: [{ characterId: 0, characterName: '', player: '' }],
+    likes: [],
+    comments: [
+      {
+        author: 'autor',
+        content: 'comentario',
+      },
+      {
+        author: 'dbbitz',
+        content: 'comentariocomentariocomentariocomentariocomentariocomentario',
+      },
+    ],
+  });
+
   const [comment, setComment] = useState<string>('');
 
   async function sendComment() {

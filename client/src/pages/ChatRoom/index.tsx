@@ -14,7 +14,7 @@ interface Message {
 
 interface GetMessagesTypes {
   data: {
-    messages: Message[];
+    chatMessage: Message[];
   };
 }
 
@@ -55,12 +55,13 @@ export const ChatRoom = () => {
   const [messageBody, setMessageBody] = useState('');
   const [messages, setMessages] = useState<Message[]>([]);
   const [chatProprieties, setChatProprieties] = useState<ChatRoomTypes>();
+  const [ws, setWs] = useState<WebSocket>();
 
   async function getMessages() {
     const { data } = await api.get<GetMessagesTypes>(
       `/feed-chat/chatfeeds/${id}`,
     );
-    setMessages(data.data.messages);
+    setMessages(data.data.chatMessage);
   }
 
   async function getChatRoom() {
@@ -73,8 +74,13 @@ export const ChatRoom = () => {
   useEffect(() => {
     const host = window.location.hostname;
     const ws = new WebSocket(`ws://${host}:5001`);
+    setWs(ws);
     getMessages();
     getChatRoom();
+
+    ws.onopen = () => {
+      console.log('Abriu');
+    }
 
     ws.onmessage = (e) => {
       const data = JSON.parse(e.data.toString()) as WSResponseTypes;
@@ -89,7 +95,8 @@ export const ChatRoom = () => {
   function sendMessage() {
     if (!messageBody) return null;
     const message = { author: FAKE_DATA.userName, body: messageBody };
-    ws.send(JSON.stringify(message));
+    console.log(message);
+    if (ws) ws.send(JSON.stringify(message));
 
     setMessageBody('');
     return message;

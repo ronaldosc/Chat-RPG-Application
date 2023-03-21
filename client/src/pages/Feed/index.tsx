@@ -5,7 +5,7 @@ import { Container } from '@components/container';
 import { Header } from '@components/header';
 import { encodeURL } from '@helpers';
 import { Plus } from 'phosphor-react';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FeedStyle } from './style';
 
@@ -177,8 +177,8 @@ export const Feed = () => {
           padding="0 30px 30px 30px"
           gap="12px"
         >
-          {publications.map((publication: PublicationTypes) => (
-            <>
+          {publications.map((publication: PublicationTypes, index) => (
+            <React.Fragment key={index}>
               <Container
                 backgroundColor={Color.Background.base}
                 height={'250px'}
@@ -253,7 +253,7 @@ export const Feed = () => {
                   />
                 </Container>
               </Container>
-            </>
+            </React.Fragment>
           ))}
         </Container>
       </FeedStyle>

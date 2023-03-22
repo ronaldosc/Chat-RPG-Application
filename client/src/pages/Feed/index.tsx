@@ -22,6 +22,14 @@ interface characterProps {
   characterId: number;
   characterName: string;
   player: string | null;
+  _id: string;
+}
+
+interface OwnerTypes {
+  _id: string;
+  contact: {
+    userName: string;
+  };
 }
 
 interface PublicationTypes {
@@ -35,6 +43,7 @@ interface PublicationTypes {
   playerCharacters: characterProps[];
   likes: likeTypes[];
   comments: commentTypes[];
+  owner: OwnerTypes;
 }
 interface ResponseTypes {
   message: string;
@@ -48,10 +57,11 @@ interface LikeTypes {
   author: string;
 }
 
-interface LikeResponseTypes {
+export interface LikeResponseTypes {
   message: string;
   data: {
-    newLike: LikeTypes;
+    newLike?: LikeTypes;
+    removeLike?: LikeTypes;
   };
 }
 
@@ -89,6 +99,7 @@ export const Feed = () => {
 
   useEffect(() => {
     getPublications();
+    console.log(websocket);
     if (websocket)
       websocket.onmessage = (event) => {
         const data = JSON.parse(event.data.toString());

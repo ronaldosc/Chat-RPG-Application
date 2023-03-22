@@ -42,11 +42,18 @@ interface ResponseSendMessageTypes {
   };
 }
 
+interface AuthorTypes {
+  contact: {
+    userName: string;
+  };
+  _id: string;
+}
+
 interface MessageTypes {
   _id: string;
   choices: [];
   chatRoomId: string;
-  author: string;
+  author: AuthorTypes | null;
   content: string;
   directedTo: null;
 }
@@ -123,7 +130,7 @@ export const ChatRoom = () => {
               <MessageComponent
                 key={index}
                 body={element.content}
-                author={element.author}
+                author={element?.author?.contact?.userName}
               />
             );
           })}

@@ -86,20 +86,23 @@ export const ChatRoom = () => {
   }
 
   async function getAvailableCharacters() {
-    const { data } = await api.get<AvailableCharactersProps>(
-      `/chat-room/available-characters/${id}`,
-    );
-    console.log(data);
-    setAvailableCharacters(
-      data.data.playerCharacters.map((element) => {
-        return element.characterName;
-      }),
-    );
-    setAvailableId(
-      data.data.playerCharacters.map((element) => {
-        return element.characterId[0];
-      }),
-    );
+    try {
+      const { data } = await api.get<AvailableCharactersProps>(
+        `/chat-room/available-characters/${id}`,
+      );
+      setAvailableCharacters(
+        data.data.playerCharacters.map((element) => {
+          return element.characterName;
+        }),
+      );
+      setAvailableId(
+        data.data.playerCharacters.map((element) => {
+          return element.characterId[0];
+        }),
+      );
+    } catch (err) {
+      console.warn(err);
+    }
   }
 
   async function addPlayer() {
@@ -168,14 +171,22 @@ export const ChatRoom = () => {
             >
               &times;
             </div>
-            <H2>Seleciona seu personagem</H2>
+            <H2>Selecione seu personagem</H2>
             <SelectInput
               options={availableCharacters}
               onChange={(e) => {
                 setSelectedCharacter(e.target.value);
               }}
             />
-            <Button color={Color.Green} onClick={addPlayer} label="Confirmar" />
+            <>
+              {selectedCharacter !== '' && (
+                <Button
+                  color={Color.Green}
+                  onClick={addPlayer}
+                  label="Confirmar"
+                />
+              )}
+            </>
           </Container>
         </div>
       </Modal>

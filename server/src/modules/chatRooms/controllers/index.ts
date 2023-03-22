@@ -7,3 +7,4 @@ export { getChatRoomListByUser } from './getChatRoomListByUser';
 export { getChatRoomByFeed } from './getChatRoomByFeed';
 export { getAvailableCharacters } from './getAvailableCharacters';
 export { deleteChatRoomPlayer } from './deleteChatRoomPlayer';
+export { checkPlayerInChat } from './checkPlayerInChat';

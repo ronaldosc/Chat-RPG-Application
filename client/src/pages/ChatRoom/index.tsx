@@ -89,6 +89,17 @@ export const ChatRoom = () => {
   const [selectedCharacter, setSelectedCharacter] = useState('');
   const [showModal, setShowModal] = useState(false);
 
+  async function isPlayer() {
+    try {
+      const { data } = await api.get<IsPlayerProps>(
+        `/chat-room/check-player/${chatProprieties?._id}`,
+      );
+      setIsEnlisted(data.data);
+    } catch (err) {
+      console.warn(err);
+    }
+  }
+
   async function getChatRoom() {
     const { data } = await api.get<ResponseChatRoomTypes>(
       `/chat-room/chatroom-feed/${id}`,
@@ -96,21 +107,6 @@ export const ChatRoom = () => {
 
     setChatProprieties(data.chatRoomInfo);
     setMessages(data.messages.reverse());
-  }
-
-  async function isPlayer() {
-    try {
-      const { data } = await api.get<IsPlayerProps>('chat-room/check-player', {
-        params: {
-          chatRoomId: chatProprieties?._id,
-        },
-      });
-      console.log(data);
-
-      setIsEnlisted(data.data);
-    } catch (err) {
-      console.warn(err);
-    }
   }
 
   async function getAvailableCharacters() {
@@ -151,7 +147,6 @@ export const ChatRoom = () => {
 
   useEffect(() => {
     getChatRoom();
-    isPlayer();
 
     if (websocket) {
       websocket.onmessage = (e) => {
@@ -162,6 +157,12 @@ export const ChatRoom = () => {
       };
     }
   }, []);
+
+  useEffect(() => {
+    if (chatProprieties) {
+      isPlayer();
+    }
+  }, [chatProprieties]);
 
   async function sendMessage() {
     try {

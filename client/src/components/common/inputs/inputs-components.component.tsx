@@ -15,6 +15,7 @@ interface TextInputProps {
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
   onKeyPress?: (event: React.KeyboardEvent<HTMLInputElement>) => void;  
+  maxLength?: number;
 }
 
 interface TextAreaInputProps extends TextAreaProps {
@@ -35,6 +36,7 @@ export const TextInput = ({
   onChange,
   onBlur,
   onKeyPress,
+  maxLength,
 }: TextInputProps) => {
   return (
     <TextInputWrapper>
@@ -45,6 +47,7 @@ export const TextInput = ({
         onChange={onChange}
         onBlur={onBlur}
         onKeyPress={onKeyPress}
+        maxLength={maxLength}
       />
     </TextInputWrapper>
   );

@@ -155,6 +155,7 @@ export const CreateGame = () => {
               <BodyText>Título</BodyText>
               <TextInput
                 type="text"
+                maxLength={24}
                 onChange={(e) =>
                   setGameProperties({
                     ...gameProperties,

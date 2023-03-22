@@ -11,6 +11,7 @@ import {
 interface TypographyProps {
   light?: boolean;
   medium?: boolean;
+  bold?: boolean;
 }
 
 export const BodyText = styled.p<TypographyProps>`
@@ -58,6 +59,7 @@ export const H2 = styled.h2<TypographyProps>`
   font-weight: ${({ medium }) =>
     medium ? FontWeight.Medium : FontWeight.Regular};
   font-size: ${FontSizeMobile.Large};
+  font-weight: ${({ bold }) => (bold ? FontWeight.Bold : FontWeight.Regular)};
 
   @media all and (min-width: ${Breakpoints.Mobile}) {
     font-size: ${FontSizeDesktop.Large};

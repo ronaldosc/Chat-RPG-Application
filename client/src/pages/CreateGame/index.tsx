@@ -46,6 +46,7 @@ export const CreateGame = () => {
     content: '',
     owner: '',
   });
+  const [idFeedRoom, setIdFeedRoom] = useState<string>('');
 
   async function createGame() {
     navigate(encodeURL(['feed']));
@@ -54,10 +55,8 @@ export const CreateGame = () => {
     );
     try {
       const { data } = await api.post('/feed-room/new-feed', gameProperties);
-      const { data: chatRoomData } = await api.post(
-        `/new-chatroom/${data._id}}`,
-      );
-
+      console.log(data);
+      await api.post(`/chat-room/new-chatroom/${data.data.newFeed._id}`);
       enqueueSnackbar('Jogo criado com sucesso!', {
         variant: 'success',
         anchorOrigin: {

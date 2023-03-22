@@ -8,6 +8,7 @@ import {
   Register,
 } from '@pages';
 import { useUser } from '@providers';
+import { WebSocketProvider } from 'providers/WebSocketProvider';
 import { ReactElement } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
@@ -20,7 +21,7 @@ const Private = ({ children }: ChildrenTypes) => {
   if (!token) {
     return <Navigate to={'/home'} />;
   }
-  return children;
+  return <WebSocketProvider>{children}</WebSocketProvider>;
 };
 
 const Public = ({ children }: ChildrenTypes) => {

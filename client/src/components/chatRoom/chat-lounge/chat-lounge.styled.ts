@@ -12,4 +12,5 @@ export const ChatLounge = styled.div`
   width: 95%;
   gap: 10px;
   border: 1px ${Color.Black.base} solid;
+  border-radius: 8px;
 `;

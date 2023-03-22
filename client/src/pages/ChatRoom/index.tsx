@@ -104,8 +104,9 @@ export const ChatRoom = () => {
         params: {
           chatRoomId: chatProprieties?._id,
         },
-
       });
+      console.log(data);
+
       setIsEnlisted(data.data);
     } catch (err) {
       console.warn(err);
@@ -182,112 +183,134 @@ export const ChatRoom = () => {
 
   return (
     <>
-      <Header />
-      <Modal showModal={showModal}>
-        <div style={{ position: 'relative' }}>
-          <Container
-            backgroundColor={Color.White.base}
-            width="400px"
-            height="320px"
-            gap="16px"
-          >
-            <div
-              style={{
-                position: 'absolute',
-                right: '8px',
-                top: '-8px',
-                fontSize: '3rem',
-                cursor: 'pointer',
-              }}
-              onClick={() => setShowModal(false)}
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'start',
+          alignItems: 'center',
+          height: '100vh',
+          gap: '16px',
+        }}
+      >
+        <Header />
+        <Modal showModal={showModal}>
+          <div style={{ position: 'relative' }}>
+            <Container
+              backgroundColor={Color.White.base}
+              width="400px"
+              height="320px"
+              gap="16px"
             >
-              &times;
-            </div>
-            <H2>Selecione seu personagem</H2>
-            <SelectInput
-              options={availableCharacters}
-              onChange={(e) => {
-                setSelectedCharacter(e.target.value);
-              }}
-            />
-            <>
-              {selectedCharacter !== '' && (
-                <Button
-                  color={Color.Green}
-                  onClick={addPlayer}
-                  label="Confirmar"
+              <div
+                style={{
+                  position: 'absolute',
+                  right: '8px',
+                  top: '-8px',
+                  fontSize: '3rem',
+                  cursor: 'pointer',
+                }}
+                onClick={() => setShowModal(false)}
+              >
+                &times;
+              </div>
+              <H2>Selecione seu personagem</H2>
+              <SelectInput
+                options={availableCharacters}
+                onChange={(e) => {
+                  setSelectedCharacter(e.target.value);
+                }}
+              />
+              <>
+                {selectedCharacter !== '' && (
+                  <Button
+                    color={Color.Green}
+                    onClick={addPlayer}
+                    label="Confirmar"
+                  />
+                )}
+              </>
+            </Container>
+          </div>
+        </Modal>
+        <Container
+          backgroundColor={Color.Background.base}
+          gap="16px"
+          padding="24px 10px"
+          justify="start"
+          height="fit-content"
+        >
+          <div style={{ marginTop: '10px' }}>
+            <H2>{chatProprieties?.title}</H2>
+          </div>
+          <ChatLounge>
+            {messages?.map((element, index) => {
+              return (
+                <MessageComponent
+                  key={index}
+                  body={element.content}
+                  author={element?.author?.contact?.userName}
                 />
+              );
+            })}
+          </ChatLounge>
+          <Container
+            height={'fit-content'}
+            direction="row"
+            justify="space-between"
+            width="100%"
+            padding="0 16px"
+          >
+            <>
+              {isEnlisted ? (
+                <>
+                  <div
+                    style={{
+                      height: 'fit-content',
+                      width: '100%',
+                      display: 'flex',
+                      gap: '8px',
+                    }}
+                  >
+                    <ChatInput
+                      type="text"
+                      value={messageBody}
+                      onChange={(e) => setMessageBody(e.target.value)}
+                      onKeyPress={(e) => {
+                        if (e.key === 'Enter') {
+                          setMessageBody('');
+                          sendMessage();
+                        }
+                      }}
+                    />
+                    <Button
+                      onClick={() => {
+                        setMessageBody('');
+                        sendMessage();
+                      }}
+                      color={Color.Green}
+                      label={'Enviar'}
+                    />
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div style={{ height: 'fit-content', width: '100%' }}>
+                    <Button
+                      label="Participar"
+                      color={Color.Gold}
+                      onClick={() => {
+                        getAvailableCharacters();
+                        setShowModal(true);
+                      }}
+                    />
+                  </div>
+                </>
               )}
             </>
           </Container>
-        </div>
-      </Modal>
-      <Container
-        backgroundColor={Color.Background.base}
-        gap="16px"
-        padding="10px"
-      >
-        <div style={{ marginTop: '10px' }}>
-          <H2>{chatProprieties?.title}</H2>
-        </div>
-        <ChatLounge>
-          {messages?.map((element, index) => {
-            return (
-              <MessageComponent
-                key={index}
-                body={element.content}
-                author={element?.author?.contact?.userName}
-              />
-            );
-          })}
-        </ChatLounge>
-        <Container
-          height={'fit-content'}
-          direction="row"
-          justify="space-between"
-          width="100%"
-          padding="0 16px"
-        >
-          <>
-            {isEnlisted ? (
-              <>
-                <ChatInput
-                  type="text"
-                  value={messageBody}
-                  onChange={(e) => setMessageBody(e.target.value)}
-                  onKeyPress={(e) => {
-                    if (e.key === 'Enter') {
-                      setMessageBody('');
-                      sendMessage();
-                    }
-                  }}
-                />
-                <Button
-                  onClick={() => {
-                    setMessageBody('');
-                    sendMessage();
-                  }}
-                  color={Color.Green}
-                  label={'Enviar'}
-                />
-              </>
-            ) : (
-              <>
-                <div style={{ height: '250px', width: '100%' }}>
-                  <Button
-                    label="Participar"
-                    color={Color.Gold}
-                    onClick={() => {
-                      getAvailableCharacters();
-                      setShowModal(true);
-                    }}
-                  />
-                </div>
-              </>
-            )}
-          </>
         </Container>
-      </Container>
+      </div>
     </>
   );
 };

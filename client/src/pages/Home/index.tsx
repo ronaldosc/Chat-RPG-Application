@@ -45,6 +45,11 @@ export const Home = () => {
         label="Senha"
         type="password"
         lightLabel
+        onKeyPress={(e) => {
+          if (e.key === 'Enter') {
+            signIn && signIn(login);
+          }
+        }}
         onChange={(e) =>
           setLogin({
             ...login,

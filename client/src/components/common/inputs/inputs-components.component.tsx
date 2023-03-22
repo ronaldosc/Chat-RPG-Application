@@ -14,6 +14,7 @@ interface TextInputProps {
   lightLabel?: boolean;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
+  onKeyPress?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 
 interface TextAreaInputProps extends TextAreaProps {
@@ -33,6 +34,7 @@ export const TextInput = ({
   lightLabel,
   onChange,
   onBlur,
+  onKeyPress,
 }: TextInputProps) => {
   return (
     <TextInputWrapper>
@@ -42,6 +44,7 @@ export const TextInput = ({
         placeholder={placeholder}
         onChange={onChange}
         onBlur={onBlur}
+        onKeyPress={onKeyPress}
       />
     </TextInputWrapper>
   );

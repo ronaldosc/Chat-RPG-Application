@@ -66,7 +66,7 @@ export const ChatRoom = () => {
 
   async function getChatRoom() {
     const { data } = await api.get<ResponseChatRoomTypes>(
-      `chat-room/chatroom-feed/${id}`,
+      `/chat-room/chatroom-feed/${id}`,
     );
 
     setChatProprieties(data.chatRoomInfo);
@@ -111,9 +111,9 @@ export const ChatRoom = () => {
       <Container
         backgroundColor={Color.Background.base}
         gap="16px"
-        padding="10px 10px"
+        padding="10px"
       >
-        <div style={{marginTop: "10px"}}>
+        <div style={{ marginTop: '10px' }}>
           <H2>{chatProprieties?.title}</H2>
         </div>
 

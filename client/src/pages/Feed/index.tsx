@@ -217,7 +217,7 @@ export const Feed = () => {
                 >
                   Mestre:{' '}
                   <Button
-                    label={publication.owner.contact.userName}
+                    label={publication?.owner?.contact.userName}
                     color={Color.Coal}
                   />
                 </div>

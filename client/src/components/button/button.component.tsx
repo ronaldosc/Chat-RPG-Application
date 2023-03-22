@@ -2,7 +2,7 @@ import { ColorType, Label } from '@components/common';
 import { ButtonStyle } from './button.styled';
 
 interface PropTypes {
-  label?: string;
+  label?: string | null;
   onClick?: () => void;
   color: ColorType;
   icon?: JSX.Element | string;

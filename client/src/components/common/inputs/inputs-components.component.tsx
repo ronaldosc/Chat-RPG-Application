@@ -14,7 +14,7 @@ interface TextInputProps {
   lightLabel?: boolean;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
-  onKeyPress?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
+  onKeyPress?: (event: React.KeyboardEvent<HTMLInputElement>) => void;  
 }
 
 interface TextAreaInputProps extends TextAreaProps {

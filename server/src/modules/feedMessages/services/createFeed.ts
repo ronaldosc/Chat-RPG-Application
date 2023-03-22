@@ -26,7 +26,7 @@ export async function create(param: FeedMessagesModel) {
 
     await newFeed.save();
 
-    newFeed.populate<{ owner: Pick<IUser, 'contact'> }>('owner', 'contact.userName' );
+    await newFeed.populate<{ owner: Pick<IUser, 'contact'> }>('owner', 'contact.userName' );
 
     return {
       message: 'Feed adicionado com sucesso!',

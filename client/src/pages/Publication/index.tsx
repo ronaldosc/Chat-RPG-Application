@@ -5,17 +5,31 @@ import { Header } from '@components/header';
 import { X } from 'phosphor-react';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { LikeResponseTypes } from 'pages/Feed';
+
 import { PublicationStyle } from './style';
 
-import { api, apiJSON } from '../../libs/api';
+import { api } from '../../libs/api';
 import { ChatInput } from '../../components/chatRoom';
 
-interface commentTypes {
-  author: string;
+interface AuthorTypes {
+  _id: string;
+  contact: {
+    userName: string;
+  };
+}
+
+interface CommentTypes {
+  _id: string;
+  feedMessage: string;
+  author: AuthorTypes | null;
   content: string;
 }
+
 interface likeTypes {
+  _id: string;
   author: string;
+  feedMessage: string;
 }
 
 interface characterProps {
@@ -40,14 +54,15 @@ interface PublicationTypes {
   numberOfComments: number;
   playerCharacters: characterProps[];
   likes: likeTypes[];
-  comments: commentTypes[];
+  comments: CommentTypes[];
 }
 
 interface ResponsePublicationTypes {
   message: string;
   data: {
     feedMessage: PublicationTypes[];
-    comments: commentTypes[];
+    comments: CommentTypes[];
+    likes: likeTypes[];
   };
 }
 
@@ -55,22 +70,61 @@ export const Publication = () => {
   const navigate = useNavigate();
 
   const { id } = useParams();
-  const [publication, setPublication] = useState<PublicationTypes>();
+  const [publication, setPublication] = useState<PublicationTypes>({
+    _id: '',
+    owner: '',
+    title: '',
+    content: '',
+    image: null,
+    numberOfPlayers: 0,
+    numberOfLikes: 0,
+    numberOfComments: 0,
+    playerCharacters: [],
+    likes: [],
+    comments: [],
+  });
 
   const [comment, setComment] = useState<string>('');
-  const [comments, setComments] = useState<commentTypes[]>([]);
+  const [comments, setComments] = useState<CommentTypes[]>([]);
+  const [numberOfLikes, setNumberOfLikes] = useState<number>(
+    publication.numberOfLikes,
+  );
 
   async function getPublication() {
     try {
       const { data } = await api.get<ResponsePublicationTypes>(
         `/feed-room/${id}`,
       );
+      console.log(data.data.comments);
       setPublication(data.data.feedMessage[0]);
       setComments(data.data.comments);
+      setNumberOfLikes(data.data.feedMessage[0].numberOfLikes);
     } catch (error) {
       console.log(error);
     }
   }
+
+  async function likeFeed(feedId: string) {
+    try {
+      const { data } = await api.post<LikeResponseTypes>('/reaction/like', {
+        feedMessage: feedId,
+      });
+      if (data.data.newLike) {
+        console.log('new like');
+
+        setNumberOfLikes(numberOfLikes + 1);
+      }
+      if (data.data.removeLike) {
+        console.log('remove like');
+
+        setNumberOfLikes(numberOfLikes - 1);
+      }
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   async function sendComment() {
     try {
       const { data } = await api.post<ResquestCommentType>(
@@ -81,7 +135,6 @@ export const Publication = () => {
         },
       );
       getPublication();
-      console.log(data);
     } catch (error) {
       console.log(error);
     }
@@ -140,8 +193,14 @@ export const Publication = () => {
                 overflow="none"
               >
                 <span>
-                  <Button label="Curtir" color={Color.Green} />
-                  <MiniLabel> {publication?.numberOfLikes} Curtidas</MiniLabel>
+                  <Button
+                    label="Curtir"
+                    color={Color.Green}
+                    onClick={() => {
+                      likeFeed(publication?._id);
+                    }}
+                  />
+                  <MiniLabel> {numberOfLikes} Curtidas</MiniLabel>
                 </span>
                 <span>
                   <Button label="Comentar" color={Color.Brown} />
@@ -190,7 +249,10 @@ export const Publication = () => {
                         }}
                       >
                         <span>
-                          <Button label={comment.author} color={Color.Grey} />
+                          <Button
+                            label={comment?.author?.contact.userName}
+                            color={Color.Grey}
+                          />
                         </span>
 
                         <div

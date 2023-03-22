@@ -3,7 +3,7 @@ import { MessageComponentWrapper } from './message-component.styled';
 
 interface MessageComponentProps {
   body: string;
-  author: string;
+  author: string | undefined;
 }
 
 export const MessageComponent = ({ body, author }: MessageComponentProps) => {

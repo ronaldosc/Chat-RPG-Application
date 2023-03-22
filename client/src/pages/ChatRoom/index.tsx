@@ -3,24 +3,10 @@ import { ChatInput, ChatLounge, MessageComponent } from '@components/chatRoom';
 import { Color, H1, H2, Modal, SelectInput } from '@components/common';
 import { Container } from '@components/container';
 import { Header } from '@components/header';
-import React, { useEffect, useState } from 'react';
+import { useWebSocket } from 'providers/WebSocketProvider';
+import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { api } from '../../libs/api';
-
-interface Message {
-  author: string;
-  body: string;
-}
-
-interface GetMessagesTypes {
-  data: {
-    chatMessage: Message[];
-  };
-}
-
-const FAKE_DATA = {
-  userName: 'Eu',
-};
 
 interface ChatRoom {
   chatRoomId: string;
@@ -41,13 +27,19 @@ interface PlayerCharactersProps {
 }
 
 interface ChatRoomTypes {
+  _id: string;
+  playerCharacters: PlayerCharactersProps[];
+  feedMessageOrigin: string;
+  owner: string;
+  title: string;
+  image: string;
+  numberOfPlayers: number;
+}
+
+interface ResponseSendMessageTypes {
+  message: string;
   data: {
-    playerCharacters: PlayerCharactersProps[];
-    feedMessageOrigin: string;
-    owner: string;
-    title: string;
-    image: string;
-    numberOfPlayers: number;
+    newFeed: ChatRoomTypes;
   };
 }
 
@@ -56,11 +48,33 @@ interface AvailableCharactersProps {
     playerCharacters: PlayerCharactersProps[];
   };
 }
+interface AuthorTypes {
+  contact: {
+    userName: string;
+  };
+  _id: string;
+}
+
+interface MessageTypes {
+  _id: string;
+  choices: [];
+  chatRoomId: string;
+  author: AuthorTypes | null;
+  content: string;
+  directedTo: null;
+}
+
+interface ResponseChatRoomTypes {
+  messages: MessageTypes[];
+  chatRoomInfo: ChatRoomTypes;
+}
 
 export const ChatRoom = () => {
+  const websocket = useWebSocket();
+
   const { id } = useParams();
   const [messageBody, setMessageBody] = useState('');
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<MessageTypes[]>([]);
   const [chatProprieties, setChatProprieties] = useState<ChatRoomTypes>();
   const [isEnlisted, setIsEnlisted] = useState<boolean>();
   const [availableCharacters, setAvailableCharacters] = useState<string[]>([
@@ -69,27 +83,23 @@ export const ChatRoom = () => {
   const [availableId, setAvailableId] = useState<number[]>([0]);
   const [selectedCharacter, setSelectedCharacter] = useState('');
   const [showModal, setShowModal] = useState(false);
-  const [ws, setWs] = useState<WebSocket>();
-
-  async function getMessages() {
-    const { data } = await api.get<GetMessagesTypes>(
-      `/feed-chat/chatfeeds/${id}`,
-    );
-    setMessages(data.data.chatMessage);
-  }
 
   async function getChatRoom() {
-    const { data } = await api.get<ChatRoomTypes>(
-      `/chat-room/chatroom-id/${id}`,
+    const { data } = await api.get<ResponseChatRoomTypes>(
+      `/chat-room/chatroom-feed/${id}`,
     );
-    setChatProprieties(data);
+
+    setChatProprieties(data.chatRoomInfo);
+    setMessages(data.messages.reverse());
   }
 
   async function getAvailableCharacters() {
     try {
       const { data } = await api.get<AvailableCharactersProps>(
-        `/chat-room/available-characters/${id}`,
+        `chat-room/available-characters/${chatProprieties?._id}`,
       );
+      console.log('personagens', data);
+
       setAvailableCharacters(
         data.data.playerCharacters.map((element) => {
           return element.characterName;
@@ -100,6 +110,7 @@ export const ChatRoom = () => {
           return element.characterId[0];
         }),
       );
+      setIsEnlisted(true);
     } catch (err) {
       console.warn(err);
     }
@@ -107,45 +118,46 @@ export const ChatRoom = () => {
 
   async function addPlayer() {
     try {
-      await api.post('/chat-room/chatroom-player', {
-        chatRoomId: id,
+      await api.put('/chat-room/chatroom-player', {
+        chatRoomId: chatProprieties?._id,
         playerCharacterId:
           availableId[availableCharacters.indexOf(selectedCharacter)],
       });
+      setShowModal(false);
     } catch (err) {
       console.warn(err);
     }
   }
 
   useEffect(() => {
-    const host = window.location.hostname;
-    const ws = new WebSocket(`ws://${host}:5001`);
-    setWs(ws);
-    getMessages();
     getChatRoom();
 
-    ws.onopen = () => {
-      console.log('Abriu');
-    };
+    if (websocket) {
+      websocket.onmessage = (e) => {
+        const data = JSON.parse(e.data.toString()) as WSResponseTypes;
+        console.log(data);
 
-    ws.onmessage = (e) => {
-      const data = JSON.parse(e.data.toString()) as WSResponseTypes;
-      setMessages((oldMessages) => [...oldMessages, data.data.message]);
-    };
-
-    return () => {
-      ws.close();
-    };
+        setMessages((oldMessages) => [data.data.message, ...oldMessages]);
+      };
+    }
   }, []);
 
-  function sendMessage() {
-    if (!messageBody) return null;
-    const message = { author: FAKE_DATA.userName, body: messageBody };
-    console.log(message);
-    if (ws) ws.send(JSON.stringify(message));
-
-    setMessageBody('');
-    return message;
+  async function sendMessage() {
+    try {
+      const { data } = await api.post<ResponseSendMessageTypes>(
+        '/feed-chat/new-chatfeed',
+        {
+          chatRoomId: chatProprieties?._id,
+          content: messageBody,
+          image: null,
+          directedTo: null,
+          choices: [],
+        },
+      );
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (
@@ -190,20 +202,32 @@ export const ChatRoom = () => {
           </Container>
         </div>
       </Modal>
-      <Container backgroundColor={Color.Background.base}>
-        <H1>{chatProprieties?.data.title}</H1>
+      <Container
+        backgroundColor={Color.Background.base}
+        gap="16px"
+        padding="10px"
+      >
+        <div style={{ marginTop: '10px' }}>
+          <H2>{chatProprieties?.title}</H2>
+        </div>
         <ChatLounge>
           {messages?.map((element, index) => {
             return (
               <MessageComponent
                 key={index}
-                body={element.body}
-                author={element.author}
+                body={element.content}
+                author={element?.author?.contact?.userName}
               />
             );
           })}
         </ChatLounge>
-        <Container height={'fit-content'}>
+        <Container
+          height={'fit-content'}
+          direction="row"
+          justify="space-between"
+          width="100%"
+          padding="0 16px"
+        >
           <>
             {isEnlisted ? (
               <>
@@ -211,9 +235,18 @@ export const ChatRoom = () => {
                   type="text"
                   value={messageBody}
                   onChange={(e) => setMessageBody(e.target.value)}
+                  onKeyPress={(e) => {
+                    if (e.key === 'Enter') {
+                      setMessageBody('');
+                      sendMessage();
+                    }
+                  }}
                 />
                 <Button
-                  onClick={sendMessage}
+                  onClick={() => {
+                    setMessageBody('');
+                    sendMessage();
+                  }}
                   color={Color.Green}
                   label={'Enviar'}
                 />

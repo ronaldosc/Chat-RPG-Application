@@ -28,10 +28,6 @@ interface SignInTypes {
   password: string;
 }
 
-interface UserTypes {
-  userId: string;
-}
-
 export const UserProvider = ({ children }: UserProviderTypes) => {
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();

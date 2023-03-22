@@ -69,6 +69,11 @@ interface ResponseChatRoomTypes {
   chatRoomInfo: ChatRoomTypes;
 }
 
+interface IsPlayerProps {
+  message: string;
+  data: boolean;
+}
+
 export const ChatRoom = () => {
   const websocket = useWebSocket();
 
@@ -93,6 +98,20 @@ export const ChatRoom = () => {
     setMessages(data.messages.reverse());
   }
 
+  async function isPlayer() {
+    try {
+      const { data } = await api.get<IsPlayerProps>('chat-room/check-player', {
+        params: {
+          chatRoomId: chatProprieties?._id,
+        },
+
+      });
+      setIsEnlisted(data.data);
+    } catch (err) {
+      console.warn(err);
+    }
+  }
+
   async function getAvailableCharacters() {
     try {
       const { data } = await api.get<AvailableCharactersProps>(
@@ -110,7 +129,6 @@ export const ChatRoom = () => {
           return element.characterId[0];
         }),
       );
-      setIsEnlisted(true);
     } catch (err) {
       console.warn(err);
     }
@@ -124,6 +142,7 @@ export const ChatRoom = () => {
           availableId[availableCharacters.indexOf(selectedCharacter)],
       });
       setShowModal(false);
+      setIsEnlisted(true);
     } catch (err) {
       console.warn(err);
     }
@@ -131,6 +150,7 @@ export const ChatRoom = () => {
 
   useEffect(() => {
     getChatRoom();
+    isPlayer();
 
     if (websocket) {
       websocket.onmessage = (e) => {

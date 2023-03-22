@@ -22,6 +22,14 @@ interface characterProps {
   characterId: number;
   characterName: string;
   player: string | null;
+  _id: string;
+}
+
+interface OwnerTypes {
+  _id: string;
+  contact: {
+    userName: string | null;
+  };
 }
 
 interface PublicationTypes {
@@ -35,6 +43,7 @@ interface PublicationTypes {
   playerCharacters: characterProps[];
   likes: likeTypes[];
   comments: commentTypes[];
+  owner: OwnerTypes | null;
 }
 interface ResponseTypes {
   message: string;
@@ -48,10 +57,11 @@ interface LikeTypes {
   author: string;
 }
 
-interface LikeResponseTypes {
+export interface LikeResponseTypes {
   message: string;
   data: {
-    newLike: LikeTypes;
+    newLike?: LikeTypes;
+    removeLike?: LikeTypes;
   };
 }
 
@@ -89,6 +99,7 @@ export const Feed = () => {
 
   useEffect(() => {
     getPublications();
+    console.log(websocket);
     if (websocket)
       websocket.onmessage = (event) => {
         const data = JSON.parse(event.data.toString());
@@ -167,19 +178,14 @@ export const Feed = () => {
           />
         </Container>
 
-        <Container
-          height=""
-          justify="end"
-          padding="0 30px 30px 30px"
-          gap="12px"
-        >
+        <Container height="" justify="end" padding="0 12px" gap="12px">
           {publications.map((publication: PublicationTypes, index) => (
             <React.Fragment key={index}>
               <Container
                 backgroundColor={Color.Background.base}
-                height={'250px'}
-                justify={'center'}
-                padding={'10px 16px'}
+                height={'300px'}
+                justify={'space-between'}
+                padding={'20px'}
                 gap={'12px'}
               >
                 <Container
@@ -200,6 +206,21 @@ export const Feed = () => {
                     /{publication.numberOfPlayers}
                   </H2>
                 </Container>
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'flex-start',
+                    alignItems: 'center',
+                    gap: '8px',
+                    width: '100%',
+                  }}
+                >
+                  Mestre:{' '}
+                  <Button
+                    label={publication.owner.contact.userName}
+                    color={Color.Coal}
+                  />
+                </div>
                 <Container
                   height="50%"
                   backgroundColor="transparent"

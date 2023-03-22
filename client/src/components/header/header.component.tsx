@@ -4,6 +4,7 @@ import { encodeURL } from '@helpers';
 import { useUser } from '@providers';
 import { useSnackbar } from 'notistack';
 import { House, SignOut } from 'phosphor-react';
+import { useWebSocket } from 'providers/WebSocketProvider';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../button';
 import { HeaderLogo, HeaderStyle } from './header.styled';
@@ -14,6 +15,7 @@ interface PropTypes {
 
 export const Header = ({ children }: PropTypes) => {
   const navigate = useNavigate();
+  const websocket = useWebSocket();
   const { enqueueSnackbar } = useSnackbar();
   const { logout } = useUser();
 
@@ -36,7 +38,9 @@ export const Header = ({ children }: PropTypes) => {
       <Button
         color={Color.Red}
         icon={<SignOut size={22} color={Color.White.base} />}
-        onClick={() => logout && logout()}
+        onClick={() => {
+          if (logout) logout();
+        }}
       />
       {children}
     </HeaderStyle>

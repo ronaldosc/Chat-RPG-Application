@@ -1,6 +1,6 @@
 import { Button } from '@components/button';
 import { ChatInput, ChatLounge, MessageComponent } from '@components/chatRoom';
-import { Color, H1, H2 } from '@components/common';
+import { Color, H1, H2, Modal, SelectInput } from '@components/common';
 import { Container } from '@components/container';
 import { Header } from '@components/header';
 import { useWebSocket } from 'providers/WebSocketProvider';
@@ -20,6 +20,7 @@ interface WSResponseTypes {
 }
 
 interface PlayerCharactersProps {
+  _id: string;
   characterId: number[];
   player: string;
   characterName: string;
@@ -42,11 +43,23 @@ interface ResponseSendMessageTypes {
   };
 }
 
+interface AvailableCharactersProps {
+  data: {
+    playerCharacters: PlayerCharactersProps[];
+  };
+}
+interface AuthorTypes {
+  contact: {
+    userName: string;
+  };
+  _id: string;
+}
+
 interface MessageTypes {
   _id: string;
   choices: [];
   chatRoomId: string;
-  author: string;
+  author: AuthorTypes | null;
   content: string;
   directedTo: null;
 }
@@ -56,6 +69,11 @@ interface ResponseChatRoomTypes {
   chatRoomInfo: ChatRoomTypes;
 }
 
+interface IsPlayerProps {
+  message: string;
+  data: boolean;
+}
+
 export const ChatRoom = () => {
   const websocket = useWebSocket();
 
@@ -63,6 +81,13 @@ export const ChatRoom = () => {
   const [messageBody, setMessageBody] = useState('');
   const [messages, setMessages] = useState<MessageTypes[]>([]);
   const [chatProprieties, setChatProprieties] = useState<ChatRoomTypes>();
+  const [isEnlisted, setIsEnlisted] = useState<boolean>();
+  const [availableCharacters, setAvailableCharacters] = useState<string[]>([
+    '',
+  ]);
+  const [availableId, setAvailableId] = useState<number[]>([0]);
+  const [selectedCharacter, setSelectedCharacter] = useState('');
+  const [showModal, setShowModal] = useState(false);
 
   async function getChatRoom() {
     const { data } = await api.get<ResponseChatRoomTypes>(
@@ -73,8 +98,59 @@ export const ChatRoom = () => {
     setMessages(data.messages.reverse());
   }
 
+  async function isPlayer() {
+    try {
+      const { data } = await api.get<IsPlayerProps>('chat-room/check-player', {
+        params: {
+          chatRoomId: chatProprieties?._id,
+        },
+
+      });
+      setIsEnlisted(data.data);
+    } catch (err) {
+      console.warn(err);
+    }
+  }
+
+  async function getAvailableCharacters() {
+    try {
+      const { data } = await api.get<AvailableCharactersProps>(
+        `chat-room/available-characters/${chatProprieties?._id}`,
+      );
+      console.log('personagens', data);
+
+      setAvailableCharacters(
+        data.data.playerCharacters.map((element) => {
+          return element.characterName;
+        }),
+      );
+      setAvailableId(
+        data.data.playerCharacters.map((element) => {
+          return element.characterId[0];
+        }),
+      );
+    } catch (err) {
+      console.warn(err);
+    }
+  }
+
+  async function addPlayer() {
+    try {
+      await api.put('/chat-room/chatroom-player', {
+        chatRoomId: chatProprieties?._id,
+        playerCharacterId:
+          availableId[availableCharacters.indexOf(selectedCharacter)],
+      });
+      setShowModal(false);
+      setIsEnlisted(true);
+    } catch (err) {
+      console.warn(err);
+    }
+  }
+
   useEffect(() => {
     getChatRoom();
+    isPlayer();
 
     if (websocket) {
       websocket.onmessage = (e) => {
@@ -107,7 +183,45 @@ export const ChatRoom = () => {
   return (
     <>
       <Header />
-
+      <Modal showModal={showModal}>
+        <div style={{ position: 'relative' }}>
+          <Container
+            backgroundColor={Color.White.base}
+            width="400px"
+            height="320px"
+            gap="16px"
+          >
+            <div
+              style={{
+                position: 'absolute',
+                right: '8px',
+                top: '-8px',
+                fontSize: '3rem',
+                cursor: 'pointer',
+              }}
+              onClick={() => setShowModal(false)}
+            >
+              &times;
+            </div>
+            <H2>Selecione seu personagem</H2>
+            <SelectInput
+              options={availableCharacters}
+              onChange={(e) => {
+                setSelectedCharacter(e.target.value);
+              }}
+            />
+            <>
+              {selectedCharacter !== '' && (
+                <Button
+                  color={Color.Green}
+                  onClick={addPlayer}
+                  label="Confirmar"
+                />
+              )}
+            </>
+          </Container>
+        </div>
+      </Modal>
       <Container
         backgroundColor={Color.Background.base}
         gap="16px"
@@ -116,19 +230,17 @@ export const ChatRoom = () => {
         <div style={{ marginTop: '10px' }}>
           <H2>{chatProprieties?.title}</H2>
         </div>
-
         <ChatLounge>
           {messages?.map((element, index) => {
             return (
               <MessageComponent
                 key={index}
                 body={element.content}
-                author={element.author}
+                author={element?.author?.contact?.userName}
               />
             );
           })}
         </ChatLounge>
-
         <Container
           height={'fit-content'}
           direction="row"
@@ -136,25 +248,44 @@ export const ChatRoom = () => {
           width="100%"
           padding="0 16px"
         >
-          <ChatInput
-            type="text"
-            value={messageBody}
-            onChange={(e) => setMessageBody(e.target.value)}
-            onKeyPress={(e) => {
-              if (e.key === 'Enter') {
-                setMessageBody('');
-                sendMessage();
-              }
-            }}
-          />
-          <Button
-            onClick={() => {
-              setMessageBody('');
-              sendMessage();
-            }}
-            color={Color.Green}
-            label={'Enviar'}
-          />
+          <>
+            {isEnlisted ? (
+              <>
+                <ChatInput
+                  type="text"
+                  value={messageBody}
+                  onChange={(e) => setMessageBody(e.target.value)}
+                  onKeyPress={(e) => {
+                    if (e.key === 'Enter') {
+                      setMessageBody('');
+                      sendMessage();
+                    }
+                  }}
+                />
+                <Button
+                  onClick={() => {
+                    setMessageBody('');
+                    sendMessage();
+                  }}
+                  color={Color.Green}
+                  label={'Enviar'}
+                />
+              </>
+            ) : (
+              <>
+                <div style={{ height: '250px', width: '100%' }}>
+                  <Button
+                    label="Participar"
+                    color={Color.Gold}
+                    onClick={() => {
+                      getAvailableCharacters();
+                      setShowModal(true);
+                    }}
+                  />
+                </div>
+              </>
+            )}
+          </>
         </Container>
       </Container>
     </>

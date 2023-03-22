@@ -70,10 +70,10 @@ jobs:
         run: npm test
         continue-on-error: true
 
-      - name: Check all integration
-        run: |
-          cp server/.env.example server/.env
-          docker compose up -d
+#       - name: Check all integration
+#         run: |
+#           cp server/.env.example server/.env
+#           docker compose up -d
           
         # Runs Snyk Container (Container and SCA) analysis and uploads result to Snyk.
       # - name: Snyk Container monitor

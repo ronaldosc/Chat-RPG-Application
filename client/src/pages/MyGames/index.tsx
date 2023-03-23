@@ -57,34 +57,36 @@ export const MyGames = () => {
             <H1>Meus Jogos</H1>
           )}
         </>
+        <>
+          {chatRooms.map((element, index) => {
+            return (
+              <React.Fragment key={index}>
+                <Container>
+                  <H2>{element.title}</H2>
+                  <Container border="solid 1px black">
+                    <BodyText>{element.content}</BodyText>
+                  </Container>
+                  <div
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center ',
+                    }}
+                  >
+                    <Button
+                      label={'Entrar'}
+                      color={Color.Gold}
+                      onClick={() =>
+                        navigate(`/chat-room/${element.feedMessageOrigin}`)
+                      }
+                    />
+                  </div>
+                </Container>
+              </React.Fragment>
+            );
+          })}
+        </>
       </Container>
-      {chatRooms.map((element, index) => {
-        return (
-          <React.Fragment key={index}>
-            <Container>
-              <H2>{element.title}</H2>
-              <Container border="solid 1px black">
-                <BodyText>{element.content}</BodyText>
-              </Container>
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center ',
-                }}
-              >
-                <Button
-                  label={'Entrar'}
-                  color={Color.Gold}
-                  onClick={() =>
-                    navigate(`/chat-room/${element.feedMessageOrigin}`)
-                  }
-                />
-              </div>
-            </Container>
-          </React.Fragment>
-        );
-      })}
     </>
   );
 };

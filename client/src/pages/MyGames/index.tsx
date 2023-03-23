@@ -1,14 +1,11 @@
 import { api } from '@api';
 import { Button } from '@components/button';
-import { BodyText, Color, H1, H2, MiniLabel } from '@components/common';
+import { BodyText, Color, H1, H2 } from '@components/common';
 import { Container } from '@components/container';
 import { Header } from '@components/header';
 import { encodeURL } from '@helpers';
-import { Plus } from 'phosphor-react';
-import { useWebSocket } from '@providers';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FeedStyle } from './style';
 
 interface ChatRoomTypes {
   _id: string;
@@ -52,9 +49,9 @@ export const MyGames = () => {
   return (
     <>
       <Header />
-      <Container>
+      <Container backgroundColor={Color.Background.base}>
         <>
-          {!chatRooms ? (
+          {chatRooms.length === 0 ? (
             <H1>Você ainda não participa de nenhuma aventura :C </H1>
           ) : (
             <H1>Meus Jogos</H1>
@@ -69,13 +66,21 @@ export const MyGames = () => {
               <Container border="solid 1px black">
                 <BodyText>{element.content}</BodyText>
               </Container>
-              <Button
-                label={'Entrar'}
-                color={Color.Gold}
-                onClick={() =>
-                  navigate(`/chat-room/${element.feedMessageOrigin}`)
-                }
-              />
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center ',
+                }}
+              >
+                <Button
+                  label={'Entrar'}
+                  color={Color.Gold}
+                  onClick={() =>
+                    navigate(`/chat-room/${element.feedMessageOrigin}`)
+                  }
+                />
+              </div>
             </Container>
           </React.Fragment>
         );

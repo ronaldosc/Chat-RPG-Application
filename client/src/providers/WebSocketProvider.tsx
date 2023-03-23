@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import { useUser } from './UserProvider';
 
 interface WebSocketProviderProps {
@@ -13,7 +13,6 @@ export const WebSocketProvider = ({ children }: WebSocketProviderProps) => {
   const { token } = useUser();
   const [websocket, setWebsocket] = useState<WebSocket>();
 
-  
   useEffect(() => {
     if (token) {
       const newSocket = new WebSocket('wss://localhost:5000');

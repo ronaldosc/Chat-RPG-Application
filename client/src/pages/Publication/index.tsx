@@ -2,15 +2,12 @@ import { Button } from '@components/button';
 import { BodyText, Color, H2, MiniLabel } from '@components/common';
 import { Container } from '@components/container';
 import { Header } from '@components/header';
-import { X } from 'phosphor-react';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { LikeResponseTypes } from 'pages/Feed';
-
+import { ChatInput } from '@components/chatRoom';
+import { api } from '@api';
 import { PublicationStyle } from './style';
-
-import { api } from '../../libs/api';
-import { ChatInput } from '../../components/chatRoom';
 
 interface AuthorTypes {
   _id: string;
@@ -218,8 +215,7 @@ export const Publication = () => {
               <Container
                 padding="0px"
                 height={
-                  publication?.numberOfComments &&
-                  publication.numberOfComments > 0
+                  publication.numberOfComments || publication.numberOfLikes
                     ? '30px'
                     : '0px'
                 }

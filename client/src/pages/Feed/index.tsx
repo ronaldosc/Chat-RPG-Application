@@ -5,7 +5,7 @@ import { Container } from '@components/container';
 import { Header } from '@components/header';
 import { encodeURL } from '@helpers';
 import { Plus } from 'phosphor-react';
-import { useWebSocket } from 'providers/WebSocketProvider';
+import { useWebSocket } from '@providers';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FeedStyle } from './style';
@@ -126,9 +126,9 @@ export const Feed = () => {
                     ...publication,
                     likes: Array.isArray(publication.likes)
                       ? [
-                          ...publication.likes,
-                          { author: data.data.message.author },
-                        ]
+                        ...publication.likes,
+                        { author: data.data.message.author },
+                      ]
                       : [{ author: data.data.message.author }],
                     numberOfLikes: publication.numberOfLikes + 1,
                   };
@@ -147,9 +147,9 @@ export const Feed = () => {
                     ...publication,
                     likes: Array.isArray(publication.likes)
                       ? [
-                          ...publication.likes,
-                          { author: data.data.message.author },
-                        ]
+                        ...publication.likes,
+                        { author: data.data.message.author },
+                      ]
                       : [{ author: data.data.message.author }],
                     numberOfLikes: publication.numberOfLikes - 1,
                   };

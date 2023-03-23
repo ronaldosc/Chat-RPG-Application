@@ -1,21 +1,22 @@
 import { Button } from '@components/button';
 import { ChatInput, ChatLounge, MessageComponent } from '@components/chatRoom';
-import { Color, H1, H2, Modal, SelectInput } from '@components/common';
+import { Color, H2, Modal, SelectInput } from '@components/common';
 import { Container } from '@components/container';
 import { Header } from '@components/header';
-import { useWebSocket } from 'providers/WebSocketProvider';
-import { useEffect, useRef, useState } from 'react';
+import { useWebSocket } from '@providers';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { api } from '../../libs/api';
+import { api } from '@api';
 
 interface ChatRoom {
   chatRoomId: string;
 }
 
-interface WSResponseTypes {
+interface WSResponseTypes<T> {
   action: string;
   data: {
-    message: any;
+    chatRoom: string;
+    message: T;
   };
 }
 
@@ -89,6 +90,21 @@ export const ChatRoom = () => {
   const [selectedCharacter, setSelectedCharacter] = useState('');
   const [showModal, setShowModal] = useState(false);
 
+  function Dice(param: string) {
+    if (param === '!d4') {
+      return Math.floor(Math.random() * 4) + 1;
+    }
+    if (param === '!d6') {
+      return Math.floor(Math.random() * 6) + 1;
+    }
+    if (param === '!d12') {
+      return Math.floor(Math.random() * 12) + 1;
+    }
+    if (param === '!d20') {
+      return Math.floor(Math.random() * 20) + 1;
+    }
+  }
+
   async function isPlayer() {
     try {
       const { data } = await api.get<IsPlayerProps>(
@@ -147,30 +163,53 @@ export const ChatRoom = () => {
 
   useEffect(() => {
     getChatRoom();
-
-    if (websocket) {
-      websocket.onmessage = (e) => {
-        const data = JSON.parse(e.data.toString()) as WSResponseTypes;
-        console.log(data);
-
-        setMessages((oldMessages) => [data.data.message, ...oldMessages]);
-      };
-    }
   }, []);
 
   useEffect(() => {
     if (chatProprieties) {
       isPlayer();
+
+      if (websocket) {
+        websocket.onmessage = (e) => {
+          const data = JSON.parse(e.data.toString());
+
+          switch (data.action) {
+            case 'message':
+              if (
+                (data as WSResponseTypes<MessageTypes>).data.chatRoom ===
+                chatProprieties?._id
+              ) {
+                setMessages((oldMessages) => [
+                  data.data.message,
+                  ...oldMessages,
+                ]);
+              }
+              break;
+            default:
+          }
+          console.log(data);
+        };
+      }
     }
   }, [chatProprieties]);
 
   async function sendMessage() {
     try {
+      let message: string = messageBody;
+      if (
+        messageBody === '!d4' ||
+        messageBody === '!d6' ||
+        messageBody === '!d10' ||
+        messageBody === '!d20'
+      ) {
+        message = `Lancei um dado e o resultado foi: ${Dice(messageBody)}`;
+      }
+
       const { data } = await api.post<ResponseSendMessageTypes>(
         '/feed-chat/new-chatfeed',
         {
           chatRoomId: chatProprieties?._id,
-          content: messageBody,
+          content: message,
           image: null,
           directedTo: null,
           choices: [],

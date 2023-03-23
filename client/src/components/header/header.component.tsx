@@ -1,12 +1,11 @@
 import { Logo } from '@assets/icons';
 import { Color, H1 } from '@components/common';
 import { encodeURL } from '@helpers';
-import { useUser } from '@providers';
+import { useUser, useWebSocket } from '@providers';
 import { useSnackbar } from 'notistack';
-import { House, SignOut } from 'phosphor-react';
-import { useWebSocket } from 'providers/WebSocketProvider';
+import { House, SignOut, GameController } from 'phosphor-react';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '../button';
+import { Button } from '@components/button';
 import { HeaderLogo, HeaderStyle } from './header.styled';
 
 interface PropTypes {
@@ -27,13 +26,13 @@ export const Header = ({ children }: PropTypes) => {
       </HeaderLogo>
       <Button
         color={Color.Gold}
-        icon={
-          <House
-            size={22}
-            color={Color.White.base}
-            onClick={() => navigate(encodeURL(['feed']))}
-          />
-        }
+        icon={<House size={22} color={Color.White.base} />}
+        onClick={() => navigate(encodeURL(['feed']))}
+      />
+      <Button
+        color={Color.Green}
+        icon={<GameController size={22} color={Color.White.base} />}
+        onClick={() => navigate(encodeURL(['my-games']))}
       />
       <Button
         color={Color.Red}

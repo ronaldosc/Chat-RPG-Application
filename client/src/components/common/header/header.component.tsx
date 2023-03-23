@@ -1,11 +1,11 @@
 import { Logo } from '@assets/icons';
-import { Color, H1 } from '@components/common';
+import { Color, H1, H2 } from '@components/common';
 import { encodeURL } from '@helpers';
 import { useUser, useWebSocket } from '@providers';
 import { useSnackbar } from 'notistack';
 import { House, SignOut, GameController } from 'phosphor-react';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '@components/button';
+import { Button } from '@components/common/button';
 import { HeaderLogo, HeaderStyle } from './header.styled';
 
 interface PropTypes {
@@ -22,7 +22,7 @@ export const Header = ({ children }: PropTypes) => {
     <HeaderStyle>
       <HeaderLogo>
         <Logo />
-        <H1 light>Chat RPG</H1>
+        <H2 light>Chat RPG</H2>
       </HeaderLogo>
       <Button
         color={Color.Gold}

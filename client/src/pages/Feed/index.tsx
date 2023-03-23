@@ -1,8 +1,8 @@
 import { api } from '@api';
-import { Button } from '@components/button';
+import { Button } from '@components/common/button';
 import { BodyText, Color, H2, MiniLabel } from '@components/common';
-import { Container } from '@components/container';
-import { Header } from '@components/header';
+import { Container } from '@components/common/container';
+import { Header } from '@components/common/header';
 import { encodeURL } from '@helpers';
 import { Plus } from 'phosphor-react';
 import { useWebSocket } from '@providers';

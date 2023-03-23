@@ -1,8 +1,8 @@
 import { api } from '@api';
-import { Button } from '@components/button';
+import { Button } from '@components/common/button';
 import { BodyText, Color, H1, H2 } from '@components/common';
-import { Container } from '@components/container';
-import { Header } from '@components/header';
+import { Container } from '@components/common/container';
+import { Header } from '@components/common/header';
 import { encodeURL } from '@helpers';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -49,21 +49,40 @@ export const MyGames = () => {
   return (
     <>
       <Header />
-      <Container backgroundColor={Color.Background.base}>
+      <Container backgroundColor={Color.Background.base} padding="16px">
         <>
           {chatRooms.length === 0 ? (
-            <H1>Você ainda não participa de nenhuma aventura :C </H1>
+            <H2 bold>Você ainda não participa de nenhuma aventura :C </H2>
           ) : (
-            <H1>Meus Jogos</H1>
+            <div
+              style={{
+                marginBottom: '30px',
+                borderBottom: 'solid black 1px',
+                width: '50%',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                paddingBottom: '10px',
+              }}
+            >
+              <H2>Meus Jogos</H2>
+            </div>
           )}
         </>
         <>
           {chatRooms.map((element, index) => {
             return (
               <React.Fragment key={index}>
-                <Container>
+                <Container padding="16px" gap="16px">
                   <H2>{element.title}</H2>
-                  <Container border="solid 1px black">
+                  <Container
+                    border="solid 1px black"
+                    justify="start"
+                    align="start"
+                    height="200px"
+                    padding="16px"
+                    overflow="auto"
+                  >
                     <BodyText>{element.content}</BodyText>
                   </Container>
                   <div

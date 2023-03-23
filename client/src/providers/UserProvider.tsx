@@ -44,7 +44,7 @@ export const UserProvider = ({ children }: UserProviderTypes) => {
         variant: 'success',
         anchorOrigin,
       });
-      localStorage.setItem('token', data);
+      sessionStorage.setItem('token', data);
       navigate(encodeURL(['feed']));
 
       setToken(data);
@@ -73,7 +73,7 @@ export const UserProvider = ({ children }: UserProviderTypes) => {
     try {
       await api.post('/user/logout');
 
-      localStorage.removeItem('token');
+      sessionStorage.removeItem('token');
       setToken(undefined);
       navigate(encodeURL(['home']));
       enqueueSnackbar('Logout realizado com sucesso!', {
@@ -90,7 +90,7 @@ export const UserProvider = ({ children }: UserProviderTypes) => {
   };
 
   useEffect(() => {
-    const storagedToken = localStorage.getItem('token');
+    const storagedToken = sessionStorage.getItem('token');
     if (storagedToken) {
       setToken(storagedToken);
     }

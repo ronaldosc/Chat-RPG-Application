@@ -1,12 +1,11 @@
 import { Logo } from '@assets/icons';
 import { Color, H1 } from '@components/common';
 import { encodeURL } from '@helpers';
-import { useUser } from '@providers';
+import { useUser, useWebSocket } from '@providers';
 import { useSnackbar } from 'notistack';
 import { House, SignOut } from 'phosphor-react';
-import { useWebSocket } from 'providers/WebSocketProvider';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '../button';
+import { Button } from '@components/button';
 import { HeaderLogo, HeaderStyle } from './header.styled';
 
 interface PropTypes {

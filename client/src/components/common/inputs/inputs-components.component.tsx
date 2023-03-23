@@ -54,11 +54,11 @@ export const TextInput = ({
         type={type}
         placeholder={placeholder}
         pattern={pattern}
+        maxLength={maxLength}
         onChange={onChange}
         onBlur={onBlur}
         onKeyDown={onKeyDown}
         required={required}
-        maxLength={maxLength}
       />
     </TextInputWrapper>
   );

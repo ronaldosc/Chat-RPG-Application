@@ -1,12 +1,12 @@
 import { Button } from '@components/button';
 import { ChatInput, ChatLounge, MessageComponent } from '@components/chatRoom';
-import { Color, H1, H2, Modal, SelectInput } from '@components/common';
+import { Color, H2, Modal, SelectInput } from '@components/common';
 import { Container } from '@components/container';
 import { Header } from '@components/header';
-import { useWebSocket } from 'providers/WebSocketProvider';
-import { useEffect, useRef, useState } from 'react';
+import { useWebSocket } from '@providers';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { api } from '../../libs/api';
+import { api } from '@api';
 
 interface ChatRoom {
   chatRoomId: string;

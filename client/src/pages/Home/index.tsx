@@ -32,7 +32,7 @@ export const Home = () => {
   return (
     <Container
       width="80vw"
-      height="65vh"
+      height="70vh"
       gap="12px"
       backgroundColor="rgba(31, 25, 35, 0.6)"
     >

@@ -12,10 +12,11 @@ interface ChatRoom {
   chatRoomId: string;
 }
 
-interface WSResponseTypes {
+interface WSResponseTypes<T> {
   action: string;
   data: {
-    message: any;
+    chatRoom: string;
+    message: T;
   };
 }
 
@@ -150,10 +151,20 @@ export const ChatRoom = () => {
 
     if (websocket) {
       websocket.onmessage = (e) => {
-        const data = JSON.parse(e.data.toString()) as WSResponseTypes;
-        console.log(data);
+        const data = JSON.parse(e.data.toString());
 
-        setMessages((oldMessages) => [data.data.message, ...oldMessages]);
+        switch (data.action) {
+          case 'message':
+            if (
+              (data as WSResponseTypes<MessageTypes>).data.chatRoom ===
+              chatProprieties?._id
+            ) {
+              setMessages((oldMessages) => [data.data.message, ...oldMessages]);
+            }
+            break;
+          default:
+        }
+        console.log(data);
       };
     }
   }, []);

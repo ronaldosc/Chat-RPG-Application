@@ -51,4 +51,3 @@ export const SelectStyled = styled.select`
   width: fit-content;
   background: ${Color.White.base};
 `;
-

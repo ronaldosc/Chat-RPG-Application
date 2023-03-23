@@ -195,22 +195,21 @@ export const ChatRoom = () => {
 
   async function sendMessage() {
     try {
+      let message: string = messageBody;
       if (
         messageBody === '!d4' ||
         messageBody === '!d6' ||
         messageBody === '!d10' ||
         messageBody === '!d20'
       ) {
-        setMessageBody(
-          `Lancei um dado e o resultado foi: ${Dice(messageBody)}`,
-        );
+        message = `Lancei um dado e o resultado foi: ${Dice(messageBody)}`;
       }
 
       const { data } = await api.post<ResponseSendMessageTypes>(
         '/feed-chat/new-chatfeed',
         {
           chatRoomId: chatProprieties?._id,
-          content: messageBody,
+          content: message,
           image: null,
           directedTo: null,
           choices: [],

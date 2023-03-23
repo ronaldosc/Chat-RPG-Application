@@ -1,7 +1,7 @@
-import { Button } from '@components/button';
+import { Button } from '@components/common/button';
 import { BodyText, Color, H2, MiniLabel } from '@components/common';
-import { Container } from '@components/container';
-import { Header } from '@components/header';
+import { Container } from '@components/common/container';
+import { Header } from '@components/common/header';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { LikeResponseTypes } from 'pages/Feed';

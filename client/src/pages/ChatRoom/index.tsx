@@ -62,6 +62,7 @@ interface MessageTypes {
   chatRoomId: string;
   author: AuthorTypes | null;
   content: string;
+  characterName: string;
   directedTo: null;
 }
 
@@ -289,7 +290,7 @@ export const ChatRoom = () => {
                 <MessageComponent
                   key={index}
                   body={element.content}
-                  author={element?.author?.contact?.userName}
+                  author={`${element?.characterName} (${element?.author?.contact?.userName})`}
                 />
               );
             })}

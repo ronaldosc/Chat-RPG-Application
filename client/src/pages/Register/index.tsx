@@ -38,8 +38,19 @@ export const Register = () => {
       userName: '',
     },
   });
+  const [rePassword, setRePassword] = useState<string>('');
 
   async function createUser() {
+    if (userProperties.password !== rePassword) {
+      enqueueSnackbar('As senhas não coincidem!', {
+        variant: 'error',
+        anchorOrigin: {
+          vertical: 'top',
+          horizontal: 'center',
+        },
+      });
+      return;
+    }
     try {
       await api.post('/user/signup', userProperties);
       enqueueSnackbar('Usuário criado com sucesso!', {
@@ -57,7 +68,7 @@ export const Register = () => {
       }
       navigate(encodeURL(['feed']));
     } catch (error) {
-      enqueueSnackbar('Erro ao realizar login!', {
+      enqueueSnackbar(error?.response.data, {
         variant: 'error',
         anchorOrigin: {
           vertical: 'top',
@@ -131,7 +142,19 @@ export const Register = () => {
             });
           }}
         />
-        <TextInput label="Repita a senha" type="password" lightLabel />
+        <TextInput
+          label="Repita a senha"
+          type="password"
+          lightLabel
+          onChange={(e) => {
+            setRePassword(e.target.value);
+          }}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              createUser();
+            }
+          }}
+        />
         <Container
           width="80%"
           height="10%"

@@ -11,15 +11,15 @@ export async function createUser(req: Request, res: Response): Promise<void> {
   const valName = new NameValidator(userData.contact.userName);
 
   if(valEmail.errors){
-    res.status(500).json(`email:${valEmail.errors}`);
+    res.status(500).json(`Email:${valEmail.errors}`);
     return;
   }
   if(valName.errors){
-    res.status(500).json(`nome:${valName.errors}`);
+    res.status(500).json(`Nome:${valName.errors}`);
     return
   }
   if(valPwd.errors){
-    res.status(500).json(`password:${valPwd.errors}`);
+    res.status(500).json(`Senha:${valPwd.errors}. A senha deve conter pelo menos 6 caracteres`);
     return
   }
 

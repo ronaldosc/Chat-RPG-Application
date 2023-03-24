@@ -1,8 +1,7 @@
 import { Logo } from '@assets/icons';
 import { Color, H1 } from '@components/common';
 import { encodeURL } from '@helpers';
-import { useUser, useWebSocket } from '@providers';
-import { useSnackbar } from 'notistack';
+import { useUser } from '@providers';
 import { House, SignOut } from 'phosphor-react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@components/button';
@@ -14,8 +13,6 @@ interface PropTypes {
 
 export const Header = ({ children }: PropTypes) => {
   const navigate = useNavigate();
-  const websocket = useWebSocket();
-  const { enqueueSnackbar } = useSnackbar();
   const { logout } = useUser();
 
   return (
@@ -28,6 +25,18 @@ export const Header = ({ children }: PropTypes) => {
         color={Color.Gold}
         icon={
           <House
+            weight="bold"
+            size={22}
+            color={Color.White.base}
+            onClick={() => navigate(encodeURL(['feed']))}
+          />
+        }
+      />
+      <Button
+        color={Color.Gold}
+        icon={
+          <House
+            weight="bold"
             size={22}
             color={Color.White.base}
             onClick={() => navigate(encodeURL(['feed']))}
@@ -36,7 +45,7 @@ export const Header = ({ children }: PropTypes) => {
       />
       <Button
         color={Color.Red}
-        icon={<SignOut size={22} color={Color.White.base} />}
+        icon={<SignOut weight="bold" size={22} color={Color.White.base} />}
         onClick={() => {
           if (logout) logout();
         }}

@@ -7,7 +7,7 @@ export const App = () => {
   return (
     <SnackbarProvider
       maxSnack={3}
-      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
     >
       <AppProvider>
         <Router />

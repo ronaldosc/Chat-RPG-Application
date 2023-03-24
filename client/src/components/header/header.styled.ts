@@ -20,6 +20,6 @@ export const HeaderLogo = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  padding: 10px;
-  gap: 24px;
+  padding: 5px;
+  gap: 8px;
 `;

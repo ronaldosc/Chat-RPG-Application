@@ -15,7 +15,7 @@ export const WebSocketProvider = ({ children }: WebSocketProviderProps) => {
 
   useEffect(() => {
     if (token) {
-      const newSocket = new WebSocket('wss://localhost:5000');
+      const newSocket = new WebSocket('ws://localhost:5001');
       setWebsocket(newSocket);
 
       newSocket.onopen = () => {

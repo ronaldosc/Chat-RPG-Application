@@ -1,13 +1,14 @@
 import { api } from '@api';
 import { Logo } from '@assets/icons';
-import { Button } from '@components/button';
+import { Button } from '@components/common/button';
 import { Color, H1, TextInput } from '@components/common';
-import { Container } from '@components/container';
+import { Container } from '@components/common/container';
 import { encodeURL } from '@helpers';
 import { useUser } from '@providers';
 import { useSnackbar } from 'notistack';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { AxiosError } from 'axios';
 
 interface UserTypes {
   email: string;
@@ -68,13 +69,15 @@ export const Register = () => {
       }
       navigate(encodeURL(['feed']));
     } catch (error) {
-      enqueueSnackbar(error?.response.data, {
-        variant: 'error',
-        anchorOrigin: {
-          vertical: 'top',
-          horizontal: 'center',
-        },
-      });
+      if (error instanceof AxiosError) {
+        enqueueSnackbar(error?.response?.data, {
+          variant: 'error',
+          anchorOrigin: {
+            vertical: 'top',
+            horizontal: 'center',
+          },
+        });
+      }
     }
   }
 

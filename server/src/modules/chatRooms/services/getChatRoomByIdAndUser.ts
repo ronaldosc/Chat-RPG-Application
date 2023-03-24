@@ -10,8 +10,7 @@ export async function getChatRoomByIdAndUserId(chatRoomId: Types.ObjectId, userI
 
     const chatRoom = await ChatRooms.find({$and: [{ _id: chatRoomId }, {
       $or: [{ owner: userId },
-            { playerCharacters: { $elemMatch: { player: userId } } },
-            { playerCharacters: { $elemMatch: { deletedAt: null } } }
+            { playerCharacters: { $elemMatch: { player: userId } } }
            ]}]},
       { title: 1, owner: 1, playerCharacters: 1 }
     );

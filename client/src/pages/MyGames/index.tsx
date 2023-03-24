@@ -52,7 +52,13 @@ export const MyGames = () => {
       <Container backgroundColor={Color.Background.base}>
         <>
           {chatRooms.length === 0 ? (
-            <H1>Você ainda não participa de nenhuma aventura :C </H1>
+            <div
+              style={{
+                textAlign: 'center',
+              }}
+            >
+              <H2>Você ainda não participa de nenhuma aventura :C </H2>
+            </div>
           ) : (
             <div
               style={{
@@ -87,8 +93,8 @@ export const MyGames = () => {
                     justify="start"
                     align="start"
                     padding="16px"
-                    height='200px'
-                    overflow='auto'
+                    height="200px"
+                    overflow="auto"
                   >
                     <BodyText>{element.content}</BodyText>
                   </Container>

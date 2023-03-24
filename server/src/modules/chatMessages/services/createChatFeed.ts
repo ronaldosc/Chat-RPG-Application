@@ -5,7 +5,7 @@ import { ChatFeedMessagesModel } from '../interface';
 import { ErrorWithStatus } from '../../../utils/errorWithStatus';
 import { IUser } from '../../users/interface';
 
-export async function create(param: ChatFeedMessagesModel) {
+export async function create(param: ChatFeedMessagesModel, characterName: string) {
   try {
     await connectToMongoDB();
 
@@ -16,6 +16,7 @@ export async function create(param: ChatFeedMessagesModel) {
     newFeed.content = param.content;
     newFeed.directedTo = param.directedTo;
     newFeed.choices = param.choices;
+    newFeed.characterName = characterName;
 
     await newFeed.save();
 

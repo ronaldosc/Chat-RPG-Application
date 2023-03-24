@@ -8,6 +8,7 @@ export interface ChatFeedMessagesModel {
   choices?: Array<Choices>;
   createdAt: Date;
   deletedAt?: Date;
+  characterName?: string;
 }
 
 export interface Choices {

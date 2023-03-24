@@ -8,6 +8,7 @@ export const MessageComponentWrapper = styled.div`
   padding: 4px 2px;
   border-radius: ${BorderRadius.Medium};
   max-width: 100%;
+  padding: 8px 8px;
   overflow-wrap: break-word;
-  background: ${Color.Grey.base};
+  background: ${Color.Coal.base};
 `;

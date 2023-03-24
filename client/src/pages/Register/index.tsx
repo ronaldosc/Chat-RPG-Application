@@ -40,7 +40,6 @@ export const Register = () => {
       userName: '',
     },
   });
-
   const [repeatPassword, setRepeatPassword] = useState<string>('');
 
   const {
@@ -79,6 +78,7 @@ export const Register = () => {
   };
 
   async function createUser() {
+
     if (!handleValidation()) {
       return;
     }
@@ -177,6 +177,12 @@ export const Register = () => {
           lightLabel
           name="confirmPassword"
           onChange={handleRepeatPasswordChange}
+        />
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              createUser();
+            }
+          }}
         />
         <Container
           width="80%"

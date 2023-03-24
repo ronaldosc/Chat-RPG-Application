@@ -69,7 +69,7 @@ export class NameValidator extends RegexValidator
 {
     protected override get regexp ()
     {
-        return /^([a-z]{1,15})([ ]{1}[a-z]{1,15}){0,2}$/gim;
+        return /^(\w{1,15})([ ]{1}\w{1,15}){0,2}$/gim;
     }
 }
 

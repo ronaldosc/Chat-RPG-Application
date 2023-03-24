@@ -1,5 +1,5 @@
 import { Logo } from '@assets/icons';
-import { Color, H1 } from '@components/common';
+import { Color, H1, H2 } from '@components/common';
 import { encodeURL } from '@helpers';
 import { useUser, useWebSocket } from '@providers';
 import { useSnackbar } from 'notistack';
@@ -20,7 +20,7 @@ export const Header = ({ children }: PropTypes) => {
     <HeaderStyle>
       <HeaderLogo>
         <Logo />
-        <H1 light>Chat RPG</H1>
+        <H2 light>Chat RPG</H2>
       </HeaderLogo>
       <Button
         color={Color.Gold}

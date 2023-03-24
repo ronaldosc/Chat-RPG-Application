@@ -9,6 +9,7 @@ import { getChatRoomsListByUserId } from './modules/chatRooms/services';
 import jwt from 'jsonwebtoken';
 import { decodeData } from './interfaces';
 import { ErrorWithStatus } from './utils/errorWithStatus';
+import https from 'https';
 
 dotenv.config();
 
@@ -19,9 +20,9 @@ class WebSocketInitializer {
   public roomClients = new Map<string, string[]>(); // relaciona roomId com clientId(ws)
   public redisPub = new Redis(redisConfig.socket);
 
-  constructor() {
+  constructor(server: https.Server) {
     this.wss = new websocket.Server({
-      port: 5001,
+      server
     });
   }
 

@@ -1,8 +1,9 @@
 import { Logo } from '@assets/icons';
 import { Color, H1 } from '@components/common';
 import { encodeURL } from '@helpers';
-import { useUser } from '@providers';
-import { House, SignOut } from 'phosphor-react';
+import { useUser, useWebSocket } from '@providers';
+import { useSnackbar } from 'notistack';
+import { House, SignOut, GameController as Joystick} from 'phosphor-react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@components/button';
 import { HeaderLogo, HeaderStyle } from './header.styled';
@@ -33,15 +34,9 @@ export const Header = ({ children }: PropTypes) => {
         }
       />
       <Button
-        color={Color.Gold}
-        icon={
-          <House
-            weight="bold"
-            size={22}
-            color={Color.White.base}
-            onClick={() => navigate(encodeURL(['feed']))}
-          />
-        }
+        color={Color.Green}
+        icon={<Joystick  weight="bold" size={22} color={Color.White.base} />}
+        onClick={() => navigate(encodeURL(['my-games']))}
       />
       <Button
         color={Color.Red}

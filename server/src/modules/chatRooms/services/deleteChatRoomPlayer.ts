@@ -41,7 +41,7 @@ export async function deleteChatRoomPlayerId(param: ICharacter, owner: Types.Obj
       { $set: { playerCharacters: resultChat.playerCharacters } },
     );
 
-    if (resultFeed.modifiedCount !== 1) {
+    if (resultFeed.modifiedCount != 1) {
       throw new ErrorWithStatus('Jogador não foi excluído!', 500);
     }
 

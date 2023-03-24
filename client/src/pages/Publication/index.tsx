@@ -80,7 +80,6 @@ export const Publication = () => {
     likes: [],
     comments: [],
   });
-
   const [comment, setComment] = useState<string>('');
   const [comments, setComments] = useState<CommentTypes[]>([]);
   const [numberOfLikes, setNumberOfLikes] = useState<number>(

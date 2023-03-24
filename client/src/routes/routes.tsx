@@ -4,6 +4,7 @@ import {
   Error404,
   Feed,
   Home,
+  MyGames,
   Publication,
   Register,
 } from '@pages';
@@ -83,6 +84,14 @@ export const Router = () => {
         element={
           <Private>
             <Publication />
+          </Private>
+        }
+      />
+      <Route
+        path="/my-games"
+        element={
+          <Private>
+            <MyGames />
           </Private>
         }
       />

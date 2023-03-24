@@ -7,6 +7,6 @@ export const apiJSON = axios.create({
 });
 
 export const api = axios.create({
-  baseURL: `http://${host}:5000`,
+  baseURL: `https://${host}:5000`,
   withCredentials: true,
 });

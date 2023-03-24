@@ -16,7 +16,8 @@ export async function createChatFeed(req: Request, res: Response): Promise<void>
     return;
   }
 
-  const result = await chatFeedRoomServices.create(feedData);
+  const characterName = chatRoom.data.chatRoom[0].title;
+  const result = await chatFeedRoomServices.create(feedData, characterName);
 
   if (!result.error) {
     const newPost = {
@@ -27,6 +28,7 @@ export async function createChatFeed(req: Request, res: Response): Promise<void>
       author: result.data.newFeed.author,
       content: result.data.newFeed.content,
       directedTo: result.data.newFeed.directedTo,
+      characterName: result.data.newFeed.characterName,
     };
 
     const message = {

@@ -3,6 +3,7 @@ import { connectToMongoDB } from '../../../config/mongodb';
 import { ErrorWithStatus } from '../../../utils/errorWithStatus';
 import { FeedMessageComments } from '../../feedMessageComments/model';
 import { FeedMessageLikes } from '../../feedMessageLikes/model';
+import { IUser } from '../../users/interface';
 import { FeedMessages } from '../model';
 
 export async function getFeedMessage(param: string) {
@@ -10,7 +11,7 @@ export async function getFeedMessage(param: string) {
     await connectToMongoDB();
     const feedMessage = await FeedMessages.find({ _id: param }).exec();
 
-    const comments = await FeedMessageComments.find({ feedMessage: param }).exec();
+    const comments = await FeedMessageComments.find({ feedMessage: param }).populate<{ author: Pick<IUser, 'contact'> }>('author', 'contact.userName' ).exec();
 
     const notDeletedComments = comments.filter((element) => element.deletedAt ? false : true);
 

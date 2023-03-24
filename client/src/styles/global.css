@@ -17,6 +17,7 @@
   align-items: center;
   flex-direction: column;
   gap: 1rem;
+  padding: 1rem;
   overflow: auto;
   background: 'transparent' center no-repeat;
   background-size: cover;
@@ -27,6 +28,7 @@ html,
 body {
   display: flex;
   position: relative;
+  min-height: 100vh;
   background: url('../assets/images/background.png') center no-repeat;
   background-size: cover;
   overflow-x: hidden;
@@ -45,7 +47,7 @@ span {
   padding-left: .5vw;
   font-size: smaller;
   opacity: .6;
-  letter-spacing: -1px;
+  letter-spacing: -1.6px;
 }
 
 ::-webkit-scrollbar {

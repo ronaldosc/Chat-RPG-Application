@@ -1,5 +1,5 @@
 import { api } from '@api';
-import { Button } from '@components/button';
+import { Button } from '@components/common/button';
 import {
   BodyText,
   Color,
@@ -8,8 +8,8 @@ import {
   TextArea,
   TextInput,
 } from '@components/common';
-import { Container } from '@components/container';
-import { Header } from '@components/header';
+import { Container } from '@components/common/container';
+import { Header } from '@components/common/header';
 import { encodeURL } from '@helpers';
 import { useSnackbar } from 'notistack';
 import { X } from 'phosphor-react';
@@ -46,6 +46,7 @@ export const CreateGame = () => {
     content: '',
     owner: '',
   });
+  const [idFeedRoom, setIdFeedRoom] = useState<string>('');
 
   async function createGame() {
     navigate(encodeURL(['feed']));
@@ -54,10 +55,8 @@ export const CreateGame = () => {
     );
     try {
       const { data } = await api.post('/feed-room/new-feed', gameProperties);
-      const { data: chatRoomData } = await api.post(
-        `/new-chatroom/${data._id}}`,
-      );
-
+      console.log(data);
+      await api.post(`/chat-room/new-chatroom/${data.data.newFeed._id}`);
       enqueueSnackbar('Jogo criado com sucesso!', {
         variant: 'success',
         anchorOrigin: {
@@ -156,6 +155,7 @@ export const CreateGame = () => {
               <BodyText>Título</BodyText>
               <TextInput
                 type="text"
+                maxLength={24}
                 onChange={(e) =>
                   setGameProperties({
                     ...gameProperties,

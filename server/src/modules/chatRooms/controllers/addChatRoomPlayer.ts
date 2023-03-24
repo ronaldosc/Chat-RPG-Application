@@ -2,9 +2,14 @@ import { Request, Response } from 'express';
 import { addChatRoomPlayerId } from '../services';
 import { ICharacter } from '../interface';
 import { webSocketInitializer } from '../../../index';
+import { AuthenticatedUserDataRequest } from '../../../interfaces';
 
 export async function addChatRoomPlayer(req: Request, res: Response): Promise<void> {
   const param: ICharacter = req.body;
+
+  if (!param.playerId) {
+    param.playerId = (req as AuthenticatedUserDataRequest).userId;
+  }
 
   const chatRoom = await addChatRoomPlayerId(param);
 

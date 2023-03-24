@@ -4,6 +4,7 @@ import {
   Error404,
   Feed,
   Home,
+  MyGames,
   Publication,
   Register,
 } from '@pages';
@@ -34,9 +35,7 @@ const Public = ({ children }: ChildrenTypes) => {
 export const Router = () => {
   return (
     <Routes>
-      <Route path="*" element={<Error404 />} />
       <Route path="/" element={<Navigate to="/home" />} />
-
       <Route
         path="/home"
         element={
@@ -88,6 +87,15 @@ export const Router = () => {
           </Private>
         }
       />
+      <Route
+        path="/my-games"
+        element={
+          <Private>
+            <MyGames />
+          </Private>
+        }
+      />
+      <Route path="*" element={<Error404 />} />
     </Routes>
   );
 };

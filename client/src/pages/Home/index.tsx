@@ -1,7 +1,7 @@
 import { Logo } from '@assets/icons';
-import { Button } from '@components/button';
+import { Button } from '@components/common/button';
 import { Color, H1, TextInput } from '@components/common';
-import { Container } from '@components/container';
+import { Container } from '@components/common/container';
 import { encodeURL } from '@helpers';
 import { useUser } from '@providers';
 import { useState } from 'react';
@@ -21,14 +21,20 @@ export const Home = () => {
     email: '',
     password: '',
   });
+  function pressKey(e: any) {
+    if (e.key === 'Enter' && e.target.value) {
+      if (signIn) {
+        signIn(login);
+      }
+    }
+  }
 
   return (
     <Container
       width="80vw"
-      height="65vh"
+      height="70vh"
       gap="12px"
       backgroundColor="rgba(31, 25, 35, 0.6)"
-      // backgroundGradient='radial-gradient(circle, rgba(200, 25, 35, 0.5) 50%, rgba(1, 25, 35, 0.8) 20%)'
     >
       <Logo width="95px" height="180px" title="Logo Chat RPG" />
       <H1 light title="Bem vindo(a) ao Chat RPG">
@@ -37,20 +43,27 @@ export const Home = () => {
       <TextInput
         placeholder="Digite o e-mail cadastrado"
         label="E-mail"
+        type="email"
         lightLabel
+        pattern="emailValidator"
         onChange={(e) => setLogin({ ...login, email: e.target.value })}
+        onKeyDown={pressKey}
+        required
       />
       <TextInput
         placeholder="Digite a senha de acesso"
         label="Senha"
         type="password"
         lightLabel
+        pattern="passwordValidator"
+        onKeyDown={pressKey}
         onChange={(e) =>
           setLogin({
             ...login,
             password: e.target.value,
           })
         }
+        required
       />
       <Container
         width="80%"
@@ -62,9 +75,7 @@ export const Home = () => {
         <Button
           label="Entrar"
           color={Color.Green}
-          onClick={() => {
-            signIn && signIn(login);
-          }}
+          onClick={() => (signIn ? signIn(login) : undefined)}
         />
         <Button
           label="Cadastrar"

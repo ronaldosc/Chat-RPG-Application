@@ -1,21 +1,32 @@
-import { Button } from '@components/button';
+import { Button } from '@components/common/button';
 import { BodyText, Color, H2, MiniLabel } from '@components/common';
-import { Container } from '@components/container';
-import { Header } from '@components/header';
-import { X } from 'phosphor-react';
+import { Container } from '@components/common/container';
+import { Header } from '@components/common/header';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { LikeResponseTypes } from 'pages/Feed';
+import { ChatInput } from '@components/chatRoom';
+import { api } from '@api';
 import { PublicationStyle } from './style';
 
-import { api, apiJSON } from '../../libs/api';
-import { ChatInput } from '../../components/chatRoom';
+interface AuthorTypes {
+  _id: string;
+  contact: {
+    userName: string;
+  };
+}
 
-interface commentTypes {
-  author: string;
+interface CommentTypes {
+  _id: string;
+  feedMessage: string;
+  author: AuthorTypes | null;
   content: string;
 }
+
 interface likeTypes {
+  _id: string;
   author: string;
+  feedMessage: string;
 }
 
 interface characterProps {
@@ -40,14 +51,15 @@ interface PublicationTypes {
   numberOfComments: number;
   playerCharacters: characterProps[];
   likes: likeTypes[];
-  comments: commentTypes[];
+  comments: CommentTypes[];
 }
 
 interface ResponsePublicationTypes {
   message: string;
   data: {
     feedMessage: PublicationTypes[];
-    comments: commentTypes[];
+    comments: CommentTypes[];
+    likes: likeTypes[];
   };
 }
 
@@ -64,18 +76,50 @@ export const Publication = () => {
     numberOfPlayers: 0,
     numberOfLikes: 0,
     numberOfComments: 0,
-    playerCharacters: [
-      {
-        characterId: 0,
-        characterName: '',
-        player: null,
-      },
-    ],
+    playerCharacters: [],
     likes: [],
     comments: [],
   });
-  const [comments, setComments] = useState<commentTypes[]>([]);
   const [comment, setComment] = useState<string>('');
+  const [comments, setComments] = useState<CommentTypes[]>([]);
+  const [numberOfLikes, setNumberOfLikes] = useState<number>(
+    publication.numberOfLikes,
+  );
+
+  async function getPublication() {
+    try {
+      const { data } = await api.get<ResponsePublicationTypes>(
+        `/feed-room/${id}`,
+      );
+      console.log(data.data.comments);
+      setPublication(data.data.feedMessage[0]);
+      setComments(data.data.comments);
+      setNumberOfLikes(data.data.feedMessage[0].numberOfLikes);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function likeFeed(feedId: string) {
+    try {
+      const { data } = await api.post<LikeResponseTypes>('/reaction/like', {
+        feedMessage: feedId,
+      });
+      if (data.data.newLike) {
+        console.log('new like');
+
+        setNumberOfLikes(numberOfLikes + 1);
+      }
+      if (data.data.removeLike) {
+        console.log('remove like');
+
+        setNumberOfLikes(numberOfLikes - 1);
+      }
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   async function sendComment() {
     try {
@@ -87,19 +131,6 @@ export const Publication = () => {
         },
       );
       getPublication();
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  async function getPublication() {
-    try {
-      const { data } = await api.get<ResponsePublicationTypes>(
-        `/feed-room/${id}`,
-      );
-      setPublication(data.data.feedMessage[0]);
-      setComments(data.data.comments);
     } catch (error) {
       console.log(error);
     }
@@ -158,31 +189,41 @@ export const Publication = () => {
                 overflow="none"
               >
                 <span>
-                  <Button label="Curtir" color={Color.Green} />
-                  <MiniLabel> {publication.numberOfLikes} Curtidas</MiniLabel>
+                  <Button
+                    label="Curtir"
+                    color={Color.Green}
+                    onClick={() => {
+                      likeFeed(publication?._id);
+                    }}
+                  />
+                  <MiniLabel> {numberOfLikes} Curtidas</MiniLabel>
                 </span>
                 <span>
                   <Button label="Comentar" color={Color.Brown} />
                   <MiniLabel>
-                    {publication.numberOfComments} Comentários
+                    {publication?.numberOfComments} Comentários
                   </MiniLabel>
                 </span>
 
                 <Button
                   label="Entrar"
                   color={Color.Gold}
-                  onClick={() => navigate(`/chat-room/${publication._id}`)}
+                  onClick={() => navigate(`/chat-room/${publication?._id}`)}
                 />
               </Container>
 
               <Container
                 padding="0px"
-                height={publication.numberOfComments > 0 ? '30px' : '0px'}
+                height={
+                  publication.numberOfComments || publication.numberOfLikes
+                    ? '30px'
+                    : '0px'
+                }
                 justify="start"
                 align="start"
                 margin="30px 0px 0px 0px"
               >
-                <H2>{publication?.comments?.length > 0 && 'Comentários'}</H2>
+                <H2>{comments.length > 0 && 'Comentários'}</H2>
               </Container>
               <>
                 {comments?.map((comment) => {
@@ -203,7 +244,10 @@ export const Publication = () => {
                         }}
                       >
                         <span>
-                          <Button label={comment.author} color={Color.Grey} />
+                          <Button
+                            label={comment?.author?.contact.userName}
+                            color={Color.Grey}
+                          />
                         </span>
 
                         <div
@@ -230,11 +274,21 @@ export const Publication = () => {
                 <ChatInput
                   type="text"
                   onChange={(e) => setComment(e.target.value)}
+                  value={comment}
+                  onKeyPress={(e) => {
+                    if (e.key === 'Enter') {
+                      setComment('');
+                      sendComment();
+                    }
+                  }}
                 />
                 <Button
                   color={Color.Green}
                   label={'Enviar'}
-                  onClick={() => sendComment()}
+                  onClick={() => {
+                    setComment('');
+                    sendComment();
+                  }}
                 />
               </Container>
             </Container>

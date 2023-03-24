@@ -4,9 +4,22 @@ import jwt from 'jsonwebtoken';
 import { Request, Response } from 'express';
 import { ILoginUser } from '../interface';
 import * as userServices from '../services';
+import { EmailValidator, NameValidator, PasswordValidator } from '../../../utils/validators';
 
 export async function login(req: Request, res: Response): Promise<void> {
   const loginData: ILoginUser = req.body;
+
+  const valEmail = new EmailValidator(loginData.email);
+  const valPwd = new PasswordValidator(loginData.password);
+
+  if(valEmail.errors){
+    res.status(500).json(`email:${valEmail.errors}`);
+    return;
+  }
+  if(valPwd.errors){
+    res.status(500).json(`password:${valPwd.errors}`);
+    return
+  }
 
   const result = await userServices.login(loginData);
 

@@ -1,10 +1,11 @@
 import { api } from '@api';
-import { Button } from '@components/button';
+import { Button } from '@components/common/button';
 import { BodyText, Color, H2, MiniLabel } from '@components/common';
-import { Container } from '@components/container';
-import { Header } from '@components/header';
+import { Container } from '@components/common/container';
+import { Header } from '@components/common/header';
 import { encodeURL } from '@helpers';
 import { Plus } from 'phosphor-react';
+import { useWebSocket } from '@providers';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FeedStyle } from './style';
@@ -21,6 +22,14 @@ interface characterProps {
   characterId: number;
   characterName: string;
   player: string | null;
+  _id: string;
+}
+
+interface OwnerTypes {
+  _id: string;
+  contact: {
+    userName: string | null;
+  };
 }
 
 interface PublicationTypes {
@@ -34,6 +43,7 @@ interface PublicationTypes {
   playerCharacters: characterProps[];
   likes: likeTypes[];
   comments: commentTypes[];
+  owner: OwnerTypes | null;
 }
 interface ResponseTypes {
   message: string;
@@ -47,10 +57,11 @@ interface LikeTypes {
   author: string;
 }
 
-interface LikeResponseTypes {
+export interface LikeResponseTypes {
   message: string;
   data: {
-    newLike: LikeTypes;
+    newLike?: LikeTypes;
+    removeLike?: LikeTypes;
   };
 }
 
@@ -65,6 +76,8 @@ interface WSResponseTypes<T> {
 export const Feed = () => {
   const navigate = useNavigate();
   const [publications, setPublications] = useState<PublicationTypes[]>([]);
+
+  const websocket = useWebSocket();
 
   async function getPublications() {
     const { data } = await api.get<ResponseTypes>('/feed-room');
@@ -85,76 +98,70 @@ export const Feed = () => {
   }
 
   useEffect(() => {
-    const host = window.location.hostname;
-    const ws = new WebSocket(`wss://${host}:5000`);
-
     getPublications();
+    console.log(websocket);
+    if (websocket)
+      websocket.onmessage = (event) => {
+        const data = JSON.parse(event.data.toString());
+        console.log(data);
 
-    ws.onmessage = (event) => {
-      const data = JSON.parse(event.data.toString());
-      console.log(data);
-
-      switch (data.action) {
-        case 'message':
-          if (
-            (data as WSResponseTypes<PublicationTypes>).data.chatRoom ===
-            'feedRoom'
-          ) {
-            setPublications((oldPublications) => [
-              data.data.message,
-              ...oldPublications,
-            ]);
-            console.log(data);
-          }
-          break;
-        case 'like-feed':
-          setPublications((oldPublications) => {
-            const newPublications = oldPublications.map((publication) => {
-              if (publication._id === data.data.message.feedMessage) {
-                return {
-                  ...publication,
-                  likes: Array.isArray(publication.likes)
-                    ? [
+        switch (data.action) {
+          case 'message':
+            if (
+              (data as WSResponseTypes<PublicationTypes>).data.chatRoom ===
+              'feedRoom'
+            ) {
+              setPublications((oldPublications) => [
+                data.data.message,
+                ...oldPublications,
+              ]);
+              console.log(data);
+            }
+            break;
+          case 'like-feed':
+            setPublications((oldPublications) => {
+              const newPublications = oldPublications.map((publication) => {
+                if (publication._id === data.data.message.feedMessage) {
+                  return {
+                    ...publication,
+                    likes: Array.isArray(publication.likes)
+                      ? [
                         ...publication.likes,
                         { author: data.data.message.author },
                       ]
-                    : [{ author: data.data.message.author }],
-                  numberOfLikes: publication.numberOfLikes + 1,
-                };
-              }
-              return publication;
+                      : [{ author: data.data.message.author }],
+                    numberOfLikes: publication.numberOfLikes + 1,
+                  };
+                }
+                return publication;
+              });
+              return newPublications;
             });
-            return newPublications;
-          });
 
-          break;
-        case 'dislike-feed':
-          setPublications((oldPublications) => {
-            const newPublications = oldPublications.map((publication) => {
-              if (publication._id === data.data.message.feedMessage) {
-                return {
-                  ...publication,
-                  likes: Array.isArray(publication.likes)
-                    ? [
+            break;
+          case 'dislike-feed':
+            setPublications((oldPublications) => {
+              const newPublications = oldPublications.map((publication) => {
+                if (publication._id === data.data.message.feedMessage) {
+                  return {
+                    ...publication,
+                    likes: Array.isArray(publication.likes)
+                      ? [
                         ...publication.likes,
                         { author: data.data.message.author },
                       ]
-                    : [{ author: data.data.message.author }],
-                  numberOfLikes: publication.numberOfLikes - 1,
-                };
-              }
-              return publication;
+                      : [{ author: data.data.message.author }],
+                    numberOfLikes: publication.numberOfLikes - 1,
+                  };
+                }
+                return publication;
+              });
+              return newPublications;
             });
-            return newPublications;
-          });
-          break;
-        default:
-      }
-    };
-
-    return () => {
-      ws.close();
-    };
+            break;
+          default:
+        }
+      };
   }, []);
 
   return (
@@ -171,19 +178,14 @@ export const Feed = () => {
           />
         </Container>
 
-        <Container
-          height=""
-          justify="end"
-          padding="0 30px 30px 30px"
-          gap="12px"
-        >
+        <Container height="" justify="end" padding="0 12px" gap="12px">
           {publications.map((publication: PublicationTypes, index) => (
             <React.Fragment key={index}>
               <Container
                 backgroundColor={Color.Background.base}
-                height={'250px'}
-                justify={'center'}
-                padding={'10px 16px'}
+                height={'300px'}
+                justify={'space-between'}
+                padding={'20px'}
                 gap={'12px'}
               >
                 <Container
@@ -204,6 +206,21 @@ export const Feed = () => {
                     /{publication.numberOfPlayers}
                   </H2>
                 </Container>
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'flex-start',
+                    alignItems: 'center',
+                    gap: '8px',
+                    width: '100%',
+                  }}
+                >
+                  Mestre:{' '}
+                  <Button
+                    label={publication?.owner?.contact.userName}
+                    color={Color.Coal}
+                  />
+                </div>
                 <Container
                   height="50%"
                   backgroundColor="transparent"

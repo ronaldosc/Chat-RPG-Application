@@ -3,8 +3,9 @@ import { ChatFeedMessages } from '../model';
 import { connectToMongoDB } from '../../../config/mongodb';
 import { ChatFeedMessagesModel } from '../interface';
 import { ErrorWithStatus } from '../../../utils/errorWithStatus';
+import { IUser } from '../../users/interface';
 
-export async function create(param: ChatFeedMessagesModel) {
+export async function create(param: ChatFeedMessagesModel, characterName: string) {
   try {
     await connectToMongoDB();
 
@@ -13,13 +14,13 @@ export async function create(param: ChatFeedMessagesModel) {
     newFeed.chatRoomId = param.chatRoomId;
     newFeed.author = param.author;
     newFeed.content = param.content;
-    newFeed.image = param.image;
     newFeed.directedTo = param.directedTo;
     newFeed.choices = param.choices;
-    newFeed.numberOfComments = param.numberOfComments ?? 0;
-    newFeed.numberOfLikes = param.numberOfLikes ?? 0;
+    newFeed.characterName = characterName;
 
     await newFeed.save();
+
+    await newFeed.populate<{ author: Pick<IUser, 'contact'> }>('author', 'contact.userName' );
 
     return {
       message: 'Chat Feed adicionado com sucesso!',

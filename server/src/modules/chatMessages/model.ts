@@ -15,6 +15,7 @@ const ChatFeedMessagesSchema = new mongoose.Schema<ChatFeedMessagesModel>({
   ],
   createdAt: { type: Date, default: now, immutable: true },
   deletedAt: { type: Date },
+  characterName: { type: String },
 });
 
 export const ChatFeedMessages = mongoose.model('ChatFeedMessages', ChatFeedMessagesSchema);

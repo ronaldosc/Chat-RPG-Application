@@ -54,16 +54,42 @@ export const MyGames = () => {
           {chatRooms.length === 0 ? (
             <H1>Você ainda não participa de nenhuma aventura :C </H1>
           ) : (
-            <H1>Meus Jogos</H1>
+            <div
+              style={{
+                display: 'flex',
+                width: '50%',
+                justifyContent: 'center',
+                padding: '16px 0 8px 0',
+
+                marginBottom: '24px',
+              }}
+            >
+              <H2>Meus Jogos</H2>
+            </div>
           )}
         </>
         <>
           {chatRooms.map((element, index) => {
             return (
               <React.Fragment key={index}>
-                <Container>
-                  <H2>{element.title}</H2>
-                  <Container border="solid 1px black">
+                <Container padding="16px" gap="16px">
+                  <div
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'start',
+                      width: '100%',
+                    }}
+                  >
+                    <H2>{element.title}</H2>
+                  </div>
+                  <Container
+                    border="solid 1px black"
+                    justify="start"
+                    align="start"
+                    padding="16px"
+                    height='200px'
+                    overflow='auto'
+                  >
                     <BodyText>{element.content}</BodyText>
                   </Container>
                   <div

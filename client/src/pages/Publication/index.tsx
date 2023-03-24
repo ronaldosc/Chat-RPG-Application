@@ -191,7 +191,7 @@ export const Publication = () => {
               >
                 <span>
                   <Button
-                    label={'Curtir'}
+                    label="Curtir"
                     color={Color.Green}
                     onClick={() => {
                       likeFeed(publication?._id);
@@ -200,7 +200,10 @@ export const Publication = () => {
                   <MiniLabel> {numberOfLikes} Curtidas</MiniLabel>
                 </span>
                 <span>
-                  <MiniLabel></MiniLabel>
+                  <Button label="Comentar" color={Color.Brown} />
+                  <MiniLabel>
+                    {publication?.numberOfComments} Comentários
+                  </MiniLabel>
                 </span>
 
                 <Button
@@ -219,12 +222,9 @@ export const Publication = () => {
                 }
                 justify="start"
                 align="start"
-                margin="30px 0 0 0"
+                margin="30px 0px 0px 0px"
               >
-                <H2>
-                  {comments.length > 0 &&
-                    `Comentários (${publication?.numberOfComments} no total)`}
-                </H2>
+                <H2>{comments.length > 0 && 'Comentários'}</H2>
               </Container>
               <>
                 {comments?.map((comment) => {
@@ -277,7 +277,7 @@ export const Publication = () => {
                   onChange={(e) => setComment(e.target.value)}
                   value={comment}
                   onKeyPress={(e) => {
-                    if (e.key === 'Enter' && comment) {
+                    if (e.key === 'Enter') {
                       setComment('');
                       sendComment();
                     }
@@ -287,10 +287,8 @@ export const Publication = () => {
                   color={Color.Green}
                   label={'Enviar'}
                   onClick={() => {
-                    if (comment) {
-                      setComment('');
-                      sendComment();
-                    }
+                    setComment('');
+                    sendComment();
                   }}
                 />
               </Container>

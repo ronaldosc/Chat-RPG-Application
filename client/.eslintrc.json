@@ -1,61 +1,59 @@
 {
-	"env": {
-		"es2021": true,
-		"node": true
-	},
-	"plugins": ["@typescript-eslint", "prettier"],
-	"extends": [
-		"airbnb-base",
-		"plugin:@typescript-eslint/recommended",
-		"plugin:prettier/recommended",
-		"prettier"
-	],
-	"parser": "@typescript-eslint/parser",
-	"parserOptions": {
-		"ecmaVersion": 2022,
-		"sourceType": "module"
-	},
-	"rules": {
-		"prettier/prettier": [
-			"warn",
-			{
-				"endOfLine": "auto",
-				"tabWidth": 2
-			}
-		],
-		"no-underscore-dangle": ["error", { "allow": ["_id"] }],
-		"lines-between-class-members": ["error", "never"],
-		"no-use-before-define": "off",
-		"@typescript-eslint/no-unused-vars": "off",
-		"@typescript-eslint/explicit-module-boundary-types": "off",
-		"@typescript-eslint/no-explicit-any": ["off"],
-		"@typescript-eslint/no-empty-function": ["off"],
-		"@typescript-eslint/no-namespace": "off",
-		"@typescript-eslint/no-non-null-assertion": "off",
-		"consistent-return": "off",
-		"no-shadow": "off",
-		"no-plusplus": "off",
-		"import/prefer-default-export": "off",
-		"import/no-unresolved": "off",
-		"import/extensions": [
-			"error",
-			"ignorePackages",
-			{
-				"ts": "never",
-				"tsx": "never"
-			}
-		],
-		"import/no-extraneous-dependencies": [
-			"error",
-			{
-				"devDependencies": true
-			}
-		]
-	},
-	"settings": {
-		"import/resolver": {
-			"typescript": {}
-		}
-	},
-	"ignorePatterns": ["**/*.js", "build", "dist"]
+  "env": {
+    "es2021": true,
+    "node": true
+  },
+  "plugins": ["@typescript-eslint", "prettier"],
+  "extends": [
+    "airbnb-base",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended",
+    "prettier"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 2022,
+    "sourceType": "module"
+  },
+  "rules": {
+    "prettier/prettier": [
+      "warn",
+      {
+        "endOfLine": "auto",
+        "tabWidth": 2
+      }
+    ],
+    "no-underscore-dangle": ["error", { "allow": [ "_id"] }],
+    "lines-between-class-members": ["error", "never"],
+    "no-use-before-define": "off",
+    "@typescript-eslint/no-use-before-define": ["error"],
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/no-explicit-any": ["off"],
+    "@typescript-eslint/no-empty-function": ["off"],
+    "@typescript-eslint/no-namespace": "off",
+    "no-shadow": "off",
+    "no-plusplus": "off",
+    "import/prefer-default-export": "off",
+    "import/no-unresolved": "off",
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "ts": "never",
+        "tsx": "never"
+      }
+    ],
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": true
+      }
+    ]
+  },
+  "settings": {
+    "import/resolver": {
+      "typescript": {}
+    }
+  },
+  "ignorePatterns": ["**/*.js", "build", "dist"]
 }

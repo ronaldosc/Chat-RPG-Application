@@ -3,13 +3,7 @@ import { Logo } from '@assets/icons';
 import { Button } from '@components/common/button';
 import { Color, H1, TextInput } from '@components/common';
 import { Container } from '@components/common/container';
-import {
-  encodeURL,
-  customEnqueueSnackbar,
-  regexInputValidator,
-  anchorOrigin,
-  transitionDurationDelayed,
-} from '@helpers';
+import { encodeURL } from '@helpers';
 import { useUser } from '@providers';
 import { useSnackbar } from 'notistack';
 import { useState } from 'react';
@@ -24,6 +18,10 @@ interface UserTypes {
     lastName?: string;
     profilePhoto?: string;
   };
+}
+
+interface PropTypes {
+  user: UserTypes | null;
 }
 
 export const Register = () => {
@@ -41,63 +39,30 @@ export const Register = () => {
     },
   });
 
-  const [repeatPassword, setRepeatPassword] = useState<string>('');
-
-  const {
-    email,
-    password,
-    contact: { userName },
-  } = userProperties;
-
-  const handleValidation = (): boolean => {
-    if (!userName) {
-      customEnqueueSnackbar('O usuário é obrigatório');
-    }
-
-    if (!email) {
-      customEnqueueSnackbar('O e-mail é obrigatório');
-    } else if (!regexInputValidator.emailRegex.test(email)) {
-      customEnqueueSnackbar('Esse e-mail é inválido');
-    }
-
-    if (!password) {
-      customEnqueueSnackbar('A senha é obrigatório');
-    } else if (password !== repeatPassword) {
-      enqueueSnackbar('As senhas não conferem');
-    } else if (password.length < 8) {
-      customEnqueueSnackbar('Psiu! Mínimo de 8 caracteres para a senha...');
-    } else {
-      return true;
-    }
-    return false;
-  };
-
-  const handleRepeatPasswordChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    setRepeatPassword(event.target.value);
-  };
-
   async function createUser() {
-    if (!handleValidation()) {
-      return;
-    }
-
     try {
       await api.post('/user/signup', userProperties);
-      customEnqueueSnackbar('Usuário criado e logado com sucesso!', 'success');
+      enqueueSnackbar('Usuário criado com sucesso!', {
+        variant: 'success',
+        anchorOrigin: {
+          vertical: 'top',
+          horizontal: 'center',
+        },
+      });
       if (signIn) {
         signIn({
-          email,
-          password,
+          email: userProperties.email,
+          password: userProperties.password,
         });
       }
       navigate(encodeURL(['feed']));
     } catch (error) {
-      enqueueSnackbar('Há erros do formulário!', {
+      enqueueSnackbar('Erro ao realizar login!', {
         variant: 'error',
-        anchorOrigin: { ...anchorOrigin, horizontal: 'right' },
-        transitionDuration: transitionDurationDelayed,
+        anchorOrigin: {
+          vertical: 'top',
+          horizontal: 'center',
+        },
       });
     }
   }
@@ -107,8 +72,8 @@ export const Register = () => {
       <Container
         width="90vw"
         height="90vh"
-        gap="15px"
-        backgroundColor="rgba(31, 25, 35, .5)"
+        gap="12px"
+        backgroundColor="rgba(31, 25, 35, 0.5)"
         padding="20px"
         justify="start"
       >
@@ -137,14 +102,12 @@ export const Register = () => {
         <TextInput
           label="Usuário"
           lightLabel
-          maxLength={22}
           onChange={(e) => {
             setUserProperties({
               ...userProperties,
               contact: { userName: e.target.value },
             });
           }}
-          required
         />
         <TextInput
           label="E-mail"
@@ -156,28 +119,19 @@ export const Register = () => {
               email: e.target.value,
             });
           }}
-          required
         />
         <TextInput
           label="Senha"
           type="password"
           lightLabel
-          name="password"
           onChange={(e) => {
             setUserProperties({
               ...userProperties,
               password: e.target.value,
             });
           }}
-          required
         />
-        <TextInput
-          label="Repita a senha"
-          type="password"
-          lightLabel
-          name="confirmPassword"
-          onChange={handleRepeatPasswordChange}
-        />
+        <TextInput label="Repita a senha" type="password" lightLabel />
         <Container
           width="80%"
           height="10%"

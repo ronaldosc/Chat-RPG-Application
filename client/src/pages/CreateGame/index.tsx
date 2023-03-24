@@ -8,9 +8,9 @@ import {
   TextArea,
   TextInput,
 } from '@components/common';
-import { Container } from '@components/container';
-import { Header } from '@components/header';
-import { encodeURL, customEnqueueSnackbar } from '@helpers';
+import { Container } from '@components/common/container';
+import { Header } from '@components/common/header';
+import { encodeURL } from '@helpers';
 import { useSnackbar } from 'notistack';
 import { X } from 'phosphor-react';
 import { useEffect, useState } from 'react';
@@ -57,10 +57,22 @@ export const CreateGame = () => {
       const { data } = await api.post('/feed-room/new-feed', gameProperties);
       console.log(data);
       await api.post(`/chat-room/new-chatroom/${data.data.newFeed._id}`);
-      customEnqueueSnackbar('Jogo criado com sucesso!', 'success');
+      enqueueSnackbar('Jogo criado com sucesso!', {
+        variant: 'success',
+        anchorOrigin: {
+          vertical: 'top',
+          horizontal: 'center',
+        },
+      });
       navigate(encodeURL(['feed']));
     } catch (error) {
-      customEnqueueSnackbar('Erro ao criar jogo!', 'error');
+      enqueueSnackbar('Erro ao criar jogo!', {
+        variant: 'error',
+        anchorOrigin: {
+          vertical: 'top',
+          horizontal: 'center',
+        },
+      });
     }
   }
 

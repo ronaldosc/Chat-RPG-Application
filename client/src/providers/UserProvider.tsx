@@ -89,3 +89,5 @@ export const UserProvider = ({ children }: UserProviderTypes) => {
     </UserContext.Provider>
   );
 };
+
+export const useUser = () => useContext(UserContext);

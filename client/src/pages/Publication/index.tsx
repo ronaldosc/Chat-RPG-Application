@@ -91,7 +91,6 @@ export const Publication = () => {
       const { data } = await api.get<ResponsePublicationTypes>(
         `/feed-room/${id}`,
       );
-      console.log(data.data.comments);
       setPublication(data.data.feedMessage[0]);
       setComments(data.data.comments);
       setNumberOfLikes(data.data.feedMessage[0].numberOfLikes);
@@ -106,16 +105,13 @@ export const Publication = () => {
         feedMessage: feedId,
       });
       if (data.data.newLike) {
-        console.log('new like');
 
         setNumberOfLikes(numberOfLikes + 1);
       }
       if (data.data.removeLike) {
-        console.log('remove like');
 
         setNumberOfLikes(numberOfLikes - 1);
       }
-      console.log(data);
     } catch (error) {
       console.log(error);
     }

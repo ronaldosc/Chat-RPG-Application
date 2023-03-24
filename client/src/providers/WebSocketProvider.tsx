@@ -19,7 +19,6 @@ export const WebSocketProvider = ({ children }: WebSocketProviderProps) => {
       setWebsocket(newSocket);
 
       newSocket.onopen = () => {
-        console.log('socket opened');
 
         const message = {
           action: 'join-feedRoom',

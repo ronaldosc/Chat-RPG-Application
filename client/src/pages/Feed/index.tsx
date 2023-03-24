@@ -81,7 +81,6 @@ export const Feed = () => {
 
   async function getPublications() {
     const { data } = await api.get<ResponseTypes>('/feed-room');
-    console.log(data);
 
     setPublications(data.data.feeds);
   }
@@ -91,7 +90,6 @@ export const Feed = () => {
       const { data } = await api.post<LikeResponseTypes>('/reaction/like', {
         feedMessage: feedId,
       });
-      console.log(data);
     } catch (error) {
       console.log(error);
     }
@@ -99,11 +97,9 @@ export const Feed = () => {
 
   useEffect(() => {
     getPublications();
-    console.log(websocket);
     if (websocket)
       websocket.onmessage = (event) => {
         const data = JSON.parse(event.data.toString());
-        console.log(data);
 
         switch (data.action) {
           case 'message':
@@ -115,7 +111,6 @@ export const Feed = () => {
                 data.data.message,
                 ...oldPublications,
               ]);
-              console.log(data);
             }
             break;
           case 'like-feed':

@@ -131,7 +131,6 @@ export const ChatRoom = () => {
       const { data } = await api.get<AvailableCharactersProps>(
         `chat-room/available-characters/${chatProprieties?._id}`,
       );
-      console.log('personagens', data);
 
       setAvailableCharacters(
         data.data.playerCharacters.map((element) => {
@@ -188,7 +187,6 @@ export const ChatRoom = () => {
               break;
             default:
           }
-          console.log(data);
         };
       }
     }
@@ -216,7 +214,6 @@ export const ChatRoom = () => {
           choices: [],
         },
       );
-      console.log(data);
     } catch (error) {
       console.log(error);
     }

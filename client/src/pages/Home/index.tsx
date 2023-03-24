@@ -21,6 +21,7 @@ export const Home = () => {
     email: '',
     password: '',
   });
+
   function pressKey(e: any) {
     if (e.key === 'Enter' && e.target.value) {
       if (signIn) {
@@ -34,7 +35,7 @@ export const Home = () => {
       width="80vw"
       height="70vh"
       gap="12px"
-      backgroundColor="rgba(31, 25, 35, 0.6)"
+      backgroundColor="rgba(31, 25, 35, .6)"
     >
       <Logo width="95px" height="180px" title="Logo Chat RPG" />
       <H1 light title="Bem vindo(a) ao Chat RPG">
@@ -45,9 +46,10 @@ export const Home = () => {
         label="E-mail"
         type="email"
         lightLabel
-        pattern="emailValidator"
-        onChange={(e) => setLogin({ ...login, email: e.target.value })}
         onKeyDown={pressKey}
+        onChange={(e) => {
+          setLogin({ ...login, email: e.target.value });
+        }}
         required
       />
       <TextInput
@@ -55,14 +57,13 @@ export const Home = () => {
         label="Senha"
         type="password"
         lightLabel
-        pattern="passwordValidator"
         onKeyDown={pressKey}
-        onChange={(e) =>
+        onChange={(e) => {
           setLogin({
             ...login,
             password: e.target.value,
-          })
-        }
+          });
+        }}
         required
       />
       <Container

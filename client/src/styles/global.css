@@ -37,6 +37,7 @@ body {
 h1 {
   padding-bottom: 2vh;
   letter-spacing: .4vw;
+  white-space: nowrap;
 }
 
 span {

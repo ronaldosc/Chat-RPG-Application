@@ -7,21 +7,17 @@ import {
   TextInputWrapper,
 } from './inputs-components.styled';
 
-type RegexInput = {
-  emailValidator: '/[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,}$/';
-  passwordValidator: '/^w+([.-]?w+)*@w+([.-]?w+)*(.w{2,3})+$/';
-};
-
 export interface TextInputProps {
   type?: 'text' | 'password' | 'email';
   placeholder?: string;
   label?: string;
   lightLabel?: boolean;
-  pattern?: keyof RegexInput;
   maxLength?: number;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
   onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
+  name?: string;
+  value?: string;
   required?: true;
 }
 
@@ -40,7 +36,6 @@ export const TextInput = ({
   label,
   placeholder,
   lightLabel,
-  pattern,
   maxLength,
   onChange,
   onBlur,
@@ -53,11 +48,11 @@ export const TextInput = ({
       <TextField
         type={type}
         placeholder={placeholder}
-        pattern={pattern}
         maxLength={maxLength}
         onChange={onChange}
         onBlur={onBlur}
         onKeyDown={onKeyDown}
+        name={label?.toLowerCase()}
         required={required}
       />
     </TextInputWrapper>

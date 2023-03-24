@@ -3,7 +3,7 @@ import { ButtonStyle } from './button.styled';
 
 interface PropTypes {
   label?: string | null;
-  onClick?: () => void;
+  onClick?: (event: React.MouseEvent<HTMLElement>) => void;
   color: ColorType;
   icon?: JSX.Element | string;
   gap?: string;

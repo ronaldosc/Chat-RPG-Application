@@ -1,5 +1,5 @@
 import { api } from '@api';
-import { Button } from '@components/common/button';
+import { Button } from '@components/button';
 import {
   BodyText,
   Color,
@@ -8,8 +8,8 @@ import {
   TextArea,
   TextInput,
 } from '@components/common';
-import { Container } from '@components/common/container';
-import { Header } from '@components/common/header';
+import { Container } from '@components/container';
+import { Header } from '@components/header';
 import { encodeURL } from '@helpers';
 import { useSnackbar } from 'notistack';
 import { X } from 'phosphor-react';

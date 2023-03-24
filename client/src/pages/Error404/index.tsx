@@ -1,5 +1,5 @@
 import { Color, H1 } from '@components/common';
-import { Container } from '@components/common/container';
+import { Container } from '@components/container';
 
 export const Error404 = () => {
   return (

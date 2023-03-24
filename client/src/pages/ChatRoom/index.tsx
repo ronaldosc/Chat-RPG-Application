@@ -1,8 +1,8 @@
-import { Button } from '@components/common/button';
+import { Button } from '@components/button';
 import { ChatInput, ChatLounge, MessageComponent } from '@components/chatRoom';
 import { Color, H2, Modal, SelectInput } from '@components/common';
-import { Container } from '@components/common/container';
-import { Header } from '@components/common/header';
+import { Container } from '@components/container';
+import { Header } from '@components/header';
 import { useWebSocket } from '@providers';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';

@@ -5,7 +5,7 @@ import { useUser, useWebSocket } from '@providers';
 import { useSnackbar } from 'notistack';
 import { House, SignOut, GameController } from 'phosphor-react';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '@components/common/button';
+import { Button } from '@components/button';
 import { HeaderLogo, HeaderStyle } from './header.styled';
 
 interface PropTypes {

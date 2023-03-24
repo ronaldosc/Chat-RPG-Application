@@ -1,8 +1,8 @@
 import { api } from '@api';
 import { Logo } from '@assets/icons';
-import { Button } from '@components/common/button';
+import { Button } from '@components/button';
 import { Color, H1, TextInput } from '@components/common';
-import { Container } from '@components/common/container';
+import { Container } from '@components/container';
 import { encodeURL } from '@helpers';
 import { useUser } from '@providers';
 import { useSnackbar } from 'notistack';

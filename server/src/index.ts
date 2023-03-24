@@ -5,9 +5,6 @@ import express from 'express';
 import Redis from 'ioredis';
 import { redisConfig } from './config/redisdb';
 import cors from 'cors';
-import path from 'path';
-import https from 'https';
-import fs from 'fs';
 
 import { WebSocketInitializer } from './websocket';
 
@@ -22,13 +19,16 @@ const PORT = parseInt(process.env.PORT) || 5000;
 const redisSub = new Redis(redisConfig.socket);
 
 const app: express.Application = express();
+const webSocketInitializer = new WebSocketInitializer();
+
+webSocketInitializer.initialize();
 
 const corsOptions = {
   origin: process.env.CORS_ORIGIN,
   credentials: true,
 };
 
-app.use('/', express.static(path.join(__dirname, '/public')));
+app.use('/', express.static('./views'));
 app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
@@ -39,24 +39,7 @@ app.use('/feed-room', feedRoutes);
 app.use('/chat-room', chatRoomRoutes);
 app.use('/feed-chat', chatFeedRoutes);
 app.use('/reaction', reactionRoutes);
-app.use('/feed-comment', feedCommentRoutes);
-
-app.get('*', function (req, res) {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
-
-const httpsOptions = {
-  key: fs.readFileSync(path.resolve(__dirname, './chat-rpg.key')),
-  cert: fs.readFileSync(path.resolve(__dirname, './chat-rpg.pem-chain')),
-}
-
-const httpsServer = https.createServer(httpsOptions, app).listen(PORT, () => {
-  console.log(`Servidor rodando na porta ${PORT}`);
-});
-
-const webSocketInitializer = new WebSocketInitializer(httpsServer);
-
-webSocketInitializer.initialize();
+app.use('/feed-comment',feedCommentRoutes);
 
 // Listen for messages on the Redis channel
 redisSub
@@ -87,6 +70,10 @@ redisSub.on('message', (channel, message) => {
       webSocketInitializer.websocketClients.get(id)?.send(message);
     });
   }
+});
+
+app.listen(PORT, () => {
+  console.log(`Servidor rodando na porta ${PORT}`);
 });
 
 export { webSocketInitializer };

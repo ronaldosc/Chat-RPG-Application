@@ -28,8 +28,8 @@ services:
   api:
     container_name: api-rpg
     build:
-      context: .
-      dockerfile: ./server/Dockerfile
+      context: ./server
+      dockerfile: Dockerfile
     restart: always
     env_file:
       - ./server/.env
@@ -39,6 +39,21 @@ services:
     ports:
       - 5000:5000
       - 5001:5001
+    networks:
+      - rpg-network
+  react:
+    container_name: react-rpg
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      VITE_REACT_APP_API_URL: api-rpg
+      VITE_PROJECT_NAME: Chat RPG
+    ports:
+      - 8080:80
+    depends_on:
+      - api
     networks:
       - rpg-network
 

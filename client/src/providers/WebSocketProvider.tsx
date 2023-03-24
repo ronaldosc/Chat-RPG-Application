@@ -15,7 +15,7 @@ export const WebSocketProvider = ({ children }: WebSocketProviderProps) => {
 
   useEffect(() => {
     if (token) {
-      const newSocket = new WebSocket('ws://localhost:5001');
+      const newSocket = new WebSocket('wss://chat-rpg.ddns.net:5000');
       setWebsocket(newSocket);
 
       newSocket.onopen = () => {

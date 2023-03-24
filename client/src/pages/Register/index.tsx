@@ -8,6 +8,7 @@ import { useUser } from '@providers';
 import { useSnackbar } from 'notistack';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { AxiosError } from 'axios';
 
 interface UserTypes {
   email: string;
@@ -68,13 +69,15 @@ export const Register = () => {
       }
       navigate(encodeURL(['feed']));
     } catch (error) {
-      enqueueSnackbar(error?.response.data, {
-        variant: 'error',
-        anchorOrigin: {
-          vertical: 'top',
-          horizontal: 'center',
-        },
-      });
+      if (error instanceof AxiosError) {
+        enqueueSnackbar(error?.response?.data, {
+          variant: 'error',
+          anchorOrigin: {
+            vertical: 'top',
+            horizontal: 'center',
+          },
+        });
+      }
     }
   }
 

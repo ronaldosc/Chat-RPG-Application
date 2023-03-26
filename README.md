@@ -1,4 +1,6 @@
 # <center> Desafio Ciclo 2  <center> Alpha EdTech / turma Turing)
+  
+Link de acesso: https://chat-rpg.ddns.net/home
 
 ---
 

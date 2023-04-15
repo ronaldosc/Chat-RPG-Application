@@ -35,7 +35,16 @@ cp .env.example .env
 </br>
 
   4.  *Configurar o seguinte:*
-  - Defina o database e o usuário/senha para acessar o mongoDB no script `src/config/init-mongo.js` no `.env` criado.
+  - Defina o database e o usuário/senha para acessar o mongoDB no script `server/src/config/init-mongo.js` a partir das variáveis de ambiente no `.env` criado:
+  ```ts
+  db = db.getSiblingDB('chatrpg');
+  db.createUser({
+    user: "root",
+    pwd: "123",
+    roles: [{ role: "readWrite", db: "chatrpg" }]
+  });
+  ```
+
   - Antes de seguir para o próximo passo, cerfique-se de informar outras variáveis de ambiente corretamente no `.env`.
 </br>
 

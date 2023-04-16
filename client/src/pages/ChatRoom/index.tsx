@@ -104,6 +104,9 @@ export const ChatRoom = () => {
     if (param === '!d20') {
       return Math.floor(Math.random() * 20) + 1;
     }
+    if (param === '!d100') {
+      return Math.floor(Math.random() * 100) + 1;
+    }
   }
 
   async function isPlayer() {
@@ -199,9 +202,10 @@ export const ChatRoom = () => {
         messageBody === '!d4' ||
         messageBody === '!d6' ||
         messageBody === '!d10' ||
-        messageBody === '!d20'
+        messageBody === '!d20' ||
+        messageBody === '!d100'
       ) {
-        message = `Lancei um dado e o resultado foi: ${Dice(messageBody)}`;
+        message = `🎲 (${messageBody}) => ${Dice(messageBody)}`;
       }
 
       const { data } = await api.post<ResponseSendMessageTypes>(

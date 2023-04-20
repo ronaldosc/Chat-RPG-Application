@@ -20,7 +20,7 @@ export async function getFeedMessage(param: string) {
     if (feedMessage.length===0) {
       return {
         error: 500,
-        message: 'Feed de oringem não encontrado!',
+        message: 'Feed de origem não encontrado!',
       };
     } else {
       return {

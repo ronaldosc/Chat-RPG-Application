@@ -1,9 +1,8 @@
 # <center> Desafio Ciclo 2  <center> Alpha EdTech (turma Turing)
   
-## Aplicação <u>Chat RPG</u>: Rede social para jogadores de RPG de mesa  
-  
----
-  
+## Aplicação <u>Chat RPG</u>:
+  >**Rede social para jogadores de RPG de mesa**
+
 ## Instruções passo a passo para subir a aplicação
 
   1. *Na pasta `client`, executar:*

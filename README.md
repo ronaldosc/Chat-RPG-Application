@@ -1,4 +1,4 @@
-# <center> Desafio Ciclo 2  <center> Alpha EdTech / turma Turing)
+# <center> Desafio Ciclo 2  <center> Alpha EdTech (turma Turing)
   
 ## Aplicação <u>Chat RPG</u>: Rede social para jogadores de RPG de mesa  
   

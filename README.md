@@ -2,8 +2,6 @@
   
 ## Aplicação <u>Chat RPG</u>: Rede social para jogadores de RPG de mesa  
   
-Link de acesso de demonstração: https://chat-rpg.ddns.net/home
-
 ---
   
 ## Instruções passo a passo para subir a aplicação

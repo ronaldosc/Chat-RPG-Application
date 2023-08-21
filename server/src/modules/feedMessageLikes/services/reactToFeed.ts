@@ -24,8 +24,8 @@ export async function reactToFeed(param: FeedMessageLikesModel) {
         { $inc: { numberOfLikes: 1 } },
       );
 
-      const success = feedLike.modifiedCount;
-      if (success !== 1) {
+      const hasFailed: bool = feedLike.modifiedCount !== 1;
+      if (hasFailed) {
         throw new ErrorWithStatus('Like não foi inserido', 500);
       }
 
@@ -44,8 +44,8 @@ export async function reactToFeed(param: FeedMessageLikesModel) {
       { $inc: { numberOfLikes: -1 } },
     );
 
-    const success = feedDislike.modifiedCount;
-    if (success !== 1) {
+    const hasFailed: bool = feedDislike.modifiedCount !== 1;
+    if (hasFailed) {
       throw new ErrorWithStatus('Dislike não foi realizado', 500);
     }
 

@@ -1,4 +1,4 @@
-FROM node:20.12.2-alpine3.19
+FROM node:20.15.1-alpine3.19
 WORKDIR /node-app
 COPY ./server .
 COPY ./client/dist /node-app/dist/public

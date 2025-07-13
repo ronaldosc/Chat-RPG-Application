@@ -8,7 +8,7 @@ export async function create(param: IUser) {
   try {
     await connectToMongoDB();
 
-    const userAlreadyExists = await User.findOne({ email: param.email }).exec();
+    const userAlreadyExists = await User.findOne({ email: { $eq: param.email } }).exec();
 
     if (userAlreadyExists) {
       throw new ErrorWithStatus('Usuário com esse email já existe', 522);

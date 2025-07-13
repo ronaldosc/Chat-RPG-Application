@@ -41,7 +41,7 @@ export async function reactToFeed(param: FeedMessageLikesModel) {
    const removeLike = await FeedMessageLikes.findOneAndDelete({ feedMessage: { $eq: param.feedMessage }, author: { $eq: param.author } });
 
     const feedDislike = await FeedMessages.updateOne(
-      { _id: param.feedMessage },
+      { _id: { $eq: param.feedMessage } },
       { $inc: { numberOfLikes: -1 } },
     );
 

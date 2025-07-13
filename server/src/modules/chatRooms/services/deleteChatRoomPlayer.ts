@@ -10,9 +10,13 @@ export async function deleteChatRoomPlayerId(param: ICharacter, owner: Types.Obj
   try {
     await connectToMongoDB();
 
+    if (!Types.ObjectId.isValid(param.chatRoomId) || !Types.ObjectId.isValid(param.playerCharacterId)) {
+      throw new ErrorWithStatus('Invalid chatRoomId or playerCharacterId format', 400);
+    }
+
     const resultChat = await ChatRooms.findOne({
-      _id: param.chatRoomId,
-      'playerCharacters.characterId': param.playerCharacterId,
+      _id: { $eq: param.chatRoomId },
+      'playerCharacters.characterId': { $eq: param.playerCharacterId },
     });
 
     if (resultChat.owner._id != owner) {

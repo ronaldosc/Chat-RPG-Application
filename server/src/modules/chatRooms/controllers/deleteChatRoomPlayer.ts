@@ -6,6 +6,10 @@ import { AuthenticatedUserDataRequest } from '../../../interfaces';
 
 export async function deleteChatRoomPlayer(req: Request, res: Response): Promise<void> {
   const param: ICharacter = req.body;
+  if (!param.chatRoomId || !param.playerCharacterId || !param.playerId) {
+    res.status(400).json({ message: 'Missing required fields in request body' });
+    return;
+  }
   const owner = (req as AuthenticatedUserDataRequest).userId;
 
   const chatRoom = await deleteChatRoomPlayerId(param, owner);

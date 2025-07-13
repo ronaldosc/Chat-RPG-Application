@@ -18,7 +18,7 @@ wsocket.addEventListener('open', (event) => {
 
 wsocket.addEventListener('message', (event) => {
   console.log(`Received WebSocket message: ${event.data}`);
-  txt_area.innerHTML += event.data + '</br>';
+  txt_area.textContent += event.data + '\n';
 });
 
 wsocket.addEventListener('close', (event) => {

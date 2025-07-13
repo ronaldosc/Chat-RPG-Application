@@ -8,7 +8,10 @@ export async function login(param: ILoginUser) {
   try {
     await connectToMongoDB();
 
-    const userAlreadyExists = await User.findOne({ email: param.email }).select('password').exec();
+    if (typeof param.email !== 'string') {
+      throw new ErrorWithStatus('E-mail inválido.', 400);
+    }
+    const userAlreadyExists = await User.findOne({ email: { $eq: param.email } }).select('password').exec();
 
     if (!userAlreadyExists) {
       throw new ErrorWithStatus('Usuário com esse e-mail não existe.', 400);

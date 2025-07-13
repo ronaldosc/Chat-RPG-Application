@@ -45,8 +45,8 @@ app.use('/reaction', reactionRoutes);
 app.use('/feed-comment', feedCommentRoutes);
 
 const wildcardRateLimiter = RateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // max 100 requests per windowMs
+  windowMs: 5 * 60 * 1000, // 15 minutes
+  max: 10, // max 100 requests per windowMs
 });
 
 app.get('*', wildcardRateLimiter, function (req, res) {

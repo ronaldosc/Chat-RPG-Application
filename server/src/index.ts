@@ -5,6 +5,7 @@ import express from 'express';
 import RateLimit from 'express-rate-limit';
 import Redis from 'ioredis';
 import { redisConfig } from './config/redisdb';
+import lusca from 'lusca';
 import cors from 'cors';
 import path from 'path';
 import https from 'https';
@@ -34,6 +35,7 @@ app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(lusca.csrf());
 
 app.use('/user', userRoutes);
 app.use('/feed-room', feedRoutes);

@@ -9,7 +9,7 @@ export async function reactToFeed(param: FeedMessageLikesModel) {
   try {
     await connectToMongoDB();
 
-    const likeStatus = await FeedMessageLikes.findOne({ feedMessage: param.feedMessage, author: param.author });
+    const likeStatus = await FeedMessageLikes.findOne({ feedMessage: { $eq: param.feedMessage }, author: { $eq: param.author } });
 
     if (!likeStatus) {
       const newLike = new FeedMessageLikes();
@@ -37,7 +37,7 @@ export async function reactToFeed(param: FeedMessageLikesModel) {
       };
     }
 
-   const removeLike = await FeedMessageLikes.findOneAndDelete({ feedMessage: param.feedMessage, author: param.author });
+   const removeLike = await FeedMessageLikes.findOneAndDelete({ feedMessage: { $eq: param.feedMessage }, author: { $eq: param.author } });
 
     const feedDislike = await FeedMessages.updateOne(
       { _id: param.feedMessage },

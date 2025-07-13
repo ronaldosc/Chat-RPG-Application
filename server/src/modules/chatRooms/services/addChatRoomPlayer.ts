@@ -16,9 +16,13 @@ export async function addChatRoomPlayerId(param: ICharacter) {
       throw new ErrorWithStatus('Usuário com esse ID não existe.', 400);
     }
 
+    if (typeof param.chatRoomId !== 'string' || typeof param.playerCharacterId !== 'string') {
+      throw new ErrorWithStatus('Invalid chat room or character ID format.', 400);
+    }
+    
     const resultChat = await ChatRooms.findOne({
-      _id: param.chatRoomId,
-      'playerCharacters.characterId': param.playerCharacterId,
+      _id: { $eq: param.chatRoomId },
+      'playerCharacters.characterId': { $eq: param.playerCharacterId },
     });
 
     for (let i = 0; i < resultChat.playerCharacters.length; i++) {

@@ -19,8 +19,9 @@ export async function reactToFeed(param: FeedMessageLikesModel) {
 
       await newLike.save();
 
+      // Use $eq to ensure param.feedMessage is treated as a literal value
       const feedLike = await FeedMessages.updateOne(
-        { _id: param.feedMessage },
+        { _id: { $eq: param.feedMessage } },
         { $inc: { numberOfLikes: 1 } },
       );
 

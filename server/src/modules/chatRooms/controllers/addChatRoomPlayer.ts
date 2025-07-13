@@ -11,6 +11,11 @@ export async function addChatRoomPlayer(req: Request, res: Response): Promise<vo
     param.playerId = (req as AuthenticatedUserDataRequest).userId;
   }
 
+  if (typeof param.playerId !== 'string') {
+    res.status(400).json({ message: 'Invalid player ID format.' });
+    return;
+  }
+
   const chatRoom = await addChatRoomPlayerId(param);
 
   if (!chatRoom.error) {

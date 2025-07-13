@@ -10,7 +10,7 @@ export async function addChatRoomPlayerId(param: ICharacter) {
   try {
     await connectToMongoDB();
 
-    const userAlreadyExists = await User.findOne({ _id: param.playerId }).exec();
+    const userAlreadyExists = await User.findOne({ _id: { $eq: param.playerId } }).exec();
 
     if (!userAlreadyExists) {
       throw new ErrorWithStatus('Usuário com esse ID não existe.', 400);

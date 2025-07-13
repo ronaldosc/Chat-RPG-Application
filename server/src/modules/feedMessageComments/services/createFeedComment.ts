@@ -21,7 +21,7 @@ export async function create(param: FeedMessageCommentsModel) {
     await newComment.populate<{ author: Pick<IUser, 'contact'> }>('author', 'contact.userName' );
 
     const result = await FeedMessages.updateOne(
-      { _id: param.feedMessage },
+      { _id: { $eq: param.feedMessage } },
       { $inc: { numberOfComments: 1 } },
     );
 

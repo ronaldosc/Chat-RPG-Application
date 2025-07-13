@@ -2,6 +2,7 @@ import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 dotenv.config();
 import express from 'express';
+import RateLimit from 'express-rate-limit';
 import Redis from 'ioredis';
 import { redisConfig } from './config/redisdb';
 import cors from 'cors';
@@ -41,7 +42,12 @@ app.use('/feed-chat', chatFeedRoutes);
 app.use('/reaction', reactionRoutes);
 app.use('/feed-comment', feedCommentRoutes);
 
-app.get('*', function (req, res) {
+const wildcardRateLimiter = RateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // max 100 requests per windowMs
+});
+
+app.get('*', wildcardRateLimiter, function (req, res) {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 

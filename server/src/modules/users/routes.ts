@@ -8,7 +8,7 @@ import * as userControllers from './controllers';
 const router = Router();
 
 router.post('/login', authRateLimiter, userControllers.login);
-router.post('/logout', authenticate, logoutRateLimiter, userControllers.logout);
+router.post('/logout', logoutRateLimiter, authenticate, userControllers.logout);
 router.post('/signup', authRateLimiter, userControllers.createUser);
 
 // router.get('/:userId', authenticate, getUserInfoById);

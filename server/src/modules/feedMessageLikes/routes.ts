@@ -6,6 +6,6 @@ import * as reactionControllers from './controllers';
 
 const router = Router();
 
-router.post('/like', authenticate, userActionRateLimiter, reactionControllers.reactToFeed);
+router.post('/like', userActionRateLimiter, authenticate, reactionControllers.reactToFeed);
 
 export default router;

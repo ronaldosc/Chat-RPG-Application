@@ -6,7 +6,7 @@ import * as feedMessagesControllers from './controllers';
 
 const router = Router();
 
-router.post('/new-comment', authenticate, contentCreationRateLimiter, feedMessagesControllers.createFeedComment);
-router.delete('/:commentId', authenticate, userActionRateLimiter, feedMessagesControllers.deleteFeedComment);
+router.post('/new-comment', contentCreationRateLimiter, authenticate, feedMessagesControllers.createFeedComment);
+router.delete('/:commentId', userActionRateLimiter, authenticate, feedMessagesControllers.deleteFeedComment);
 
 export default router;

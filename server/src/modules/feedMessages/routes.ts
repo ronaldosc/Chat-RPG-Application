@@ -8,6 +8,6 @@ const router = Router();
 
 router.get('/', authenticate, feedControllers.getFeeds);
 router.get('/:feedId', authenticate, feedControllers.getFeedById);
-router.post('/new-feed', authenticate, contentCreationRateLimiter, feedControllers.createFeed);
+router.post('/new-feed', contentCreationRateLimiter, authenticate, feedControllers.createFeed);
 
 export default router;

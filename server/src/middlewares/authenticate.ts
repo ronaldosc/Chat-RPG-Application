@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import * as dotenv from 'dotenv';
 dotenv.config();
 import jwt from 'jsonwebtoken';
-import { decodeData } from '../interfaces';
+import { DecodeData } from '../interfaces';
 
 function authenticate(req: Request, res: Response, next: NextFunction): any {
   const token = req.cookies.token;
@@ -13,7 +13,7 @@ function authenticate(req: Request, res: Response, next: NextFunction): any {
 
   if (process.env.JWT_SECRET) {
     try {
-      const decoded = jwt.verify(token, process.env.JWT_SECRET) as decodeData;
+      const decoded = jwt.verify(token, process.env.JWT_SECRET) as DecodeData;
       (req as any).userId = decoded.userId;
 
       next();

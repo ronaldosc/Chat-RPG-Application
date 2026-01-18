@@ -7,7 +7,7 @@ import * as dotenv from 'dotenv';
 import { redisConfig } from './config/redisdb';
 import { getChatRoomsListByUserId } from './modules/chatRooms/services';
 import jwt from 'jsonwebtoken';
-import { decodeData } from './interfaces';
+import { DecodeData } from './interfaces';
 import { ErrorWithStatus } from './utils/errorWithStatus';
 import https from 'https';
 
@@ -45,7 +45,7 @@ class WebSocketInitializer {
             let user = '';
             try {
               const token = data.token || `User ${clientId}`;
-              const decoded = jwt.verify(token, process.env.JWT_SECRET) as decodeData;
+              const decoded = jwt.verify(token, process.env.JWT_SECRET) as DecodeData;
               user = decoded.userId;
             }
             catch (error) {

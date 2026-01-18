@@ -51,3 +51,21 @@ export const userActionRateLimiter = rateLimit({
   standardHeaders: true,
   legacyHeaders: false,
 });
+
+/**
+ * Rate limiter for read-only GET endpoints (fetching data)
+ * Prevents excessive data scraping and enumeration attacks
+ * More lenient than write operations but still controlled
+ * - 100 requests per 15 minutes per IP
+ * 
+ * References:
+ * - OWASP API Security Top 10 (API4:2023 - Unrestricted Resource Consumption)
+ * - CWE-770: Allocation of Resources Without Limits or Throttling
+ */
+export const readRateLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
+  message: 'Too many requests, please try again later.',
+  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+});

@@ -3,7 +3,7 @@ import { Button } from '@components/common/button';
 import { BodyText, Color, H1, H2 } from '@components/common';
 import { Container } from '@components/common/container';
 import { Header } from '@components/common/header';
-import { encodeURL } from '@helpers';
+import { encodeURL, isValidObjectId } from '@helpers';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -108,9 +108,14 @@ export const MyGames = () => {
                     <Button
                       label={'Entrar'}
                       color={Color.Gold}
-                      onClick={() =>
-                        navigate(`/chat-room/${element.feedMessageOrigin}`)
-                      }
+                      onClick={() => {
+                        // Security: Validate before navigation
+                        if (element.feedMessageOrigin && isValidObjectId(element.feedMessageOrigin)) {
+                          navigate(`/chat-room/${element.feedMessageOrigin}`);
+                        } else {
+                          console.error('[Security] Invalid feedMessageOrigin for navigation');
+                        }
+                      }}
                     />
                   </div>
                 </Container>

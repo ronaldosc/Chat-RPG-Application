@@ -82,7 +82,7 @@ export const ChatRoom = () => {
   const navigate = useNavigate();
 
   const { id } = useParams();
-  
+
   // Security: Validate ID parameter to prevent CVE-2025-68470 vulnerability
   useEffect(() => {
     if (id && !isValidObjectId(id)) {
@@ -90,7 +90,7 @@ export const ChatRoom = () => {
       navigate('/feed');
     }
   }, [id, navigate]);
-  
+
   const [messageBody, setMessageBody] = useState('');
   const [messages, setMessages] = useState<MessageTypes[]>([]);
   const [chatProprieties, setChatProprieties] = useState<ChatRoomTypes>();

@@ -68,7 +68,7 @@ export const Publication = () => {
   const navigate = useNavigate();
 
   const { id } = useParams();
-  
+
   // Security: Validate ID parameter to prevent CVE-2025-68470 vulnerability
   useEffect(() => {
     if (id && !isValidObjectId(id)) {
@@ -76,7 +76,7 @@ export const Publication = () => {
       navigate('/feed');
     }
   }, [id, navigate]);
-  
+
   const [publication, setPublication] = useState<PublicationTypes>({
     _id: '',
     owner: '',
@@ -115,11 +115,9 @@ export const Publication = () => {
         feedMessage: feedId,
       });
       if (data.data.newLike) {
-
         setNumberOfLikes(numberOfLikes + 1);
       }
       if (data.data.removeLike) {
-
         setNumberOfLikes(numberOfLikes - 1);
       }
     } catch (error) {
@@ -219,7 +217,9 @@ export const Publication = () => {
                     if (publication?._id && isValidObjectId(publication._id)) {
                       navigate(`/chat-room/${publication._id}`);
                     } else {
-                      console.error('[Security] Invalid publication ID for navigation');
+                      console.error(
+                        '[Security] Invalid publication ID for navigation',
+                      );
                     }
                   }}
                 />

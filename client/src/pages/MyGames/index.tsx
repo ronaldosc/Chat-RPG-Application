@@ -110,10 +110,15 @@ export const MyGames = () => {
                       color={Color.Gold}
                       onClick={() => {
                         // Security: Validate before navigation
-                        if (element.feedMessageOrigin && isValidObjectId(element.feedMessageOrigin)) {
+                        if (
+                          element.feedMessageOrigin &&
+                          isValidObjectId(element.feedMessageOrigin)
+                        ) {
                           navigate(`/chat-room/${element.feedMessageOrigin}`);
                         } else {
-                          console.error('[Security] Invalid feedMessageOrigin for navigation');
+                          console.error(
+                            '[Security] Invalid feedMessageOrigin for navigation',
+                          );
                         }
                       }}
                     />

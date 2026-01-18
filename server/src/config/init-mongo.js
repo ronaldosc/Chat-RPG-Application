@@ -1,12 +1,13 @@
-// acredito que necessita dessa linha para autenticar na db, pois a database que for criar tem que ter a role básica 'admin'
-// assim: authSource: "admin" adicionado na instancia da conexão
+import * as dotenv from 'dotenv';
 
-// Criar a database "chatrpg"
-db = db.getSiblingDB('chatrpg');
+dotenv.config();
 
-// Criar o usuário "root" com a senha "123"
+// Criar a database
+db = db.getSiblingDB(process.env.MONGO_INITDB_DATABASE);
+
+// Criar o usuário e a senha de acesso ao banco de dados
 db.createUser({
-  user: "root",
-  pwd: "123",
-  roles: [{ role: "readWrite", db: "chatrpg" }]
+  user: process.env.MONGO_INITDB_ROOT_USERNAME,
+  pwd: process.env.MONGO_INITDB_ROOT_PASSWORD,
+  roles: [{ role: "readWrite", db: process.env.MONGO_INITDB_DATABASE }]
 });

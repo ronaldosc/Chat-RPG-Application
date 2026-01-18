@@ -7,6 +7,10 @@
  * Reference: Issue #55, Dependabot alerts #106 and #107
  */
 
+// Pre-compiled regex patterns for performance
+const ABSOLUTE_URL_PATTERN = /^(https?:)?\/\//i;
+const DANGEROUS_PROTOCOL_PATTERN = /^(javascript|data|vbscript|file):/i;
+
 /**
  * Validates if a navigation path is safe (internal to the application).
  * 
@@ -28,13 +32,13 @@ export const isSafeNavigationPath = (path: string): boolean => {
   if (!path || typeof path !== 'string') return false;
   
   // Reject absolute URLs (starting with http://, https://, or //)
-  if (path.match(/^(https?:)?\/\//i)) {
+  if (ABSOLUTE_URL_PATTERN.test(path)) {
     console.error('[Security] Blocked absolute URL navigation attempt:', path);
     return false;
   }
   
   // Reject dangerous protocols
-  if (path.match(/^(javascript|data|vbscript|file):/i)) {
+  if (DANGEROUS_PROTOCOL_PATTERN.test(path)) {
     console.error('[Security] Blocked dangerous protocol navigation attempt:', path);
     return false;
   }

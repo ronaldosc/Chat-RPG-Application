@@ -1,3 +1,5 @@
+import { isSafeNavigationPath } from './validateNavigation';
+
 /**
  * Encodes URL paths for safe navigation.
  * 
@@ -12,19 +14,13 @@ export const encodeURL = (URLPaths: (string | number | undefined | null)[]) => {
   const validatedPaths = URLPaths.map((path) => {
     const pathStr = String(path);
     
-    // Security validation: Detect absolute URLs or dangerous protocols
-    // Prevents CVE-2025-68470 external redirect vulnerability
-    if (
-      pathStr.match(/^(https?:)?\/\//i) || 
-      pathStr.match(/^(javascript|data|vbscript|file):/i) ||
-      pathStr.includes('://')
-    ) {
-      console.error('[Security] Blocked external navigation attempt in encodeURL:', pathStr);
+    // Security validation: Use centralized validation to prevent CVE-2025-68470
+    if (!isSafeNavigationPath(pathStr)) {
       throw new Error('External navigation paths are not allowed');
     }
     
     return pathStr.replace(/[/]/g, '&sol;').replace(/[?]/g, '&quest;');
-  }).filter(Boolean);
+  }).filter((path) => path !== '');
   
   return `/${validatedPaths.join('/')}`;
 };

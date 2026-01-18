@@ -8,7 +8,7 @@
 		"server": "json-server ./src/libs/api.json -p 3030",
 		"lint": "eslint --ext .js,.tsx src",
 		"type-check": "tsc --noEmit",
-		"build": "tsc && vite build",
+		"start": "vite build",
 		"postinstall": "npm x -sy npm-install-peers"
 	},
 	"repository": {

@@ -7,6 +7,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { LikeResponseTypes } from 'pages/Feed';
 import { ChatInput } from '@components/chatRoom';
 import { api } from '@api';
+import { isValidObjectId } from '@helpers';
 import { PublicationStyle } from './style';
 
 interface AuthorTypes {
@@ -67,6 +68,15 @@ export const Publication = () => {
   const navigate = useNavigate();
 
   const { id } = useParams();
+
+  // Security: Validate ID parameter to prevent CVE-2025-68470 vulnerability
+  useEffect(() => {
+    if (id && !isValidObjectId(id)) {
+      console.error('[Security] Invalid publication ID format:', id);
+      navigate('/feed');
+    }
+  }, [id, navigate]);
+
   const [publication, setPublication] = useState<PublicationTypes>({
     _id: '',
     owner: '',
@@ -105,11 +115,9 @@ export const Publication = () => {
         feedMessage: feedId,
       });
       if (data.data.newLike) {
-
         setNumberOfLikes(numberOfLikes + 1);
       }
       if (data.data.removeLike) {
-
         setNumberOfLikes(numberOfLikes - 1);
       }
     } catch (error) {
@@ -204,7 +212,16 @@ export const Publication = () => {
                 <Button
                   label="Entrar"
                   color={Color.Gold}
-                  onClick={() => navigate(`/chat-room/${publication?._id}`)}
+                  onClick={() => {
+                    // Security: Validate before navigation
+                    if (publication?._id && isValidObjectId(publication._id)) {
+                      navigate(`/chat-room/${publication._id}`);
+                    } else {
+                      console.error(
+                        '[Security] Invalid publication ID for navigation',
+                      );
+                    }
+                  }}
                 />
               </Container>
 

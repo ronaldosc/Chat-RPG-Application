@@ -5,8 +5,9 @@ import { Container } from '@components/common/container';
 import { Header } from '@components/common/header';
 import { useWebSocket } from '@providers';
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { api } from '@api';
+import { isValidObjectId } from '@helpers';
 
 interface ChatRoom {
   chatRoomId: string;
@@ -78,8 +79,18 @@ interface IsPlayerProps {
 
 export const ChatRoom = () => {
   const websocket = useWebSocket();
+  const navigate = useNavigate();
 
   const { id } = useParams();
+
+  // Security: Validate ID parameter to prevent CVE-2025-68470 vulnerability
+  useEffect(() => {
+    if (id && !isValidObjectId(id)) {
+      console.error('[Security] Invalid chat room ID format:', id);
+      navigate('/feed');
+    }
+  }, [id, navigate]);
+
   const [messageBody, setMessageBody] = useState('');
   const [messages, setMessages] = useState<MessageTypes[]>([]);
   const [chatProprieties, setChatProprieties] = useState<ChatRoomTypes>();

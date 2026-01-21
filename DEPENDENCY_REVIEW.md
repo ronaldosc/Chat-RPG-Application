@@ -15,7 +15,7 @@ The indirect dependencies originally flagged by DependaBot have been successfull
 ### Dependencies Reviewed
 
 | Package | Issue Version | Current Version | Latest Version | Status |
-|---------|--------------|-----------------|----------------|--------|
+|---------|---------------|-----------------|----------------|--------|
 | json-server | 0.17.2 | **0.17.4** | 0.17.4 | ✅ Up-to-date |
 | compression | 1.7.4 | **1.8.1** | 1.8.1 | ✅ Up-to-date |
 | morgan | 1.10.0 | **1.10.1** | 1.10.1 | ✅ Up-to-date |
@@ -52,9 +52,9 @@ chat-rpg-front@1.0.0
 
 ### Version History
 
-The dependencies were upgraded in a previous PR (#60):
-- Commit: 6c9dedc413ad04d2843d0763647ca468056610c8
-- PR Title: "Fix @remix-run/router XSS vulnerability (CVE-2025-68470)"
+The dependencies were upgraded in a previous PR:
+- **PR #60**: "Fix @remix-run/router XSS vulnerability (CVE-2025-68470)"
+- Commit: 6c9dedc
 - This PR included comprehensive dependency updates that resolved the json-server concerns
 
 ## Recommendations

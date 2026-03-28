@@ -1,4 +1,4 @@
-FROM node:25.8.1-trixie-slim
+FROM node:25.8.2-trixie-slim
 WORKDIR /node-app
 COPY ./server .
 COPY ./client/dist /node-app/dist/public

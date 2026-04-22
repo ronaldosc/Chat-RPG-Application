@@ -1,4 +1,4 @@
-FROM nginxinc/nginx-unprivileged:1.28.0-alpine3.21-slim
+FROM nginxinc/nginx-unprivileged:1.29.5-alpine3.23-slim
 # Last updated: 2026-01-31
 
 USER root

@@ -50,7 +50,7 @@
     "jsonwebtoken": "9.0.2",
     "lusca": "^1.7.0",
     "mongoose": "8.22.1",
-    "multer": "2.1.1",
+    "multer": "2.2.0",
     "redis": "4.6.5",
     "ws": "8.21.0"
   }

@@ -51,3 +51,7 @@ db.createUser({
 ```gql
 docker compose up -d
 ```
+
+## Detalhes dos alertas Dependabot (referência)
+
+Os detalhes foram movidos para: [`DEPENDABOT_ALERTS_REFERENCE.md`](./DEPENDABOT_ALERTS_REFERENCE.md).

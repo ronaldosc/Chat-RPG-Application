@@ -1,0 +1,346 @@
+# Instincts generated from https://github.com/ronaldosc/Chat-RPG-Application
+# Generated: 2026-07-25T08:58:04.645Z
+# Version: 2.0
+# NOTE: This file supplements (does not replace) any existing curated instincts.
+# High-confidence manually curated instincts should be preserved alongside these.
+
+---
+id: Chat-RPG-Application-commit-length
+trigger: "when writing a commit message"
+confidence: 0.6
+domain: git
+source: repo-analysis
+source_repo: https://github.com/ronaldosc/Chat-RPG-Application
+---
+
+# Chat RPG Application Commit Length
+
+## Action
+
+Keep commit messages concise (~33 characters)
+
+## Evidence
+
+- Average commit message length: 33 chars
+- Based on 6 commits
+
+---
+id: Chat-RPG-Application-naming-files
+trigger: "when creating a new file"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/ronaldosc/Chat-RPG-Application
+---
+
+# Chat RPG Application Naming Files
+
+## Action
+
+Use camelCase naming convention
+
+## Evidence
+
+- Analyzed file naming patterns in repository
+- Dominant pattern: camelCase
+
+---
+id: Chat-RPG-Application-import-relative
+trigger: "when importing modules"
+confidence: 0.75
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/ronaldosc/Chat-RPG-Application
+---
+
+# Chat RPG Application Import Relative
+
+## Action
+
+Use relative imports for project files
+
+## Evidence
+
+- Import analysis shows relative import pattern
+- Example: import { x } from '../lib/x'
+
+---
+id: Chat-RPG-Application-export-style
+trigger: "when exporting from a module"
+confidence: 0.7
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/ronaldosc/Chat-RPG-Application
+---
+
+# Chat RPG Application Export Style
+
+## Action
+
+Prefer named exports
+
+## Evidence
+
+- Export pattern analysis
+- Dominant style: named
+
+---
+id: Chat-RPG-Application-test-separate
+trigger: "when writing tests"
+confidence: 0.8
+domain: testing
+source: repo-analysis
+source_repo: https://github.com/ronaldosc/Chat-RPG-Application
+---
+
+# Chat RPG Application Test Separate
+
+## Action
+
+Place tests in the tests/ or __tests__/ directory, mirroring src structure
+
+## Evidence
+
+- Separate test directory pattern detected
+- Tests live in dedicated test folders
+
+---
+id: Chat-RPG-Application-workflow-update-npm-dependencies
+trigger: "when doing update npm dependencies"
+confidence: 0.6
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/ronaldosc/Chat-RPG-Application
+---
+
+# Chat RPG Application Workflow Update Npm Dependencies
+
+## Action
+
+Follow the update-npm-dependencies workflow:
+1. Update package.json and/or package-lock.json files in client and/or server directories
+2. Commit changes with a message referencing the update or vulnerability
+3. Optionally document the update in README or reference file
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~2x per month
+- Files: client/package.json, client/package-lock.json, server/package.json
+
+---
+id: Chat-RPG-Application-workflow-update-client-lockfile
+trigger: "when doing update client lockfile"
+confidence: 0.6
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/ronaldosc/Chat-RPG-Application
+---
+
+# Chat RPG Application Workflow Update Client Lockfile
+
+## Action
+
+Follow the update-client-lockfile workflow:
+1. Edit client/package-lock.json to update a specific dependency version
+2. Commit changes with a message referencing the dependency and version
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~2x per month
+- Files: client/package-lock.json
+
+---
+id: chat-rpg-application-instinct-file-naming
+trigger: "When creating or renaming source files"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: ronaldosc/Chat-RPG-Application
+---
+
+# Chat Rpg Application Instinct File Naming
+
+## Action
+
+Use camelCase for file names
+
+## Evidence
+
+- Pattern in codeStyle.namingConventions.files
+
+---
+id: chat-rpg-application-instinct-function-naming
+trigger: "When defining functions"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: ronaldosc/Chat-RPG-Application
+---
+
+# Chat Rpg Application Instinct Function Naming
+
+## Action
+
+Use camelCase for function names
+
+## Evidence
+
+- Pattern in codeStyle.namingConventions.functions
+
+---
+id: chat-rpg-application-instinct-class-naming
+trigger: "When defining classes"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: ronaldosc/Chat-RPG-Application
+---
+
+# Chat Rpg Application Instinct Class Naming
+
+## Action
+
+Use PascalCase for class names
+
+## Evidence
+
+- Pattern in codeStyle.namingConventions.classes
+
+---
+id: chat-rpg-application-instinct-constant-naming
+trigger: "When defining constants"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: ronaldosc/Chat-RPG-Application
+---
+
+# Chat Rpg Application Instinct Constant Naming
+
+## Action
+
+Use SCREAMING_SNAKE_CASE for constant names
+
+## Evidence
+
+- Pattern in codeStyle.namingConventions.constants
+
+---
+id: chat-rpg-application-instinct-import-style
+trigger: "When importing modules"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: ronaldosc/Chat-RPG-Application
+---
+
+# Chat Rpg Application Instinct Import Style
+
+## Action
+
+Use relative import paths
+
+## Evidence
+
+- Pattern in codeStyle.importStyle
+
+---
+id: chat-rpg-application-instinct-export-style
+trigger: "When exporting modules or functions"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: ronaldosc/Chat-RPG-Application
+---
+
+# Chat Rpg Application Instinct Export Style
+
+## Action
+
+Use named exports
+
+## Evidence
+
+- Pattern in codeStyle.exportStyle
+
+---
+id: chat-rpg-application-instinct-test-location
+trigger: "When adding or updating tests"
+confidence: 0.7
+domain: testing
+source: repo-analysis
+source_repo: ronaldosc/Chat-RPG-Application
+---
+
+# Chat Rpg Application Instinct Test Location
+
+## Action
+
+Place test files in a separate directory from source code
+
+## Evidence
+
+- Pattern in architecture.folderStructure.testLocation
+
+---
+id: chat-rpg-application-instinct-commit-format
+trigger: "When writing a commit message"
+confidence: 0.7
+domain: git
+source: repo-analysis
+source_repo: ronaldosc/Chat-RPG-Application
+---
+
+# Chat Rpg Application Instinct Commit Format
+
+## Action
+
+Use a short, freeform message describing the change (often under 40 characters, no enforced prefix)
+
+## Evidence
+
+- Pattern in commits.examples
+- Pattern in commits.type: freeform
+
+---
+id: chat-rpg-application-instinct-update-npm-dependencies
+trigger: "When npm dependencies need to be updated or patched (e.g., due to security alerts)"
+confidence: 0.9
+domain: workflow
+source: repo-analysis
+source_repo: ronaldosc/Chat-RPG-Application
+---
+
+# Chat Rpg Application Instinct Update Npm Dependencies
+
+## Action
+
+Update package.json and/or package-lock.json in client/server, commit with a message referencing the update or vulnerability, and optionally document in README
+
+## Evidence
+
+- Workflow: update-npm-dependencies
+- Commits: 'Update vulnerable npm dependencies', 'Bump js-yaml lockfile resolution to 4.3.0'
+
+---
+id: chat-rpg-application-instinct-update-client-lockfile
+trigger: "When a specific dependency version needs to be resolved in the client lockfile"
+confidence: 0.9
+domain: workflow
+source: repo-analysis
+source_repo: ronaldosc/Chat-RPG-Application
+---
+
+# Chat Rpg Application Instinct Update Client Lockfile
+
+## Action
+
+Edit client/package-lock.json to update the dependency version and commit with a message referencing the dependency and version
+
+## Evidence
+
+- Workflow: update-client-lockfile
+- Commit: 'Update client lockfile to brace-expansion 1.1.16'
+

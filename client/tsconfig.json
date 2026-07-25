@@ -2,31 +2,56 @@
 	"compilerOptions": {
 		"target": "ES2022",
 		"useDefineForClassFields": true,
-		"lib": ["DOM", "DOM.Iterable", "ESNext"],
+		"lib": [
+			"DOM",
+			"DOM.Iterable",
+			"ESNext"
+		],
 		"allowJs": false,
 		"skipLibCheck": true,
-		"esModuleInterop": false,
 		"allowSyntheticDefaultImports": true,
 		"strict": true,
 		"forceConsistentCasingInFileNames": true,
-		"module": "CommonJS",
-		"moduleResolution": "Node",
+		"module": "ESNext",
+		"moduleResolution": "bundler",
 		"resolveJsonModule": true,
 		"isolatedModules": true,
 		"noEmit": true,
 		"jsx": "react-jsx",
 		"outDir": "dist",
-		"baseUrl": "src",
 		"paths": {
-			"@api": ["libs/api"],
-			"@assets/icons": ["assets/icons"],
-			"@components/*": ["components/*"],
-			"@helpers": ["helpers"],
-			"@pages": ["pages"],
-			"@providers": ["providers"],
-			"@typography": ["components/common/typography"]
+			"@api": [
+				"./src/libs/api"
+			],
+			"@assets/icons": [
+				"./src/assets/icons"
+			],
+			"@components/*": [
+				"./src/components/*"
+			],
+			"@helpers": [
+				"./src/helpers"
+			],
+			"@pages": [
+				"./src/pages"
+			],
+			"@providers": [
+				"./src/providers"
+			],
+			"@typography": [
+				"./src/components/common/typography"
+			],
+			"pages/*": [
+				"./src/pages/*"
+			]
 		}
 	},
-	"include": ["src/**/*"],
-	"references": [{ "path": "./tsconfig.node.json" }]
+	"include": [
+		"src/**/*"
+	],
+	"references": [
+		{
+			"path": "./tsconfig.node.json"
+		}
+	]
 }

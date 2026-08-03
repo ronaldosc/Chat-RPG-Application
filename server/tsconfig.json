@@ -4,9 +4,9 @@
     "lib": ["ESNext"],
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "module": "CommonJS",
+    "module": "commonjs",
     "rootDir": "./src",
-    "moduleResolution": "node",
+    "moduleResolution": "node16",
     "allowJs": true,
     "outDir": "./dist",
     "removeComments": true,
@@ -18,11 +18,9 @@
     "strictNullChecks": false,
     "skipLibCheck": true
   },
-  "include": [
-    "src"
-  ],
+  "include": ["src"],
   "ts-node": {
-    "transpileOnly" : true,
-    "files" : true,
-   }
+    "transpileOnly": true,
+    "files": true
+  }
 }

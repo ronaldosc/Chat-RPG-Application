@@ -24,6 +24,11 @@ const PORT = parseInt(process.env.PORT) || 5000;
 const redisSub = new Redis(redisConfig.socket);
 
 const app: express.Application = express();
+// const BASE_PATH = process.env.BASEPATH || '/';
+// app.set('view engine', 'html');
+// app.set('views', path.resolve(__dirname, 'views'));
+// app.set('basepath', BASE_PATH);
+app.disable('x-powered-by');
 
 const corsOptions = {
   origin: process.env.CORS_ORIGIN,
